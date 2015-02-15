@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: Shadorc
+Main-Class: me.shadorc.twitterstalker.graphics.Frame
+Class-Path: ./lib/twitter4j-core-4.0.1.jar ./lib/twitter4j-media-support-4.0.1.jar ./lib/jshortcut-0.4-oberzalek.jar

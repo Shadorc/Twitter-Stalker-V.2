@@ -1,0 +1,49 @@
+V2.0 :
+    - Refonte intégrale de l'interface
+    - Ajout des options pour des statistiques encore plus personnalisables
+    - Ajout d'une prévisualisation avant de partager
+    - Divers corrections
+
+V1.4 :
+	- Corrections de bugs, optimisations & améliorations graphiques
+	- Corrige un bug de sauvegarde sous Windows Vista
+	- Rajoute une liste de suggestions pour les utilisateurs
+	- Mise à jour du lien dans les tweets de partage
+	- Ajout d'une nouvelle catégorie "Personnalisation"
+	- Ajout d'une nouvelle statistique sur les applications utilisées
+	- Statistiques plus précises
+
+V1.3 :
+	- Corrections de bugs, optimisations & améliorations graphiques
+	- Suppression du bouton "Copier" suite à la correction du bug avec "Ouvrir"
+	- Suppression de l'option pour inclure les tops mentions au tweet
+	- Amélioration de la prévisualisation des tops tweets
+	- Amélioration de l'encadré de la photo de profil
+	- Ajout d'un menu
+	- Ajout d'un bouton "À propos" dans le menu
+	- Ajout d'une nouvelle catégorie : la comparaison
+	- Ajout d'un bouton retour
+	- Ajout de la Twitter Money, inspiré du site http://newsfeed.time.com/2013/11/07/interactive-this-is-how-much-money-twitter-owes-you/
+	- Ajout d'une statistique sur les tweets retweetés
+	- Ajout des statistiques sur vos mentions reçues
+	- Ajout d'un GIF de chargement
+
+V1.2 :
+	- Corrections de bugs, optimisations & améliorations graphiques
+	- Statistiques plus précises
+	- Le tweet de partage est maintenant visible par tout le monde
+	- Traduction de certains textes
+	- Tweets/Jour est maintenant basé sur tous les tweets depuis la création du compte et non plus les 3200 derniers
+	- Mots/Tweets, Lettres/Mots et Lettres/Tweets ont été amélioré (les caractères spéciaux ne sont plus pris en compte)
+	- Amélioration de l'affichage de la photo de profil
+	- Ajout du bouton "Copier" au cas où "Ouvrir" ne fonctionnerait pas
+	- Ajout du clic droit dans la fenêtre de connexion pour coller le texte
+	- Ajout d'une option pour inclure les tops mentions au tweet de partage
+	- Ajout des statistiques sur les tweets les plus populaires, leur prévisualisation et la possibilité d'ouvrir l'URL en cliquant dessus
+
+V1.1 :
+	- Corrections de bugs, optimisations & améliorations graphiques
+	- Statistiques plus précises
+	- Suppression de la fonction "Inclure les retweets"
+	- Amélioration de la fonction de partage
+	- Ajout des statistiques sur les heures
