@@ -23,6 +23,7 @@ import javax.swing.border.CompoundBorder;
 import me.shadorc.twitterstalker.graphics.CheckBoxOption;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
+import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.SmallButton;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
@@ -96,8 +97,8 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBoxMap.put(Data.TIMELINE, new CheckBoxOption("Timeline", Data.TIMELINE));
 		checkBoxMap.put(Data.TWEETS, new CheckBoxOption("Tweets", Data.TWEETS));
 		checkBoxMap.put(Data.POPULARE, new CheckBoxOption("Populaire", Data.POPULARE));
-		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Utilisateurs mentionnés", Data.MENTIONS_SENT));
-		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption("Utilisateurs mentionnant", Data.MENTIONS_RECEIVED));
+		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("User mentionnés", Data.MENTIONS_SENT));
+		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption("User mentionnant", Data.MENTIONS_RECEIVED));
 		checkBoxMap.put(Data.REPUTE, new CheckBoxOption("Renommée", Data.REPUTE));
 
 		for(Data data : checkBoxMap.keySet()) {
@@ -124,7 +125,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		JComboBox <Integer> jcb = new JComboBox <Integer> (list);
 		jcb.addItemListener(this);
 		jcb.setFocusable(false);
-		((JScrollPane) ((Container) jcb.getUI().getAccessibleChild(jcb, 0)).getComponent(0)).getVerticalScrollBar().setUI(new ScrollbarUI());
+		((JScrollPane) ((Container) jcb.getUI().getAccessibleChild(jcb, 0)).getComponent(0)).getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
 		jcb.setBackground(new Color(179, 229, 252));
 		Object obj = Storage.getData(data);
 		if(obj != null) {

@@ -15,9 +15,9 @@ public class SmallButton extends JButton {
 	public SmallButton(String name, Border border) {
 		super();
 
-		ImageIcon icon1 = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/Bouton " + name + ".png")).getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
-		ImageIcon icon2 = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/Bouton " + name + "2.png")).getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
-		ImageIcon icon3 = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/Bouton " + name + "3.png")).getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
+		final ImageIcon icon1 = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/Bouton " + name + ".png")).getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
+		final ImageIcon icon2 = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/Bouton " + name + "2.png")).getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
+		final ImageIcon icon3 = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/Bouton " + name + "3.png")).getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
 
 		this.setIcon(icon1);
 		this.addMouseListener(new MouseAdapter() {

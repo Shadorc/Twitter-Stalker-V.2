@@ -1,5 +1,6 @@
 package me.shadorc.twitterstalker.graphics;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,30 +14,43 @@ import javax.swing.JComponent;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 
 public class ScrollbarUI extends MetalScrollBarUI {
-	private Image imageThumb, imageTrack;
+	private Image imageThumb;
+	private Position pos;
 
-	public ScrollbarUI() {
-		imageThumb = new ImageIcon(this.getClass().getResource("/res/barre.png")).getImage();
-		imageTrack = new ImageIcon(this.getClass().getResource("/res/scroll.png")).getImage();
+	public enum Position {
+		VERTICAL, HORIZONTAL;
+	}
+
+	public ScrollbarUI(Position pos) {
+		this.pos = pos;
+
+		if(pos == Position.VERTICAL) {
+			imageThumb = new ImageIcon(this.getClass().getResource("/res/barreV.png")).getImage();
+		} else {
+			imageThumb = new ImageIcon(this.getClass().getResource("/res/barreH.png")).getImage();
+		}
 	}
 
 	//Bar painting
 	@Override
-	protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {  
-		//7 : shift the bar to the right
-		g.translate(thumbBounds.x + 7, thumbBounds.y);
-		//-0.75 : reduce bar's width
-		AffineTransform transform = AffineTransform.getScaleInstance((double) (thumbBounds.width/imageThumb.getWidth(null)) - 0.75 , (double) thumbBounds.height/imageThumb.getHeight(null));
-		((Graphics2D)g).drawImage(imageThumb, transform, null);
-		g.translate(-thumbBounds.x, -thumbBounds.y );
+	protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+		//shift the bar to the right/top
+		int shiftRight = pos == Position.VERTICAL ? 7 : 0;
+		int shiftTop = pos == Position.HORIZONTAL ? 3 : 0;
+		//reduce bar's width/height
+		double widthReduce = pos == Position.VERTICAL ? 1.5 : 0;
+		double heightReduce = pos == Position.HORIZONTAL ? 1.5 : 0;
+
+		g.translate(thumbBounds.x + shiftRight, thumbBounds.y + shiftTop);
+		AffineTransform transform = AffineTransform.getScaleInstance((double) thumbBounds.width/imageThumb.getWidth(null) - widthReduce, (double) thumbBounds.height/imageThumb.getHeight(null) - heightReduce);
+		((Graphics2D) g).drawImage(imageThumb, transform, null);
+		g.translate(-thumbBounds.x, -thumbBounds.y);
 	}
 
-	//Scroll background painting
+	//Scroll background painting (invisible)
 	@Override
-	protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {        
-		g.translate(trackBounds.x, trackBounds.y);
-		((Graphics2D) g).drawImage(imageTrack, AffineTransform.getScaleInstance(1, (double) trackBounds.height/imageTrack.getHeight(null)), null);
-		g.translate(-trackBounds.x, -trackBounds.y);
+	protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+		c.setBackground(new Color(179, 229, 252));
 	}
 
 	/*Delete top and bottom buttons*/

@@ -21,8 +21,9 @@ import javax.swing.border.CompoundBorder;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.SmallButton;
+import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
-import me.shadorc.twitterstalker.graphics.panel.ConnectionPanel.Text;
+import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.PopularePreview;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
@@ -68,8 +69,8 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		JPanel top = new JPanel(new GridLayout(0, 2));
 		top.setOpaque(false);
 
-		top.add(this.createUserJPanel(user1));
-		top.add(this.createUserJPanel(user2));
+		top.add(this.createUserJPanel(user1, stats1));
+		top.add(this.createUserJPanel(user2, stats2));
 
 		this.add(top, BorderLayout.PAGE_START);
 
@@ -127,7 +128,8 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		centerScroll.getViewport().setOpaque(false);
 		centerScroll.setOpaque(false);
 		centerScroll.setBorder(null);
-		centerScroll.getVerticalScrollBar().setUI(new ScrollbarUI());
+		centerScroll.getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
+		centerScroll.getHorizontalScrollBar().setUI(new ScrollbarUI(Position.HORIZONTAL));
 
 		this.add(centerScroll, BorderLayout.CENTER);
 
@@ -150,7 +152,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		this.add(buttonsPanel, BorderLayout.PAGE_END);
 	}
 
-	private JPanel createUserJPanel(TwitterUser user) {
+	private JPanel createUserJPanel(TwitterUser user, Stats stats) {
 		JPanel descPanel = new JPanel(new BorderLayout());
 		descPanel.setBackground(new Color(68, 138, 255));
 		descPanel.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(10, 10, 10, 50)));
@@ -164,14 +166,15 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 		JPanel infosPanel = new JPanel(new GridLayout(7, 0));
 		infosPanel.setOpaque(false);
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 2; i++) {
 			infosPanel.add(new JLabel());
 		}
 
 		infosPanel.add(this.createInfoLabel("Followers : " + user.getFollowersCount()));
 		infosPanel.add(this.createInfoLabel("Following : " + user.getFollowingCount()));
 		infosPanel.add(this.createInfoLabel("Membre depuis : " + user.getAge() + " jours"));
-		infosPanel.add(this.createInfoLabel("Nombre de tweets/jour : " + user.getTweetsPerDay()));
+		infosPanel.add(this.createInfoLabel("Tweets analysés : " + user.getTweetsAnalysed() + "/" + user.getTweetsPosted()));
+		infosPanel.add(this.createInfoLabel("Nombre de tweets/jour : " + user.getTweetsPerDay(stats)));
 		descPanel.add(infosPanel, BorderLayout.EAST);
 
 		return descPanel;

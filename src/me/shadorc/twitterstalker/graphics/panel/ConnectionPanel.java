@@ -6,52 +6,36 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.SmallButton;
+import me.shadorc.twitterstalker.graphics.TextField;
+import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.Stats;
 import twitter4j.TwitterException;
 
-public class ConnectionPanel extends JPanel implements FocusListener, ActionListener, KeyListener {
+public class ConnectionPanel extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private JTextField field1, field2;
+	private TextField field1, field2;
 	private JButton search, back;
 	private String text;
 
 	private StatisticsPanel statsPanel;
 	private ComparisonPanel comparePanel;
-
-	public interface Text {
-		String PIN = "Veuillez entrer le code PIN";
-		String USERNAME = "Veuillez entrer l'@ du compte à analyser";
-		String COMPARISON = "Veuillez entrez l'@ d'un compte à analyser";
-		String INVALID_PIN = "Merci d'entrer un code PIN valide";
-		String INVALID_USER = "Merci d'entrer un utilisateur valide";
-		String API_LIMIT = "Limite de l'API atteinte : ";
-		String NO_TWEET = "L'utilisateur n'a jamais tweeté";
-		String PRIVATE = "Le compte est privé";
-		String ERROR = "Erreur inattendue : ";
-
-		String[] MESSAGES = new String[] {PIN, USERNAME, COMPARISON, INVALID_PIN, INVALID_USER, API_LIMIT, NO_TWEET, ERROR, PRIVATE};
-	}
 
 	public ConnectionPanel(String text) {
 		super(new GridLayout(4, 0));
@@ -87,30 +71,18 @@ public class ConnectionPanel extends JPanel implements FocusListener, ActionList
 			fieldPane.setLayout(new GridLayout(2, 0, 0, 40));
 			fieldPane.setBorder(BorderFactory.createEmptyBorder(25, 50, 0, 50));
 
-			field2 = new JTextField(text);
-			field2.addFocusListener(this);
+			field2 = new TextField(text, font);
 			field2.addKeyListener(this);
-			field2.setHorizontalAlignment(JTextField.CENTER);
-			field2.setFont(font);
-			field2.setForeground(Color.WHITE);
-			field2.setBackground(new Color(179, 229, 252));
-			field2.setBorder(BorderFactory.createLineBorder(new Color(2,113,174), 3));
 			fieldPane.add(field2);
 		}
 
-		field1 = new JTextField(text);
-		field1.addFocusListener(this);
+		field1 = new TextField(text, font);
 		field1.addKeyListener(this);
-		field1.setHorizontalAlignment(JTextField.CENTER);
-		field1.setFont(font);
-		field1.setForeground(Color.WHITE);
-		field1.setBackground(new Color(179, 229, 252));
-		field1.setBorder(BorderFactory.createLineBorder(new Color(2,113,174), 3));
 		fieldPane.add(field1);
 
 		this.add(fieldPane, BorderLayout.CENTER);
 
-		JPanel searchPanel = new JPanel(new GridLayout(0, 3, 425, 0));
+		JPanel searchPanel = new JPanel(new GridLayout(0, 3));
 		searchPanel.setOpaque(false);
 		searchPanel.add(new JLabel());
 
@@ -180,6 +152,10 @@ public class ConnectionPanel extends JPanel implements FocusListener, ActionList
 		this.add(bottomPanel);
 	}
 
+	public void invalidPin() {
+		field1.error(Text.INVALID_PIN);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == search) {
@@ -197,13 +173,19 @@ public class ConnectionPanel extends JPanel implements FocusListener, ActionList
 		}
 	}
 
+	@Override
+	public void keyReleased(KeyEvent e) { }
+
+	@Override
+	public void keyTyped(KeyEvent e) { }
+
 	private void valid() {
 		if(text.equals(Text.PIN)) {
 			//If field contains only numbers and the pin is more than 6 characters
-			if(field1.getText().matches("[0-9]+") && field1.getText().length() >= 7) {
+			if(field1.isValidPin()) {
 				Frame.connect(field1.getText());
 			} else {
-				this.setError(Text.INVALID_PIN);
+				field1.error(Text.INVALID_PIN);
 			}
 
 		} else if(text.equals(Text.USERNAME)) {
@@ -215,17 +197,16 @@ public class ConnectionPanel extends JPanel implements FocusListener, ActionList
 						if(Stats.stop == true) return;
 						Frame.setJPanel(statsPanel);
 					} catch (TwitterException e) {
-						field1.setForeground(Color.RED);
 						if(e.getErrorCode() == 88) {
-							field1.setText(Text.API_LIMIT + " Déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							field1.error(Text.API_LIMIT + " Déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
 						} else if(e.getStatusCode() == 600) {
-							field1.setText(Text.NO_TWEET);
+							field1.error(Text.NO_TWEET);
 						} else if(e.getStatusCode() == 604) {
-							field1.setText(Text.INVALID_USER);
+							field1.error(Text.INVALID_USER);
 						} else if(e.getStatusCode() == 401) {
-							field1.setText(Text.PRIVATE);
+							field1.error(Text.PRIVATE);
 						} else {
-							field1.setText(Text.ERROR + " " + e.getMessage());
+							field1.error(Text.ERROR + " " + e.getMessage());
 						}
 					}
 				}
@@ -236,79 +217,40 @@ public class ConnectionPanel extends JPanel implements FocusListener, ActionList
 				@Override
 				public void run() {
 					try {
-						comparePanel = new ComparisonPanel(field1.getText().replaceAll("@", ""), field2.getText().replaceAll("@",  ""), search);
+						comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
 						if(Stats.stop == true) return;
 						Frame.setJPanel(comparePanel);
 					} catch (TwitterException e) {
 						String message = e.getCause().getMessage();
 
 						if(e.getErrorCode() == 88) {
-							field1.setForeground(Color.RED);
-							field2.setForeground(Color.RED);
-							field1.setText(Text.API_LIMIT + "déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-							field2.setText(Text.API_LIMIT + "déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							field1.error(Text.API_LIMIT + "déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							field2.error(Text.API_LIMIT + "déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
 						} else if(e.getStatusCode() == 600) {
 							if(field1.getText().equals(message)) {
-								field1.setForeground(Color.RED);
-								field1.setText(Text.NO_TWEET);
+								field1.error(Text.NO_TWEET);
 							} else {
-								field1.setForeground(Color.RED);
-								field1.setText(Text.NO_TWEET);
+								field2.error(Text.NO_TWEET);
 							}
 						} else if(e.getStatusCode() == 604) {
 							if(message.contains("1")) {
-								field1.setForeground(Color.RED);
-								field1.setText(Text.INVALID_USER);
+								field1.error(Text.INVALID_USER);
 							} else {
-								field2.setForeground(Color.RED);
-								field2.setText(Text.INVALID_USER);
+								field2.error(Text.INVALID_USER);
 							}
 						} else if(e.getStatusCode() == 401) {
 							if(field1.getText().equals(message)) {
-								field1.setForeground(Color.RED);
-								field1.setText(Text.PRIVATE);
+								field1.error(Text.PRIVATE);
 							} else {
-								field2.setForeground(Color.RED);
-								field2.setText(Text.PRIVATE);
+								field2.error(Text.PRIVATE);
 							}
 						} else {
-							field1.setForeground(Color.RED);
-							field2.setForeground(Color.RED);
-							field1.setText(Text.ERROR + e.getMessage());
-							field2.setText(Text.ERROR + e.getMessage());
+							field1.error(Text.ERROR + e.getMessage());
+							field2.error(Text.ERROR + e.getMessage());
 						}
 					}
 				}
 			}).start();
 		}
 	}
-
-	public void setError(String text) {
-		field1.setForeground(Color.RED);
-		field1.setText(text);
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		JTextField jtf = (JTextField) e.getSource();
-		if(jtf.getText().isEmpty()) {
-			jtf.setText(text);
-		}
-	}
-
-	@Override
-	public void focusGained(FocusEvent e) {
-		JTextField jtf = (JTextField) e.getSource();
-		String text = jtf.getText();
-		if(Arrays.asList(Text.MESSAGES).contains(text)) {
-			jtf.setForeground(Color.WHITE);
-			jtf.setText("");
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {	}
 }

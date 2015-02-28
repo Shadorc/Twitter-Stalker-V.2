@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Storage.Data;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
@@ -24,6 +25,7 @@ public class TwitterUser {
 	public TwitterUser(String user) throws TwitterException {
 		this.user = Frame.getTwitter().showUser(user);
 	}
+
 	public boolean isPrivate() {
 		return user.isProtected();
 	}
@@ -79,8 +81,8 @@ public class TwitterUser {
 		return user.getFriendsCount();
 	}
 
-	public String getTweetsPerDay() {
-		return new DecimalFormat("#.#").format((double) this.getTweetsPosted() / this.getAge());
+	public String getTweetsPerDay(Stats stats) {
+		return new DecimalFormat("#.#").format(stats.getUnique(Data.TWEET_PER_DAYS).getNum());
 	}
 
 	public long getAge() {

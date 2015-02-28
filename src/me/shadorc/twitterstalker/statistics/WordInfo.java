@@ -33,11 +33,7 @@ public class WordInfo {
 	}
 
 	public String getUserInfo() throws TwitterException {
-		return this.getImageHTML() + " @" + this.getInfo();
-	}
-
-	public String getImageHTML() throws TwitterException {
-		return "<img src=" + new TwitterUser(word).getImageUrl() + " height=35 width=35> ";
+		return "<img src=" + new TwitterUser(word).getImageUrl() + " border=1 align=middle> " + " @" + this.getInfo();
 	}
 
 	public String getText() {
@@ -46,10 +42,6 @@ public class WordInfo {
 
 	public String getStatusUrl() {
 		return "http://twitter.com/" + status.getUser().getScreenName() + "/status/" + this.getId();
-	}
-
-	public String getImage() {
-		return "<img src=" + this.getStatusUrl() + " height=35 width=35>";
 	}
 
 	public int getCount() {

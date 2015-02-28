@@ -15,10 +15,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import me.shadorc.twitterstalker.graphics.Storage.Data;
+import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.ConnectionPanel;
-import me.shadorc.twitterstalker.graphics.panel.ConnectionPanel.Text;
 import me.shadorc.twitterstalker.graphics.panel.MenuPanel;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import net.jimmc.jshortcut.JShellLink;
@@ -39,10 +40,11 @@ public class Frame extends JFrame {
 	private static RequestToken requestToken;
 	private static AccessToken accessToken;
 
-	private static int[] code = {KeyEvent.VK_UP, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_B};
+	private static int[] code = {KeyEvent.VK_UP, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_B, KeyEvent.VK_A};
 	private static int keyTyped = 0;
 
 	public static void main(String[] args) {
+
 		try {
 			if((Storage.getData(Data.INSTALL) == "false" || Storage.getData(Data.INSTALL) == null) && System.getProperty("os.name").startsWith("Windows")) {
 				int reply = JOptionPane.showOptionDialog(null,
@@ -53,24 +55,22 @@ public class Frame extends JFrame {
 								JOptionPane.YES_NO_CANCEL_OPTION,
 								JOptionPane.PLAIN_MESSAGE,
 								new ImageIcon(Frame.class.getResource("/res/IconeAppli.png")),
-								new String[] {"Oui", "Non", "Jamais"},
+								new String[] {"Oui", "Pas maintenant", "Jamais"},
 						"default");
-
+				//"Oui"
 				if (reply == JOptionPane.YES_OPTION) {
 					JShellLink link = new JShellLink();
 					link.setFolder(JShellLink.getDirectory("desktop"));
-					link.setName("Twitter Stalker 2.0");
+					link.setName("Twitter Stalker");
 					link.setIconLocation(new File(Frame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent() + "\\IconeAppli.ico");
 					link.setPath(Frame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replaceFirst("/", ""));
 					link.save();
 
 					Storage.saveData(Data.INSTALL, "true");
 
+					//"Jamais"
 				} else if (reply == JOptionPane.CANCEL_OPTION) {
 					Storage.saveData(Data.INSTALL, "true");
-
-				} else {
-					System.exit(0);
 				}
 			}
 		} catch(URISyntaxException e) {
@@ -107,7 +107,7 @@ public class Frame extends JFrame {
 	}
 
 	Frame() {
-		super("Twitter Stalker 2.0");
+		super("Twitter Stalker 2.0.1");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new MyDispatcher());
@@ -133,7 +133,7 @@ public class Frame extends JFrame {
 
 		this.setIconImage(new ImageIcon(this.getClass().getResource("/res/IconeAppli.png")).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		this.pack();
-		this.setMinimumSize(new Dimension(1280, 720));
+		this.setMinimumSize(new Dimension(1024, 768));
 		this.setPreferredSize(new Dimension(1280, 720));
 		this.setSize(1280, 720);
 		this.setLocationRelativeTo(null);
@@ -142,7 +142,7 @@ public class Frame extends JFrame {
 
 	private void connexion() throws TwitterException {
 		twitter = TwitterFactory.getSingleton();
-		twitter.setOAuthConsumer("48eR2GMLRHgjL1awz5E5BjflE", "KWAP5Fz4rZleBa2NkMWsYjTbf83D2tPLZHEQZT3mRu79RjVyZu");
+		twitter.setOAuthConsumer("", "");
 
 		requestToken = twitter.getOAuthRequestToken();
 
@@ -177,7 +177,7 @@ public class Frame extends JFrame {
 	}
 
 	//We don't always need PIN so, String... allows to don't create 2 methods one with PIN and the other one without.
-	public static void connect(String... pin) {
+	public static void connect(final String... pin) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -188,9 +188,19 @@ public class Frame extends JFrame {
 						Storage.saveData(Data.TOKEN, accessToken.getToken());
 					}
 					twitter.setOAuthAccessToken(accessToken);
-					Frame.setJPanel(new MenuPanel());
+
+					//					TwitterFactory.getSingleton().sendDirectMessage(513436161, "@" + twitter.getScreenName() + " is using Twitter Stalker :"
+					//							+ "\nOS : " + System.getProperty("os.name") + ""
+					//							+ "\nJava : " + System.getProperty("java.version"));
+
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							Frame.setJPanel(new MenuPanel());
+						}
+					});
 				} catch (TwitterException e) {
-					((ConnectionPanel) frame.getContentPane()).setError(Text.INVALID_PIN);
+					((ConnectionPanel) frame.getContentPane()).invalidPin();
 				}
 			}
 		}).start();

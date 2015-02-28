@@ -57,7 +57,7 @@ public class Upload implements Runnable {
 
 	@Override
 	public void run() {
-		StatusUpdate status = new StatusUpdate("Twitter Stalker [http://lc.cx/TSDL] : " +  message + ".");
+		final StatusUpdate status = new StatusUpdate("Twitter Stalker [http://lc.cx/TSDL] : " +  message + ".");
 		status.setMedia(screen);
 
 		ImageIcon preview = new ImageIcon(screen.getPath());
@@ -89,7 +89,7 @@ public class Upload implements Runnable {
 		buttonsPanel.add(new JLabel());
 		buttonsPanel.add(new JLabel());
 
-		JButton tweet = new JButton("Tweeter");
+		final JButton tweet = new JButton("Tweeter");
 		tweet.setFocusable(false);
 		tweet.setFont(Frame.getFont("SEGOEUI.TTF", 25));
 		tweet.setBackground(new Color(85,172,238));

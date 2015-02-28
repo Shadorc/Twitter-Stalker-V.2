@@ -18,7 +18,7 @@ import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.SmallButton;
-import me.shadorc.twitterstalker.graphics.panel.ConnectionPanel.Text;
+import me.shadorc.twitterstalker.graphics.TextField.Text;
 
 public class MenuPanel extends JPanel implements ActionListener {
 

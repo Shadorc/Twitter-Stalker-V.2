@@ -19,9 +19,10 @@ import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
+import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.SmallButton;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
-import me.shadorc.twitterstalker.graphics.panel.ConnectionPanel.Text;
+import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.PopularePreview;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
@@ -40,7 +41,12 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 	StatisticsPanel(String name, JButton button) throws TwitterException {
 		super(new BorderLayout());
 
-		user = new TwitterUser(name);
+		try {
+			user = new TwitterUser(name);
+		} catch (TwitterException e) {
+			throw new TwitterException("L'utilisateur n'existe pas.", new Exception(name), 604);
+		}
+
 		stats = new Stats(user, button);
 
 		if(Stats.stop == true) return;
@@ -87,20 +93,20 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		font = Frame.getFont("RobotoCondensed-Regular.ttf", 14.68f);
 
-		JPanel userInfosStats = new JPanel(new GridLayout(0, 6));
+		JPanel userInfosStats = new JPanel(new GridLayout(0, 5));
 		userInfosStats.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		userInfosStats.setOpaque(false);
 
 		userInfosStats.add(new JLabel());
 		userInfosStats.add(new JLabel());
-		userInfosStats.add(new JLabel());
+//		userInfosStats.add(new JLabel());
 
 		JLabel tweets = new JLabel("Tweets analysés : " + user.getTweetsAnalysed() + "/" + user.getTweetsPosted());
 		tweets.setForeground(Color.WHITE);
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
 
-		JLabel tweetsDays = new JLabel("Nombre de tweets/jour : " + user.getTweetsPerDay());
+		JLabel tweetsDays = new JLabel("Nombre de tweets/jour : " + user.getTweetsPerDay(stats));
 		tweetsDays.setForeground(Color.WHITE);
 		tweetsDays.setFont(font);
 		userInfosStats.add(tweetsDays);
@@ -122,7 +128,8 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		jsp.getViewport().setOpaque(false);
 		jsp.setOpaque(false);
 		jsp.setBorder(null);
-		jsp.getVerticalScrollBar().setUI(new ScrollbarUI());
+		jsp.getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
+		jsp.getHorizontalScrollBar().setUI(new ScrollbarUI(Position.HORIZONTAL));
 
 		statsCase = 0;
 
@@ -138,7 +145,14 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	this.createJEP("Utilisateurs mentionnés", Data.MENTIONS_SENT);
 		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	this.createJEP("Utilisateurs mentionnant", Data.MENTIONS_RECEIVED);
 
-		textPanel.setLayout(new GridLayout((int) Math.ceil(statsCase/3.0), 3, 15, 15));
+		if(statsCase == 0) {
+			textPanel.setLayout(new BorderLayout());
+			JLabel error = new JLabel("Aucune statistique n'a été sélectionnée. Désolé, mais le bug est dans un autre château.", JLabel.CENTER);
+			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
+			textPanel.add(error, JLabel.CENTER);
+		} else {
+			textPanel.setLayout(new GridLayout((int) Math.ceil(statsCase/3.0), 3, 15, 15));
+		}
 
 		this.add(jsp, BorderLayout.CENTER);
 
