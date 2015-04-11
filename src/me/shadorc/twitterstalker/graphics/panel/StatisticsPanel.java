@@ -6,24 +6,23 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.CompoundBorder;
 
+import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.EditorPane;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
-import me.shadorc.twitterstalker.graphics.SmallButton;
+import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
-import me.shadorc.twitterstalker.statistics.PopularePreview;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
 import twitter4j.TwitterException;
@@ -36,7 +35,6 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 	private JPanel textPanel;
 	private TwitterUser user;
 	private Stats stats;
-	private int statsCase;
 
 	StatisticsPanel(String name, JButton button) throws TwitterException {
 		super(new BorderLayout());
@@ -44,14 +42,14 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		try {
 			user = new TwitterUser(name);
 		} catch (TwitterException e) {
-			throw new TwitterException("L'utilisateur n'existe pas.", new Exception(name), 604);
+			throw new TwitterException(Storage.tra("L'utilisateur n'existe pas."), new Exception(name), 604);
 		}
 
 		stats = new Stats(user, button);
 
 		if(Stats.stop == true) return;
 
-		button.setText("Interface");
+		button.setText(Storage.tra("Interface"));
 
 		this.setBackground(new Color(179, 229, 252));
 
@@ -67,12 +65,12 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JPanel labelsPane = new JPanel(new GridLayout(2, 0));
 		labelsPane.setOpaque(false);
 
-		JLabel followers = new JLabel("Followers : " + user.getFollowersCount());
+		JLabel followers = new JLabel(Storage.tra("Followers : ") + user.getFollowersCount());
 		followers.setFont(font);
 		followers.setForeground(Color.WHITE);
 		labelsPane.add(followers);
 
-		JLabel followings = new JLabel("Followings : " + user.getFollowingCount());
+		JLabel followings = new JLabel(Storage.tra("Followings : ") + user.getFollowingCount());
 		followings.setFont(font);
 		followings.setForeground(Color.WHITE);
 		labelsPane.add(followings);
@@ -99,19 +97,18 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		userInfosStats.add(new JLabel());
 		userInfosStats.add(new JLabel());
-//		userInfosStats.add(new JLabel());
 
-		JLabel tweets = new JLabel("Tweets analysés : " + user.getTweetsAnalysed() + "/" + user.getTweetsPosted());
+		JLabel tweets = new JLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalysed() + "/" + user.getTweetsPosted());
 		tweets.setForeground(Color.WHITE);
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
 
-		JLabel tweetsDays = new JLabel("Nombre de tweets/jour : " + user.getTweetsPerDay(stats));
+		JLabel tweetsDays = new JLabel(Storage.tra("Nombre de tweets/jour : ") + user.getTweetsPerDay(stats));
 		tweetsDays.setForeground(Color.WHITE);
 		tweetsDays.setFont(font);
 		userInfosStats.add(tweetsDays);
 
-		JLabel age = new JLabel("Inscris le : " + user.getCreatedAt() + " (" + user.getAge() + " jours)");
+		JLabel age = new JLabel(Storage.tra("Inscrit le : ") + user.getCreatedAt() + " (" + user.getAge() + Storage.tra(" jours") + ")");
 		age.setForeground(Color.WHITE);
 		age.setFont(font);
 		userInfosStats.add(age);
@@ -131,27 +128,26 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		jsp.getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
 		jsp.getHorizontalScrollBar().setUI(new ScrollbarUI(Position.HORIZONTAL));
 
-		statsCase = 0;
+		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(textPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
+		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(textPanel, stats, "Timeline", Data.PURETWEETS, Data.MENTIONS, Data.RETWEET_BY_ME);
+		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(textPanel, stats, "Renommée", Data.FAVORITE, Data.RETWEET);
+		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(textPanel, stats, "Sources", Data.SOURCE);
+		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(textPanel, stats, "Jours", Data.DAYS);
+		if(OptionsPanel.isSelected(Data.HOURS))		EditorPane.get(textPanel, stats, "Heures", Data.HOURS);
+		if(OptionsPanel.isSelected(Data.WORDS))		EditorPane.get(textPanel, stats, "Mots", Data.WORDS);
+		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(textPanel, stats, "Hashtags", Data.HASHTAG);
+		if(OptionsPanel.isSelected(Data.POPULARE))	EditorPane.get(textPanel, stats, "Populaires", Data.POPULARE);
+		if(OptionsPanel.isSelected(Data.LANG))		EditorPane.get(textPanel, stats, "Langues", Data.LANG);
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnés", Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnant", Data.MENTIONS_RECEIVED);
 
-		if(OptionsPanel.isSelected(Data.TWEETS))	this.createJEP("Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Data.TIMELINE))	this.createJEP("Timeline", Data.PURETWEETS, Data.MENTIONS, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE))	this.createJEP("Renommée", Data.FAVORITE, Data.RETWEET);
-		if(OptionsPanel.isSelected(Data.SOURCE))	this.createJEP("Sources", Data.SOURCE);
-		if(OptionsPanel.isSelected(Data.DAYS))		this.createJEP("Jours", Data.DAYS);
-		if(OptionsPanel.isSelected(Data.HOURS))		this.createJEP("Heures", Data.HOURS);
-		if(OptionsPanel.isSelected(Data.WORDS))		this.createJEP("Mots", Data.WORDS);
-		if(OptionsPanel.isSelected(Data.HASHTAG))	this.createJEP("Hashtags", Data.HASHTAG);
-		if(OptionsPanel.isSelected(Data.POPULARE))	this.createJEP("Populaires", Data.POPULARE);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	this.createJEP("Utilisateurs mentionnés", Data.MENTIONS_SENT);
-		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	this.createJEP("Utilisateurs mentionnant", Data.MENTIONS_RECEIVED);
-
-		if(statsCase == 0) {
+		if(textPanel.getComponents().length == 0) {
 			textPanel.setLayout(new BorderLayout());
-			JLabel error = new JLabel("Aucune statistique n'a été sélectionnée. Désolé, mais le bug est dans un autre château.", JLabel.CENTER);
+			JLabel error = new JLabel(Storage.tra("Aucune statistique n'a été sélectionnée. Désolé, mais le bug est dans un autre château."), JLabel.CENTER);
 			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
 			textPanel.add(error, JLabel.CENTER);
 		} else {
-			textPanel.setLayout(new GridLayout((int) Math.ceil(statsCase/3.0), 3, 15, 15));
+			textPanel.setLayout(new GridLayout((int) Math.ceil(textPanel.getComponents().length/3.0), 3, 15, 15));
 		}
 
 		this.add(jsp, BorderLayout.CENTER);
@@ -159,66 +155,18 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JPanel buttonsPanel = new JPanel(new GridLayout(0, 14));
 		buttonsPanel.setOpaque(false);
 
-		back = new SmallButton("Retour", BorderFactory.createEmptyBorder(10, 0, 10, 20));
-		back.addActionListener(this);
+		back = new Button("Retour", new int[] {10, 0, 10, 20}, true, this);
 		buttonsPanel.add(back);
 
 		for(int i = 0; i < 12; i++) {
 			buttonsPanel.add(new JLabel());
 		}
 
-		upload = new SmallButton("Upload", BorderFactory.createEmptyBorder(10, 20, 10, 0));
-		upload.setToolTipText("Partager les statistiques");
-		upload.addActionListener(this);
+		upload = new Button("Upload", new int[] {10, 20, 10, 0}, true, this);
+		upload.setToolTipText(Storage.tra("Partager les statistiques"));
 		buttonsPanel.add(upload);
 
 		this.add(buttonsPanel, BorderLayout.PAGE_END);
-	}
-
-	private void createJEP(String desc, Data... types) throws TwitterException {
-		JEditorPane area = new JEditorPane();
-		area.setContentType("text/html");
-		area.setOpaque(false);
-		area.setEditable(false);
-		/*Allow to set font with HTML content*/
-		area.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-		area.setFont(Frame.getFont("SEGOEUI.TTF", 26));
-
-		String text = "<font color=#212121>" + desc + "<font color=#727272><style=\"font-size:23\";>";
-		//If it's stats contains in array
-		if(types.length == 1) {
-			Data type = types[0];
-			for(int i = 0; i < OptionsPanel.getMaxListLenght(); i++) {
-				try {
-					text += "<br>&nbsp;&nbsp;";
-					if(type.equals(Data.MENTIONS_RECEIVED) || type.equals(Data.MENTIONS_SENT)) {
-						text += "- " + stats.get(type, i).getUserInfo();
-					} else if(type.equals(Data.POPULARE)) {
-						text += "- " + "<a href=" + stats.get(type, i).getStatusUrl() + ">" + stats.get(type, i).getInfo() + "</a>";
-					} else {
-						text += "- " + stats.get(type, i).getInfo();
-					}
-				} catch (IndexOutOfBoundsException e) {
-					if(i == 0) {
-						System.err.println("Info : " + Arrays.asList(types) + " ignored.");
-						return;
-					}
-					text += "<br>";
-				}
-			}
-		} else {
-			for(Data type : types) {
-				text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getDesc();
-			}
-		}
-		area.setText(text);
-
-		if(Arrays.asList(types).contains(Data.POPULARE)) {
-			area.addHyperlinkListener(new PopularePreview(stats, area));
-		}
-
-		textPanel.add(area);
-		statsCase++;
 	}
 
 	@Override
@@ -226,7 +174,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JButton bu = (JButton) e.getSource();
 
 		if(bu == back) {
-			Frame.setJPanel(new ConnectionPanel(Text.USERNAME));
+			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
 		} else if(bu == upload) {
 			Frame.upload("@" + user.getName() + "'s stats");
 		}

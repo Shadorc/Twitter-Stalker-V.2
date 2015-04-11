@@ -17,7 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.SmallButton;
+import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 
 public class MenuPanel extends JPanel implements ActionListener {
@@ -30,7 +31,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		super(new BorderLayout());
 		this.setBackground(new Color(3,169,244));
 
-		JLabel title = new JLabel("Que voulez-vous faire ?", JLabel.CENTER);
+		JLabel title = new JLabel(Storage.tra("Que voulez-vous faire ?"), JLabel.CENTER);
 
 		title.setForeground(new Color(33,33,33));
 		title.setFont(Frame.getFont("RobotoCondensed-LightItalic.ttf", 72));
@@ -45,8 +46,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		for(int i = 0; i < 5; i++) {
 			optionButtonPane.add(new JLabel());
 		}
-		options = new SmallButton("Options", BorderFactory.createEmptyBorder(15, 10, 0, 0));
-		options.addActionListener(this);
+		options = new Button("Options", new int[] {15, 10, 0, 0}, true, this);
 		optionButtonPane.add(options);
 
 		center.add(optionButtonPane, BorderLayout.WEST);
@@ -55,10 +55,10 @@ public class MenuPanel extends JPanel implements ActionListener {
 		buttons.setOpaque(false);
 		buttons.setBorder(BorderFactory.createEmptyBorder(65, 155, 65, 155));
 
-		statistics = this.createJButton("Statistiques");
+		statistics = this.createJButton(Storage.tra("Statistiques"));
 		buttons.add(statistics);
 
-		comparison = this.createJButton("Comparaison");
+		comparison = this.createJButton(Storage.tra("Comparaison"));
 		buttons.add(comparison);
 
 		center.add(buttons, BorderLayout.CENTER);
@@ -102,11 +102,11 @@ public class MenuPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == statistics) {
-			Frame.setJPanel(new ConnectionPanel(Text.USERNAME));
+			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
 		} else if(e.getSource() == comparison) {
-			Frame.setJPanel(new ConnectionPanel(Text.COMPARISON));
+			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.COMPARISON)));
 		} else if(e.getSource() == options) {
-			Frame.setJPanel(new OptionsPanel());
+			Frame.setPanel(new OptionsPanel());
 		}
 	}
 }

@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 
 public class ScrollbarUI extends MetalScrollBarUI {
+
 	private Image imageThumb;
 	private Position pos;
 

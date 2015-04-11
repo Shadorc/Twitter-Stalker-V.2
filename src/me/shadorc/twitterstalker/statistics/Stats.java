@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JButton;
 
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.HashtagEntity;
@@ -36,7 +38,7 @@ public class Stats {
 		double lastTweet = 0;
 
 		if(tweetsToAnalyse == 0) {
-			throw new TwitterException("L'utilisateur n'a posté aucun tweet", new Exception(user.getName()), 600);
+			throw new TwitterException(Storage.tra("L'utilisateur n'a posté aucun tweet"), new Exception(user.getName()), 600);
 		} else if(tweetsToAnalyse > OptionsPanel.getMaxTweetsNumber()) {
 			tweetsToAnalyse = OptionsPanel.getMaxTweetsNumber();
 		}
@@ -44,7 +46,7 @@ public class Stats {
 		if(user.isPrivate()) {
 			bu.setEnabled(true);
 			bu.setText(null);
-			throw new TwitterException("L'utilisateur est protégé", new Exception(user.getName()), 401);
+			throw new TwitterException(Storage.tra("L'utilisateur est protégé"), new Exception(user.getName()), 401);
 		}
 
 		bu.setEnabled(false);
@@ -62,6 +64,7 @@ public class Stats {
 		stats.put(Data.MENTIONS_SENT, new StatInfo());
 		stats.put(Data.HASHTAG, new StatInfo());
 		stats.put(Data.POPULARE, new StatInfo());
+		stats.put(Data.LANG, new StatInfo());
 		stats.put(Data.WORDS, new StatInfo());
 		stats.put(Data.DAYS, new StatInfo());
 		stats.put(Data.HOURS, new StatInfo());
@@ -130,17 +133,17 @@ public class Stats {
 			}
 		}
 
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalysed() / lastTweet), "tweets par jour", false));
-		stats.put(Data.WORDS_PER_TWEET, new StatInfo((stats.get(Data.WORDS_COUNT).getNum() / user.getTweetsAnalysed()), "mots par tweet", false));
-		stats.put(Data.LETTERS_PER_TWEET, new StatInfo((stats.get(Data.LETTERS).getNum() / user.getTweetsAnalysed()), "lettres par tweet", false));
-		stats.put(Data.LETTERS_PER_WORD, new StatInfo((stats.get(Data.LETTERS).getNum() / stats.get(Data.WORDS_COUNT).getNum()), "lettres par mot", false));
+		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalysed() / lastTweet), Storage.tra("tweets par jour"), false));
+		stats.put(Data.WORDS_PER_TWEET, new StatInfo((stats.get(Data.WORDS_COUNT).getNum() / user.getTweetsAnalysed()), Storage.tra("mots par tweet"), false));
+		stats.put(Data.LETTERS_PER_TWEET, new StatInfo((stats.get(Data.LETTERS).getNum() / user.getTweetsAnalysed()), Storage.tra("lettres par tweet"), false));
+		stats.put(Data.LETTERS_PER_WORD, new StatInfo((stats.get(Data.LETTERS).getNum() / stats.get(Data.WORDS_COUNT).getNum()), Storage.tra("lettres par mot"), false));
 
 		double d = user.getTweetsAnalysed() - stats.get(Data.MENTIONS).getNum() - stats.get(Data.RETWEET_BY_ME).getNum();
 		stats.put(Data.PURETWEETS, new StatInfo(d, this.percen(d, "Puretweets"), true));
-		stats.put(Data.MENTIONS, new StatInfo(stats.get(Data.MENTIONS).getNum(), this.percen(stats.get(Data.MENTIONS).getNum(), "Mentions"), true));
-		stats.put(Data.RETWEET_BY_ME, new StatInfo(stats.get(Data.RETWEET_BY_ME).getNum(), this.percen(stats.get(Data.RETWEET_BY_ME).getNum(), "Retweet"), true));
-		stats.put(Data.RETWEET, new StatInfo(stats.get(Data.RETWEET).getNum(), this.percen(stats.get(Data.RETWEET).getNum(), "Retweetés"), true));
-		stats.put(Data.FAVORITE, new StatInfo(stats.get(Data.FAVORITE).getNum(), this.percen(stats.get(Data.FAVORITE).getNum(), "Favorisés"), true));
+		stats.put(Data.MENTIONS, new StatInfo(stats.get(Data.MENTIONS).getNum(), this.percen(stats.get(Data.MENTIONS).getNum(), Storage.tra("Mentions")), true));
+		stats.put(Data.RETWEET_BY_ME, new StatInfo(stats.get(Data.RETWEET_BY_ME).getNum(), this.percen(stats.get(Data.RETWEET_BY_ME).getNum(), Storage.tra("Retweet")), true));
+		stats.put(Data.RETWEET, new StatInfo(stats.get(Data.RETWEET).getNum(), this.percen(stats.get(Data.RETWEET).getNum(), Storage.tra("Retweetés")), true));
+		stats.put(Data.FAVORITE, new StatInfo(stats.get(Data.FAVORITE).getNum(), this.percen(stats.get(Data.FAVORITE).getNum(), Storage.tra("Favorisés")), true));
 	}
 
 	private void setStats(Status status) throws TwitterException {
@@ -161,11 +164,17 @@ public class Stats {
 			}
 
 			stats.get(Data.POPULARE).add(new WordInfo(status));
+
 			//Regex removes HTML tag
 			stats.get(Data.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
 
-			//Get day in french and add capitalize
-			String day = new SimpleDateFormat("EEEE").format(status.getCreatedAt());
+			//Lang is two-letter iso language code
+			String lang = new Locale(status.getLang()).getDisplayLanguage(OptionsPanel.getLocaleLang());
+			String capLang = lang.substring(0, 1).toUpperCase() + lang.substring(1);
+			stats.get(Data.LANG).add(capLang);
+
+			//Get day and add capitalize
+			String day = new SimpleDateFormat("EEEE", OptionsPanel.getLocaleLang()).format(status.getCreatedAt());
 			String capDay = day.substring(0, 1).toUpperCase() + day.substring(1);
 			stats.get(Data.DAYS).add(capDay);
 

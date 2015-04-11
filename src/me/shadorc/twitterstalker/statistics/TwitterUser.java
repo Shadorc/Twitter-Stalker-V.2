@@ -3,8 +3,8 @@ package me.shadorc.twitterstalker.statistics;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
+import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
@@ -47,19 +48,8 @@ public class TwitterUser {
 	}
 
 	public String getCreatedAt() {
-		return new SimpleDateFormat("dd/MM/yy").format(user.getCreatedAt());
+		return DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(user.getCreatedAt());
 	}
-
-	//	public String getTwitterMoney() {
-	//
-	//		double money = (double) this.getTweetsPosted() / this.getAge(); //Tweets par jour
-	//		money *= this.getFollowersCount(); //Vues potentielles par jour
-	//		money = (money * 25) / 100; //Estimation des vues par jour
-	//		money *= 9.12; //9.12 = Twitter Value / TWeet per day on Twitter (centimes)
-	//		money /= 100; //Conversion euro
-	//
-	//		return new DecimalFormat("#.##").format(money) + "€";
-	//	}
 
 	public int getTweetsAnalysed() {
 		return tweetsAnalysed;

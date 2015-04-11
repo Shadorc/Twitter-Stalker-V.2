@@ -35,7 +35,7 @@ public class TextField extends JTextField implements FocusListener {
 		String ERROR = "Erreur inattendue : ";
 
 		ArrayList <String> MESSAGES = new ArrayList <String> (Arrays.asList(
-				new String[] {PIN, USERNAME, COMPARISON, INVALID_PIN, INVALID_USER, API_LIMIT, NO_TWEET, ERROR, PRIVATE}));
+				new String[] {PIN, USERNAME, COMPARISON, INVALID_PIN, INVALID_USER, API_LIMIT, NO_TWEET, PRIVATE, ERROR}));
 	}
 
 	public TextField(String text, Font font) {
@@ -51,12 +51,12 @@ public class TextField extends JTextField implements FocusListener {
 					menu.setBackground(Color.WHITE);
 
 					JMenuItem paste = new JMenuItem(new DefaultEditorKit.PasteAction());
-					paste.setText("Coller");
+					paste.setText(Storage.tra("Coller"));
 					paste.setBackground(Color.WHITE);
 					paste.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 15));
 					menu.add(paste);
 
-					JMenuItem delete = new JMenuItem(new AbstractAction("Supprimer") {
+					JMenuItem delete = new JMenuItem(new AbstractAction(Storage.tra("Supprimer")) {
 						private static final long serialVersionUID = 1L;
 
 						public void actionPerformed(ActionEvent ae) {
@@ -76,9 +76,11 @@ public class TextField extends JTextField implements FocusListener {
 			public void mousePressed(MouseEvent event) {
 				JTextField jtf = (JTextField) event.getSource();
 				String text = jtf.getText();
-				if(Text.MESSAGES.contains(text)) {
-					jtf.setForeground(Color.WHITE);
-					jtf.setText("");
+				for(String s : Text.MESSAGES) {
+					if(Storage.tra(s).equals(text)) {
+						jtf.setForeground(Color.WHITE);
+						jtf.setText("");
+					}
 				}
 			}
 		});
@@ -115,9 +117,11 @@ public class TextField extends JTextField implements FocusListener {
 	public void focusGained(FocusEvent event) {
 		JTextField jtf = (JTextField) event.getSource();
 		String text = jtf.getText();
-		if(Text.MESSAGES.contains(text)) {
-			jtf.setForeground(Color.WHITE);
-			jtf.setText("");
+		for(String s : Text.MESSAGES) {
+			if(Storage.tra(s).equals(text)) {
+				jtf.setForeground(Color.WHITE);
+				jtf.setText("");
+			}
 		}
 	}
 }

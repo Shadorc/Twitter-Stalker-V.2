@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +47,7 @@ public class Upload implements Runnable {
 			new Thread(this).start();
 
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Erreur lors de la capture d'écran, " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la capture d'écran, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
 
 		} finally {
 			Frame.reset();
@@ -64,7 +63,7 @@ public class Upload implements Runnable {
 		//-1 : conserv aspect ratio
 		preview = new ImageIcon(preview.getImage().getScaledInstance(preview.getIconWidth()/3, -1, Image.SCALE_SMOOTH));
 
-		JFrame frame = new JFrame("Partager");
+		JFrame frame = new JFrame(Storage.tra("Partager"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		frame.addWindowListener(new WindowAdapter() {
@@ -74,7 +73,7 @@ public class Upload implements Runnable {
 			}
 		} );
 
-		JPanel panel = new JPanel(new BorderLayout());
+		final JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		panel.setBackground(new Color(179, 229, 252));
 
@@ -84,17 +83,21 @@ public class Upload implements Runnable {
 		text.setFont(Frame.getFont("SEGOEUI.TTF", 25));
 		panel.add(text, BorderLayout.CENTER);
 
-		JPanel buttonsPanel = new JPanel(new GridLayout(0, 5));
+		final JPanel buttonsPanel = new JPanel(new BorderLayout());
+		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
 		buttonsPanel.setOpaque(false);
-		buttonsPanel.add(new JLabel());
-		buttonsPanel.add(new JLabel());
 
-		final JButton tweet = new JButton("Tweeter");
+		final JButton tweet = new JButton(Storage.tra("Tweeter"));
 		tweet.setFocusable(false);
 		tweet.setFont(Frame.getFont("SEGOEUI.TTF", 25));
 		tweet.setBackground(new Color(85,172,238));
 		tweet.setBorder(BorderFactory.createLineBorder(new Color(59, 148, 217), 1, true));
 		tweet.setForeground(Color.WHITE);
+
+		final JLabel info = new JLabel();
+		info.setHorizontalAlignment(JLabel.CENTER);
+		info.setFont(Frame.getFont("SEGOEUI.TTF", 25));
+		info.setBorder(BorderFactory.createLineBorder(new Color(59, 148, 217), 1, true));
 
 		tweet.addMouseListener(new MouseAdapter() {
 			@Override
@@ -111,20 +114,29 @@ public class Upload implements Runnable {
 		tweet.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				try {
-					Frame.getTwitter().updateStatus(status);
-				} catch (TwitterException e) {
-					JOptionPane.showMessageDialog(null, "Erreur lors de l'upload, " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-					e.printStackTrace();
-				} finally {
-					screen.delete();
-				}
+				buttonsPanel.remove(tweet);
+				info.setText(Storage.tra("Chargement..."));
+				buttonsPanel.add(info, BorderLayout.CENTER);
+				buttonsPanel.revalidate();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							Frame.getTwitter().updateStatus(status);
+							info.setText(Storage.tra("Terminé"));
+						} catch (TwitterException e) {
+							info.setForeground(Color.RED);
+							info.setText(Storage.tra("Erreur") + " !" + e.getMessage());
+							e.printStackTrace();
+						} finally {
+							screen.delete();
+						}
+					}
+				}).start();
 			}
 		});
-		buttonsPanel.add(tweet);
+		buttonsPanel.add(tweet, BorderLayout.CENTER);
 
-		buttonsPanel.add(new JLabel());
-		buttonsPanel.add(new JLabel());
 		panel.add(buttonsPanel, BorderLayout.PAGE_END);
 
 		frame.setContentPane(panel);
@@ -148,7 +160,6 @@ public class Upload implements Runnable {
 	}
 
 	private BufferedImage paintComponent() {
-
 		Dimension size = new Dimension((int) panel.getPreferredSize().getWidth() + 50, (int) panel.getPreferredSize().getHeight()+10);
 		panel.setSize(size);
 

@@ -1,3 +1,10 @@
+V2.1.0 :
+	- Ajout des statistiques sur les langues des tweets
+	- Ajout de la traduction anglaise
+	- Ajout de la recherche automatique de mises à jour
+	- Correction d'un crash si un utilisateur mentionnant/mentionné n'existait plus
+	- Corrections de bugs & diverses améliorations
+	
 V2.0.1 :
 	- L'application ne se ferme plus si l'utilisateur choisit de ne pas créer de raccourcis sur le bureau
 	- Le nombre de tweets/jour se base désormais sur les derniers tweets postés et non plus la totalité des tweets
@@ -11,16 +18,15 @@ V2.0 :
     - Diverses corrections
 
 V1.4 :
-	- Corrections de bugs, optimisations & améliorations graphiques
+	- Statistiques plus précises
 	- Corrige un bug de sauvegarde sous Windows Vista
 	- Rajoute une liste de suggestions pour les utilisateurs
 	- Mise à jour du lien dans les tweets de partage
 	- Ajout d'une nouvelle catégorie "Personnalisation"
 	- Ajout d'une nouvelle statistique sur les applications utilisées
-	- Statistiques plus précises
+	- Corrections de bugs, optimisations & améliorations graphiques
 
 V1.3 :
-	- Corrections de bugs, optimisations & améliorations graphiques
 	- Suppression du bouton "Copier" suite à la correction du bug avec "Ouvrir"
 	- Suppression de l'option pour inclure les tops mentions au tweet
 	- Amélioration de la prévisualisation des tops tweets
@@ -33,9 +39,9 @@ V1.3 :
 	- Ajout d'une statistique sur les tweets retweetés
 	- Ajout des statistiques sur vos mentions reçues
 	- Ajout d'un GIF de chargement
+	- Corrections de bugs, optimisations & améliorations graphiques
 
 V1.2 :
-	- Corrections de bugs, optimisations & améliorations graphiques
 	- Statistiques plus précises
 	- Le tweet de partage est maintenant visible par tout le monde
 	- Traduction de certains textes
@@ -46,10 +52,11 @@ V1.2 :
 	- Ajout du clic droit dans la fenêtre de connexion pour coller le texte
 	- Ajout d'une option pour inclure les tops mentions au tweet de partage
 	- Ajout des statistiques sur les tweets les plus populaires, leur prévisualisation et la possibilité d'ouvrir l'URL en cliquant dessus
+	- Corrections de bugs, optimisations & améliorations graphiques
 
 V1.1 :
-	- Corrections de bugs, optimisations & améliorations graphiques
 	- Statistiques plus précises
 	- Suppression de la fonction "Inclure les retweets"
 	- Amélioration de la fonction de partage
 	- Ajout des statistiques sur les heures
+	- Corrections de bugs, optimisations & améliorations graphiques

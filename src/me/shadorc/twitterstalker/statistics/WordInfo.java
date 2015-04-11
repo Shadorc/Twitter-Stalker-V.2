@@ -2,6 +2,7 @@ package me.shadorc.twitterstalker.statistics;
 
 import java.util.Date;
 
+import me.shadorc.twitterstalker.graphics.Storage;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -27,7 +28,7 @@ public class WordInfo {
 
 	public String getInfo() {
 		if(status != null) {
-			return this.getRetweet() + " RT | " + this.getFavorite() + " FAV (" + this.getCount() + ")";
+			return this.getRetweet() + Storage.tra(" RT | ") + this.getFavorite() + Storage.tra(" FAV (") + this.getCount() + ")";
 		}
 		return word + " (" + count + ")";
 	}

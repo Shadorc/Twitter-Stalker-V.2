@@ -20,7 +20,8 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
 import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.SmallButton;
+import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.TextField;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.Stats;
@@ -63,11 +64,11 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		JPanel fieldPane = new JPanel();
 		fieldPane.setOpaque(false);
 
-		if(text.equals(Text.USERNAME) || text.equals(Text.PIN)) {
+		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.PIN))) {
 			fieldPane.setLayout(new BorderLayout());
 			fieldPane.setBorder(BorderFactory.createEmptyBorder(110, 50, 0, 50));
 
-		} else if(text.equals(Text.COMPARISON)) {
+		} else if(text.equals(Storage.tra(Text.COMPARISON))) {
 			fieldPane.setLayout(new GridLayout(2, 0, 0, 40));
 			fieldPane.setBorder(BorderFactory.createEmptyBorder(25, 50, 0, 50));
 
@@ -86,27 +87,8 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		searchPanel.setOpaque(false);
 		searchPanel.add(new JLabel());
 
-		search = new JButton(new ImageIcon(this.getClass().getResource("/res/Bouton Valider.png")));
-		search.setContentAreaFilled(false);
-		search.setPressedIcon(new ImageIcon(this.getClass().getResource("/res/Bouton Valider2.png")));
+		search = new Button("Valider", new int[] {30, 0, 0, 0}, false, this);
 		search.setDisabledIcon(new ImageIcon(this.getClass().getResource("/res/loading.gif")));
-		search.addActionListener(this);
-		search.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				JButton bu = (JButton) e.getSource();
-				bu.setIcon(new ImageIcon(this.getClass().getResource("/res/Bouton Valider3.png")));
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				JButton bu = (JButton) e.getSource();
-				bu.setIcon(new ImageIcon(this.getClass().getResource("/res/Bouton Valider.png")));
-			}
-		});
-		search.setFocusable(false);
-		search.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
-		search.setBackground(null);
 		search.setForeground(Color.WHITE);
 		search.setFont(Frame.getFont("RobotoCondensed-LightItalic.ttf", 20));
 		search.setHorizontalTextPosition(JButton.CENTER);
@@ -119,9 +101,8 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		JPanel bottomPanel = new JPanel(new BorderLayout());
 		bottomPanel.setOpaque(false);
 
-		if(text.equals(Text.USERNAME) || text.equals(Text.COMPARISON)) {
-			back = new SmallButton("Retour", BorderFactory.createEmptyBorder(95, 10, 0, 0));
-			back.addActionListener(this);
+		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.COMPARISON))) {
+			back = new Button("Retour", new int[] {95, 10, 0, 0}, true, this);
 			bottomPanel.add(back, BorderLayout.WEST);
 		} else {
 			bottomPanel.add(new JLabel(), BorderLayout.WEST);
@@ -153,7 +134,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 	}
 
 	public void invalidPin() {
-		field1.error(Text.INVALID_PIN);
+		field1.error(Storage.tra(Text.INVALID_PIN));
 	}
 
 	@Override
@@ -162,7 +143,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 			this.valid();
 		} else if(event.getSource() == back) {
 			Stats.stop();
-			Frame.setJPanel(new MenuPanel());
+			Frame.setPanel(new MenuPanel());
 		}
 	}
 
@@ -180,73 +161,78 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 	public void keyTyped(KeyEvent e) { }
 
 	private void valid() {
-		if(text.equals(Text.PIN)) {
+		if(text.equals(Storage.tra(Text.PIN))) {
 			//If field contains only numbers and the pin is more than 6 characters
 			if(field1.isValidPin()) {
 				Frame.connect(field1.getText());
 			} else {
-				field1.error(Text.INVALID_PIN);
+				field1.error(Storage.tra(Text.INVALID_PIN));
 			}
 
-		} else if(text.equals(Text.USERNAME)) {
+		} else if(text.equals(Storage.tra(Text.USERNAME))) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					try {
 						statsPanel = new StatisticsPanel(field1.getText().replaceAll("@", ""), search);
 						if(Stats.stop == true) return;
-						Frame.setJPanel(statsPanel);
+						Frame.setPanel(statsPanel);
 					} catch (TwitterException e) {
+						e.printStackTrace();
+						
 						if(e.getErrorCode() == 88) {
-							field1.error(Text.API_LIMIT + " Déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
 						} else if(e.getStatusCode() == 600) {
-							field1.error(Text.NO_TWEET);
+							field1.error(Storage.tra(Text.NO_TWEET));
 						} else if(e.getStatusCode() == 604) {
-							field1.error(Text.INVALID_USER);
+							field1.error(Storage.tra(Text.INVALID_USER));
 						} else if(e.getStatusCode() == 401) {
-							field1.error(Text.PRIVATE);
+							field1.error(Storage.tra(Text.PRIVATE));
 						} else {
-							field1.error(Text.ERROR + " " + e.getMessage());
+							field1.error(Storage.tra(Text.ERROR) + " " + e.getMessage());
 						}
 					}
 				}
 			}).start();
 
-		} else if(text.equals(Text.COMPARISON)) {
+		} else if(text.equals(Storage.tra(Text.COMPARISON))) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					try {
 						comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
 						if(Stats.stop == true) return;
-						Frame.setJPanel(comparePanel);
+						Frame.setPanel(comparePanel);
 					} catch (TwitterException e) {
-						String message = e.getCause().getMessage();
+						e.printStackTrace();
 
 						if(e.getErrorCode() == 88) {
-							field1.error(Text.API_LIMIT + "déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-							field2.error(Text.API_LIMIT + "déblocage dans " + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							field2.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
 						} else if(e.getStatusCode() == 600) {
+							String message = e.getCause().getMessage();
 							if(field1.getText().equals(message)) {
-								field1.error(Text.NO_TWEET);
+								field1.error(Storage.tra(Text.NO_TWEET));
 							} else {
-								field2.error(Text.NO_TWEET);
+								field2.error(Storage.tra(Text.NO_TWEET));
 							}
 						} else if(e.getStatusCode() == 604) {
+							String message = e.getCause().getMessage();
 							if(message.contains("1")) {
-								field1.error(Text.INVALID_USER);
+								field1.error(Storage.tra(Text.INVALID_USER));
 							} else {
-								field2.error(Text.INVALID_USER);
+								field2.error(Storage.tra(Text.INVALID_USER));
 							}
 						} else if(e.getStatusCode() == 401) {
+							String message = e.getCause().getMessage();
 							if(field1.getText().equals(message)) {
-								field1.error(Text.PRIVATE);
+								field1.error(Storage.tra(Text.PRIVATE));
 							} else {
-								field2.error(Text.PRIVATE);
+								field2.error(Storage.tra(Text.PRIVATE));
 							}
 						} else {
-							field1.error(Text.ERROR + e.getMessage());
-							field2.error(Text.ERROR + e.getMessage());
+							field1.error(Storage.tra(Text.ERROR + e.getMessage()));
+							field2.error(Storage.tra(Text.ERROR + e.getMessage()));
 						}
 					}
 				}

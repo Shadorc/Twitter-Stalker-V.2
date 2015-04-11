@@ -6,8 +6,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.swing.JOptionPane;
+
+import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 
 public class Storage {
 
@@ -16,6 +19,7 @@ public class Storage {
 	public enum Data {
 		/*Installation*/
 		INSTALL,
+		UPDATE,
 		/*Connection*/
 		TOKEN,
 		TOKEN_SECRET,
@@ -23,6 +27,7 @@ public class Storage {
 		LIST_LENGHT,
 		TWEETS_NUMBER,
 		MENTIONS_NUMBER,
+		INTERFACE_LANG,
 		/*Stats*/
 		LETTERS_PER_WORD,
 		HASHTAG,
@@ -38,6 +43,7 @@ public class Storage {
 		MENTIONS_RECEIVED,
 		MENTIONS_SENT,
 		POPULARE,
+		LANG,
 		WORDS,
 		DAYS,
 		HOURS,
@@ -89,14 +95,14 @@ public class Storage {
 			}
 
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Erreur lors de la sauvegarde, " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
 
 		} finally {
 			try {
 				writer.flush();
 				writer.close();
 			} catch (IOException | NullPointerException e) {
-				JOptionPane.showMessageDialog(null, "Erreur lors de la sauvegarde, " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -123,5 +129,33 @@ public class Storage {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		writer.write(allData);
 		writer.close();
+	}
+
+	public static String tra(String original) {
+		BufferedReader reader = null;
+
+		try {
+			reader = new BufferedReader(new InputStreamReader(Storage.class.getResourceAsStream("/lang/" + OptionsPanel.getLang() + ".txt"), "UTF-8"));
+
+			String line;
+			while((line = reader.readLine()) != null) {
+				if(original.equals(line.replaceAll("\"", ""))) {
+					return reader.readLine().replaceAll("\"", "");
+				}
+			}
+
+		} catch (IOException e) {
+			return original;
+
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException | NullPointerException e) {
+				return original;
+			}
+		}
+
+		System.err.println("Translation not found : " + original);
+		return original;
 	}
 }
