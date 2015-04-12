@@ -7,19 +7,28 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import me.shadorc.twitterstalker.graphics.Storage;
+
 public class StatInfo {
 
 	private HashMap <String, WordInfo> map;
 	private String desc;
 	private double num;
 
+	private DecimalFormat df = new DecimalFormat("#.#");
+
 	StatInfo() {
 		this.map = new HashMap <>();
 	}
 
-	StatInfo(double num, String desc, boolean isPercen) {
+	StatInfo(double num, String desc) {
 		this.num = num;
-		this.desc = isPercen ? desc : new DecimalFormat("#.#").format(num) + " " + desc;
+		this.desc = df.format(num) + " " + Storage.tra(desc);
+	}
+
+	StatInfo(double num, String desc, TwitterUser user) {
+		this.num = num;
+		this.desc = (df.format(100*num/user.getTweetsAnalysed()) + "% " + desc + " (" + df.format(num) + ")");
 	}
 
 	public void increment() {

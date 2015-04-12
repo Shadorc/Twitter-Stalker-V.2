@@ -124,7 +124,7 @@ public class Frame extends JFrame {
 
 	private static void checkID() throws TwitterException {
 		twitter = TwitterFactory.getSingleton();
-		twitter.setOAuthConsumer("48eR2GMLRHgjL1awz5E5BjflE", "KWAP5Fz4rZleBa2NkMWsYjTbf83D2tPLZHEQZT3mRu79RjVyZu");
+		twitter.setOAuthConsumer("", "");
 
 		requestToken = twitter.getOAuthRequestToken();
 

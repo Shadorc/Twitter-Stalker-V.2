@@ -179,7 +179,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						Frame.setPanel(statsPanel);
 					} catch (TwitterException e) {
 						e.printStackTrace();
-						
+
 						if(e.getErrorCode() == 88) {
 							field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
 						} else if(e.getStatusCode() == 600) {

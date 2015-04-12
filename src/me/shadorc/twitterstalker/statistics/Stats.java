@@ -24,12 +24,9 @@ public class Stats {
 	public static boolean stop;
 
 	private HashMap <Data, StatInfo> stats;
-	private TwitterUser user;
 	private DecimalFormat df;
 
 	public Stats(TwitterUser user, JButton bu) throws TwitterException {
-		this.user = user;
-
 		stop = false;
 		stats = new HashMap <> ();
 		df = new DecimalFormat("#.#");
@@ -133,17 +130,18 @@ public class Stats {
 			}
 		}
 
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalysed() / lastTweet), Storage.tra("tweets par jour"), false));
-		stats.put(Data.WORDS_PER_TWEET, new StatInfo((stats.get(Data.WORDS_COUNT).getNum() / user.getTweetsAnalysed()), Storage.tra("mots par tweet"), false));
-		stats.put(Data.LETTERS_PER_TWEET, new StatInfo((stats.get(Data.LETTERS).getNum() / user.getTweetsAnalysed()), Storage.tra("lettres par tweet"), false));
-		stats.put(Data.LETTERS_PER_WORD, new StatInfo((stats.get(Data.LETTERS).getNum() / stats.get(Data.WORDS_COUNT).getNum()), Storage.tra("lettres par mot"), false));
+		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalysed() / lastTweet), "tweets par jour"));
+		stats.put(Data.WORDS_PER_TWEET, new StatInfo((stats.get(Data.WORDS_COUNT).getNum() / user.getTweetsAnalysed()), "mots par tweet"));
+		stats.put(Data.LETTERS_PER_TWEET, new StatInfo((stats.get(Data.LETTERS).getNum() / user.getTweetsAnalysed()), "lettres par tweet"));
+		stats.put(Data.LETTERS_PER_WORD, new StatInfo((stats.get(Data.LETTERS).getNum() / stats.get(Data.WORDS_COUNT).getNum()), "lettres par mot"));
 
-		double d = user.getTweetsAnalysed() - stats.get(Data.MENTIONS).getNum() - stats.get(Data.RETWEET_BY_ME).getNum();
-		stats.put(Data.PURETWEETS, new StatInfo(d, this.percen(d, "Puretweets"), true));
-		stats.put(Data.MENTIONS, new StatInfo(stats.get(Data.MENTIONS).getNum(), this.percen(stats.get(Data.MENTIONS).getNum(), Storage.tra("Mentions")), true));
-		stats.put(Data.RETWEET_BY_ME, new StatInfo(stats.get(Data.RETWEET_BY_ME).getNum(), this.percen(stats.get(Data.RETWEET_BY_ME).getNum(), Storage.tra("Retweet")), true));
-		stats.put(Data.RETWEET, new StatInfo(stats.get(Data.RETWEET).getNum(), this.percen(stats.get(Data.RETWEET).getNum(), Storage.tra("Retweetés")), true));
-		stats.put(Data.FAVORITE, new StatInfo(stats.get(Data.FAVORITE).getNum(), this.percen(stats.get(Data.FAVORITE).getNum(), Storage.tra("Favorisés")), true));
+		double puretweets = user.getTweetsAnalysed() - stats.get(Data.MENTIONS).getNum() - stats.get(Data.RETWEET_BY_ME).getNum();
+		stats.put(Data.PURETWEETS, new StatInfo(puretweets, "Puretweets", user));
+
+		stats.put(Data.MENTIONS, new StatInfo(stats.get(Data.MENTIONS).getNum(), Storage.tra("Mentions"), user));
+		stats.put(Data.RETWEET_BY_ME, new StatInfo(stats.get(Data.RETWEET_BY_ME).getNum(), Storage.tra("Retweet"), user));
+		stats.put(Data.RETWEET, new StatInfo(stats.get(Data.RETWEET).getNum(), Storage.tra("Retweetés"), user));
+		stats.put(Data.FAVORITE, new StatInfo(stats.get(Data.FAVORITE).getNum(), Storage.tra("Favorisés"), user));
 	}
 
 	private void setStats(Status status) throws TwitterException {
@@ -207,10 +205,6 @@ public class Stats {
 
 	public StatInfo getUnique(Data type) {
 		return stats.get(type);
-	}
-
-	private String percen(double d, String s) {
-		return df.format(100 * d / user.getTweetsAnalysed()) + "% " + s + " (" + df.format(d) + ")";
 	}
 
 	public static void stop() {

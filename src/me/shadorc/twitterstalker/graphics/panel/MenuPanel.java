@@ -16,8 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 
-import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 
