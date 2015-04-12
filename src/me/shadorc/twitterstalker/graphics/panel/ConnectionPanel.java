@@ -161,82 +161,84 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 	public void keyTyped(KeyEvent e) { }
 
 	private void valid() {
-		if(text.equals(Storage.tra(Text.PIN))) {
-			//If field contains only numbers and the pin is more than 6 characters
-			if(field1.isValidPin()) {
-				Frame.connect(field1.getText());
-			} else {
-				field1.error(Storage.tra(Text.INVALID_PIN));
-			}
-
-		} else if(text.equals(Storage.tra(Text.USERNAME))) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						statsPanel = new StatisticsPanel(field1.getText().replaceAll("@", ""), search);
-						if(Stats.stop == true) return;
-						Frame.setPanel(statsPanel);
-					} catch (TwitterException e) {
-						e.printStackTrace();
-
-						if(e.getErrorCode() == 88) {
-							field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-						} else if(e.getStatusCode() == 600) {
-							field1.error(Storage.tra(Text.NO_TWEET));
-						} else if(e.getStatusCode() == 604) {
-							field1.error(Storage.tra(Text.INVALID_USER));
-						} else if(e.getStatusCode() == 401) {
-							field1.error(Storage.tra(Text.PRIVATE));
-						} else {
-							field1.error(Storage.tra(Text.ERROR) + " " + e.getMessage());
-						}
-					}
+		if(search.isEnabled()) {
+			if(text.equals(Storage.tra(Text.PIN))) {
+				//If field contains only numbers and the pin is more than 6 characters
+				if(field1.isValidPin()) {
+					Frame.connect(field1.getText());
+				} else {
+					field1.error(Storage.tra(Text.INVALID_PIN));
 				}
-			}).start();
 
-		} else if(text.equals(Storage.tra(Text.COMPARISON))) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
-						if(Stats.stop == true) return;
-						Frame.setPanel(comparePanel);
-					} catch (TwitterException e) {
-						e.printStackTrace();
+			} else if(text.equals(Storage.tra(Text.USERNAME))) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							statsPanel = new StatisticsPanel(field1.getText().replaceAll("@", ""), search);
+							if(Stats.stop == true) return;
+							Frame.setPanel(statsPanel);
+						} catch (TwitterException e) {
+							e.printStackTrace();
 
-						if(e.getErrorCode() == 88) {
-							field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-							field2.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-						} else if(e.getStatusCode() == 600) {
-							String message = e.getCause().getMessage();
-							if(field1.getText().equals(message)) {
+							if(e.getErrorCode() == 88) {
+								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							} else if(e.getStatusCode() == 600) {
 								field1.error(Storage.tra(Text.NO_TWEET));
-							} else {
-								field2.error(Storage.tra(Text.NO_TWEET));
-							}
-						} else if(e.getStatusCode() == 604) {
-							String message = e.getCause().getMessage();
-							if(message.contains("1")) {
+							} else if(e.getStatusCode() == 604) {
 								field1.error(Storage.tra(Text.INVALID_USER));
-							} else {
-								field2.error(Storage.tra(Text.INVALID_USER));
-							}
-						} else if(e.getStatusCode() == 401) {
-							String message = e.getCause().getMessage();
-							if(field1.getText().equals(message)) {
+							} else if(e.getStatusCode() == 401) {
 								field1.error(Storage.tra(Text.PRIVATE));
 							} else {
-								field2.error(Storage.tra(Text.PRIVATE));
+								field1.error(Storage.tra(Text.ERROR) + " " + e.getMessage());
 							}
-						} else {
-							field1.error(Storage.tra(Text.ERROR + e.getMessage()));
-							field2.error(Storage.tra(Text.ERROR + e.getMessage()));
 						}
 					}
-				}
-			}).start();
+				}).start();
+
+			} else if(text.equals(Storage.tra(Text.COMPARISON))) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
+							if(Stats.stop == true) return;
+							Frame.setPanel(comparePanel);
+						} catch (TwitterException e) {
+							e.printStackTrace();
+
+							if(e.getErrorCode() == 88) {
+								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+								field2.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							} else if(e.getStatusCode() == 600) {
+								String message = e.getCause().getMessage();
+								if(field1.getText().equals(message)) {
+									field1.error(Storage.tra(Text.NO_TWEET));
+								} else {
+									field2.error(Storage.tra(Text.NO_TWEET));
+								}
+							} else if(e.getStatusCode() == 604) {
+								String message = e.getCause().getMessage();
+								if(message.contains("1")) {
+									field1.error(Storage.tra(Text.INVALID_USER));
+								} else {
+									field2.error(Storage.tra(Text.INVALID_USER));
+								}
+							} else if(e.getStatusCode() == 401) {
+								String message = e.getCause().getMessage();
+								if(field1.getText().equals(message)) {
+									field1.error(Storage.tra(Text.PRIVATE));
+								} else {
+									field2.error(Storage.tra(Text.PRIVATE));
+								}
+							} else {
+								field1.error(Storage.tra(Text.ERROR + e.getMessage()));
+								field2.error(Storage.tra(Text.ERROR + e.getMessage()));
+							}
+						}
+					}
+				}).start();
+			}
 		}
 	}
 }
