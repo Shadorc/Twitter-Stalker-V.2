@@ -1,63 +1,61 @@
 V2.1.0 :
-	- Ajout des statistiques sur les langues des tweets
+	- Ajout d'une nouvelle statistique sur les langues des tweets
 	- Ajout de la traduction anglaise
-	- Ajout de la recherche automatique de mises à jour
-	- Amélioration de la lisibilité du partage des comparaisons
-	- Correction d'un crash si un utilisateur mentionnant/mentionné n'existait plus
-	- Corrections de bugs & diverses améliorations
+	- Ajout de la recherche automatique de mises Ã  jour
+	- AmÃ©lioration de la lisibilitÃ© des images partagÃ©es dans certains cas
+	- Correction d'un crash si un utilisateur mentionnant/mentionnÃ© n'existait plus
+	- Corrections de bugs & diverses amÃ©liorations
 	
 V2.0.1 :
-	- L'application ne se ferme plus si l'utilisateur choisit de ne pas créer de raccourcis sur le bureau
-	- Le nombre de tweets/jour se base désormais sur les derniers tweets postés et non plus la totalité des tweets
-	- "A Java Exception has occurred" a été corrigée
-	- Correction de plusieurs bugs & diverses améliorations
+	- L'application ne se ferme plus si l'utilisateur choisit de ne pas crÃ©er de raccourcis sur le bureau
+	- Le nombre de tweets/jour se base dÃ©sormais sur les derniers tweets postÃ©s et non plus la totalitÃ© des tweets
+	- "A Java Exception has occurred" a Ã©tÃ© corrigÃ©e
+	- Corrections de bugs & diverses amÃ©liorations
 
 V2.0 :
-    - Refonte intégrale de l'interface
+    - Refonte intÃ©grale de l'interface
     - Ajout des options pour des statistiques encore plus personnalisables
-    - Ajout d'une prévisualisation avant de partager
+    - Ajout d'une prÃ©visualisation avant de partager
     - Diverses corrections
 
 V1.4 :
-	- Statistiques plus précises
-	- Corrige un bug de sauvegarde sous Windows Vista
+	- Statistiques plus prÃ©cises
 	- Rajoute une liste de suggestions pour les utilisateurs
-	- Mise à jour du lien dans les tweets de partage
-	- Ajout d'une nouvelle catégorie "Personnalisation"
-	- Ajout d'une nouvelle statistique sur les applications utilisées
-	- Corrections de bugs, optimisations & améliorations graphiques
+	- Mise Ã  jour du lien dans les tweets de partage
+	- Ajout d'une nouvelle catÃ©gorie "Personnalisation"
+	- Ajout d'une nouvelle statistique sur les applications utilisÃ©es
+	- Corrige un bug de sauvegarde sous Windows Vista
+	- Corrections de bugs, optimisations & amÃ©liorations graphiques
 
 V1.3 :
-	- Suppression du bouton "Copier" suite à la correction du bug avec "Ouvrir"
+	- Suppression du bouton "Copier" suite Ã  la correction du bug avec "Ouvrir"
 	- Suppression de l'option pour inclure les tops mentions au tweet
-	- Amélioration de la prévisualisation des tops tweets
-	- Amélioration de l'encadré de la photo de profil
+	- AmÃ©lioration de la prÃ©visualisation des tops tweets
+	- AmÃ©lioration de l'encadrÃ© de la photo de profil
 	- Ajout d'un menu
-	- Ajout d'un bouton "À propos" dans le menu
-	- Ajout d'une nouvelle catégorie : la comparaison
-	- Ajout d'un bouton retour
-	- Ajout de la Twitter Money, inspiré du site http://newsfeed.time.com/2013/11/07/interactive-this-is-how-much-money-twitter-owes-you/
-	- Ajout d'une statistique sur les tweets retweetés
-	- Ajout des statistiques sur vos mentions reçues
-	- Ajout d'un GIF de chargement
-	- Corrections de bugs, optimisations & améliorations graphiques
+	- Ajout d'un bouton "Ã  propos" dans le menu
+	- Ajout d'une nouvelle catÃ©gorie "Comparaison"
+	- Ajout de la Twitter Money, inspirÃ© du site http://newsfeed.time.com/2013/11/07/interactive-this-is-how-much-money-twitter-owes-you/
+	- Ajout d'une nouvelle statistique sur les tweets retweetÃ©s
+	- Ajout d'une nouvelle statistique sur vos mentions reÃ§ues
+	- Corrections de bugs, optimisations & amÃ©liorations graphiques
 
 V1.2 :
-	- Statistiques plus précises
+	- Statistiques plus prÃ©cises
 	- Le tweet de partage est maintenant visible par tout le monde
 	- Traduction de certains textes
-	- Tweets/Jour est maintenant basé sur tous les tweets depuis la création du compte et non plus les 3200 derniers
-	- Mots/Tweets, Lettres/Mots et Lettres/Tweets ont été amélioré (les caractères spéciaux ne sont plus pris en compte)
-	- Amélioration de l'affichage de la photo de profil
-	- Ajout du bouton "Copier" au cas où "Ouvrir" ne fonctionnerait pas
-	- Ajout du clic droit dans la fenêtre de connexion pour coller le texte
+	- Tweets/Jour est maintenant basÃ© sur tous les tweets depuis la crÃ©ation du compte et non plus les 3200 derniers
+	- Mots/Tweets, Lettres/Mots et Lettres/Tweets ont Ã©tÃ© amÃ©liorÃ©s (les caractÃ¨res spÃ©ciaux ne sont plus pris en compte)
+	- AmÃ©lioration de l'affichage de la photo de profil
+	- Ajout du bouton "Copier" au cas oÃ¹ "Ouvrir" ne fonctionnerait pas
+	- Ajout du clic droit dans la fenÃªtre de connexion pour coller le texte
 	- Ajout d'une option pour inclure les tops mentions au tweet de partage
-	- Ajout des statistiques sur les tweets les plus populaires, leur prévisualisation et la possibilité d'ouvrir l'URL en cliquant dessus
-	- Corrections de bugs, optimisations & améliorations graphiques
+	- Ajout des statistiques sur les tweets les plus populaires, leur prÃ©visualisation et la possibilitÃ© d'ouvrir l'URL en cliquant dessus
+	- Corrections de bugs, optimisations & amÃ©liorations graphiques
 
 V1.1 :
-	- Statistiques plus précises
+	- Statistiques plus prÃ©cises
 	- Suppression de la fonction "Inclure les retweets"
-	- Amélioration de la fonction de partage
-	- Ajout des statistiques sur les heures
-	- Corrections de bugs, optimisations & améliorations graphiques
+	- AmÃ©lioration de la fonction de partage
+	- Ajout d'une nouvelle statistique sur les heures
+	- Corrections de bugs, optimisations & amÃ©liorations graphiques
