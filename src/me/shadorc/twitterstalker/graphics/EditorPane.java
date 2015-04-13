@@ -98,7 +98,7 @@ public class EditorPane extends JEditorPane {
 			text += "<li>" + Storage.tra("ne sait pas qu'il existe autre chose que Twitter Web") + "</li>";
 		}
 		if(stats1.getUnique(Data.TWEET_PER_DAYS).getNum() >= 200) {
-			text += "<li>" + Storage.tra("tweete énormément") + "</li>";
+			text += "<li>" + Storage.tra("tweete Ã©normÃ©ment") + "</li>";
 		}
 
 		text += "</lu>";

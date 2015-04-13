@@ -182,7 +182,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							e.printStackTrace();
 
 							if(e.getErrorCode() == 88) {
-								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("dÃ©blocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
 							} else if(e.getStatusCode() == 600) {
 								field1.error(Storage.tra(Text.NO_TWEET));
 							} else if(e.getStatusCode() == 604) {
@@ -208,8 +208,8 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							e.printStackTrace();
 
 							if(e.getErrorCode() == 88) {
-								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-								field2.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("dÃ©blocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+								field2.error(Storage.tra(Text.API_LIMIT) + Storage.tra("dÃ©blocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
 							} else if(e.getStatusCode() == 600) {
 								String message = e.getCause().getMessage();
 								if(field1.getText().equals(message)) {

@@ -19,9 +19,9 @@ public class Initialization {
 		try {
 			if((Storage.getData(Data.INSTALL) == null) && System.getProperty("os.name").startsWith("Windows")) {
 				int reply = JOptionPane.showOptionDialog(null,
-						Storage.tra("Bonjour et merci d'avoir téléchargé Twitter Stalker !"
-								+ "\nPlacez le dossier téléchargé où vous voulez puis relancer le pour créer un raccourci sur le bureau (optionnel)."
-								+ "\nVoulez-vous créer un raccourci sur le bureau maintenant ?"),
+						Storage.tra("Bonjour et merci d'avoir tÃ©lÃ©chargÃ© Twitter Stalker !"
+								+ "\nPlacez le dossier tÃ©lÃ©chargÃ© oÃ¹ vous voulez puis relancer le pour crÃ©er un raccourci sur le bureau (optionnel)."
+								+ "\nVoulez-vous crÃ©er un raccourci sur le bureau maintenant ?"),
 								Storage.tra("Installation"),
 								JOptionPane.YES_NO_CANCEL_OPTION,
 								JOptionPane.PLAIN_MESSAGE,
@@ -60,18 +60,18 @@ public class Initialization {
 			if(!version.equals(lastVersion) && Storage.getData(Data.UPDATE) == null) {
 
 				int reply = JOptionPane.showOptionDialog(null,
-						Storage.tra("Une nouvelle mise à jour est disponible") + " (" + lastVersion + ") !",
-						Storage.tra("Mise à jour"),
+						Storage.tra("Une nouvelle mise Ã  jour est disponible") + " (" + lastVersion + ") !",
+						Storage.tra("Mise Ã  jour"),
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(Frame.class.getResource("/res/IconeAppli.png")),
-						new String[] {Storage.tra("Télécharger"), Storage.tra("Ne pas télécharger"), Storage.tra("Ne plus me le rappeler")},
+						new String[] {Storage.tra("TÃ©lÃ©charger"), Storage.tra("Ne pas tÃ©lÃ©charger"), Storage.tra("Ne plus me le rappeler")},
 						"default");
 
 				//"Yes"
 				if(reply == JOptionPane.YES_OPTION) {
 					if(!Infonet.open("http://shadorc.webnode.fr/twitter-stalker/", true)) {
-						JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de l'ouverture, l'URL a été copiée dans le presse-papier."), Storage.tra("Erreur"), JOptionPane.PLAIN_MESSAGE);
+						JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de l'ouverture, l'URL a Ã©tÃ© copiÃ©e dans le presse-papier."), Storage.tra("Erreur"), JOptionPane.PLAIN_MESSAGE);
 					}
 				} 
 				//"Never"

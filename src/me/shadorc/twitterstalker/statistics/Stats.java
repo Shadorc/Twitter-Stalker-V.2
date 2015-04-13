@@ -35,7 +35,7 @@ public class Stats {
 		double lastTweet = 0;
 
 		if(tweetsToAnalyse == 0) {
-			throw new TwitterException(Storage.tra("L'utilisateur n'a posté aucun tweet"), new Exception(user.getName()), 600);
+			throw new TwitterException(Storage.tra("L'utilisateur n'a postÃ© aucun tweet"), new Exception(user.getName()), 600);
 		} else if(tweetsToAnalyse > OptionsPanel.getMaxTweetsNumber()) {
 			tweetsToAnalyse = OptionsPanel.getMaxTweetsNumber();
 		}
@@ -43,7 +43,7 @@ public class Stats {
 		if(user.isPrivate()) {
 			bu.setEnabled(true);
 			bu.setText(null);
-			throw new TwitterException(Storage.tra("L'utilisateur est protégé"), new Exception(user.getName()), 401);
+			throw new TwitterException(Storage.tra("L'utilisateur est protÃ©gÃ©"), new Exception(user.getName()), 401);
 		}
 
 		bu.setEnabled(false);
@@ -140,8 +140,8 @@ public class Stats {
 
 		stats.put(Data.MENTIONS, new StatInfo(stats.get(Data.MENTIONS).getNum(), Storage.tra("Mentions"), user));
 		stats.put(Data.RETWEET_BY_ME, new StatInfo(stats.get(Data.RETWEET_BY_ME).getNum(), Storage.tra("Retweet"), user));
-		stats.put(Data.RETWEET, new StatInfo(stats.get(Data.RETWEET).getNum(), Storage.tra("Retweetés"), user));
-		stats.put(Data.FAVORITE, new StatInfo(stats.get(Data.FAVORITE).getNum(), Storage.tra("Favorisés"), user));
+		stats.put(Data.RETWEET, new StatInfo(stats.get(Data.RETWEET).getNum(), Storage.tra("RetweetÃ©s"), user));
+		stats.put(Data.FAVORITE, new StatInfo(stats.get(Data.FAVORITE).getNum(), Storage.tra("FavorisÃ©s"), user));
 	}
 
 	private void setStats(Status status) throws TwitterException {
@@ -183,7 +183,7 @@ public class Stats {
 			for(String word : status.getText().split(" |\\\n")) {
 
 				//Delete all letters except a-z/A-Z/0-9/@/# and accents lowercase them
-				word = word.replaceAll("[^a-zA-ZÀ-ÿ0-9^@#]", "").toLowerCase();
+				word = word.replaceAll("[^a-zA-ZÃ€-Ã¿0-9^@#]", "").toLowerCase();
 
 				stats.get(Data.WORDS_COUNT).increment();
 				stats.get(Data.LETTERS).increment(word.length());

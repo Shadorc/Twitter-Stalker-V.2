@@ -76,7 +76,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		//Align the label with others options
 		JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		pane.setOpaque(false);
-		JLabel labelStats = new JLabel(Storage.tra("Statistiques à effectuer :"));
+		JLabel labelStats = new JLabel(Storage.tra("Statistiques Ã  effectuer :"));
 		labelStats.setFont(Frame.getFont("SEGOEUI.TTF", 30));
 		pane.add(labelStats);
 		options.add(pane);
@@ -97,9 +97,9 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBoxMap.put(Data.TWEETS, new CheckBoxOption("Tweets", Data.TWEETS));
 		checkBoxMap.put(Data.POPULARE, new CheckBoxOption("Populaires", Data.POPULARE));
 		checkBoxMap.put(Data.LANG, new CheckBoxOption("Langues", Data.LANG));
-		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Twittos mentionnés", Data.MENTIONS_SENT));
+		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Twittos mentionnÃ©s", Data.MENTIONS_SENT));
 		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption("Twittos mentionnant", Data.MENTIONS_RECEIVED));
-		checkBoxMap.put(Data.REPUTE, new CheckBoxOption("Renommée", Data.REPUTE));
+		checkBoxMap.put(Data.REPUTE, new CheckBoxOption("RenommÃ©e", Data.REPUTE));
 
 		for(Data data : checkBoxMap.keySet()) {
 			checkBox.add(checkBoxMap.get(data));

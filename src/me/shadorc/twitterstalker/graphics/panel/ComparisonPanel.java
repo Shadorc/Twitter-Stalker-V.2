@@ -170,7 +170,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		infosPanel.add(this.createInfoLabel(Storage.tra("Followers : ") + user.getFollowersCount()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Followings : ") + user.getFollowingCount()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Membre depuis : ") + user.getAge() + Storage.tra(" jours")));
-		infosPanel.add(this.createInfoLabel(Storage.tra("Tweets analysÈs : ") + user.getTweetsAnalysed() + "/" + user.getTweetsPosted()));
+		infosPanel.add(this.createInfoLabel(Storage.tra("Tweets analys√©s : ") + user.getTweetsAnalysed() + "/" + user.getTweetsPosted()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Nombre de tweets/jour : ") + user.getTweetsPerDay(stats)));
 		descPanel.add(infosPanel, BorderLayout.EAST);
 
@@ -196,7 +196,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(statsPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
 		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(statsPanel, stats, "Timeline", Data.PURETWEETS, Data.MENTIONS, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(statsPanel, stats, "RenommÈe", Data.FAVORITE, Data.RETWEET);
+		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(statsPanel, stats, "Renomm√©e", Data.FAVORITE, Data.RETWEET);
 		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(statsPanel, stats, "Sources", Data.SOURCE);
 		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(statsPanel, stats, "Jours", Data.DAYS);
 		if(OptionsPanel.isSelected(Data.HOURS))		EditorPane.get(statsPanel, stats, "Heures", Data.HOURS);
@@ -204,11 +204,11 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(statsPanel, stats, "Hashtags", Data.HASHTAG);
 		if(OptionsPanel.isSelected(Data.POPULARE))	EditorPane.get(statsPanel, stats, "Populaires", Data.POPULARE);
 		if(OptionsPanel.isSelected(Data.LANG))		EditorPane.get(statsPanel, stats, "Langues", Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, "Utilisateurs mentionnÈs", Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, "Utilisateurs mentionn√©s", Data.MENTIONS_SENT);
 
 		if(statsPanel.getComponents().length == 0) {
 			statsPanel.setLayout(new BorderLayout());
-			JLabel error = new JLabel(Storage.tra("Aucune statistique n'a ÈtÈ sÈlectionnÈe. DÈsolÈ, mais le bug est dans un autre ch‚teau."), JLabel.CENTER);
+			JLabel error = new JLabel(Storage.tra("Aucune statistique n'a √©t√© s√©lectionn√©e. D√©sol√©, mais le bug est dans un autre ch√¢teau."), JLabel.CENTER);
 			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
 			statsPanel.add(error, JLabel.CENTER);
 		} else {

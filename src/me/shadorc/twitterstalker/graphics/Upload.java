@@ -51,7 +51,7 @@ public class Upload {
 			this.showPreview();
 
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la capture d'écran, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la capture d'Ã©cran, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
 
 		} finally {
 			Frame.reset();
@@ -140,7 +140,7 @@ public class Upload {
 					public void run() {
 						try {
 							Frame.getTwitter().updateStatus(status);
-							info.setText(Storage.tra("Terminé"));
+							info.setText(Storage.tra("TerminÃ©"));
 						} catch (TwitterException e) {
 							info.setForeground(Color.RED);
 							info.setText(Storage.tra("Erreur") + " !" + e.getMessage());

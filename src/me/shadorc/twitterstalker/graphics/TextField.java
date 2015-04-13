@@ -25,13 +25,13 @@ public class TextField extends JTextField implements FocusListener {
 
 	public interface Text {
 		String PIN = "Veuillez entrer le code PIN";
-		String USERNAME = "Veuillez entrer l'@ du compte à analyser";
-		String COMPARISON = "Veuillez entrez l'@ d'un compte à analyser";
+		String USERNAME = "Veuillez entrer l'@ du compte Ã  analyser";
+		String COMPARISON = "Veuillez entrez l'@ d'un compte Ã  analyser";
 		String INVALID_PIN = "Merci d'entrer un code PIN valide";
 		String INVALID_USER = "Merci d'entrer un utilisateur valide";
 		String API_LIMIT = "Limite de l'API atteinte : ";
-		String NO_TWEET = "L'utilisateur n'a jamais tweeté";
-		String PRIVATE = "Le compte est privé";
+		String NO_TWEET = "L'utilisateur n'a jamais tweetÃ©";
+		String PRIVATE = "Le compte est privÃ©";
 		String ERROR = "Erreur inattendue : ";
 
 		ArrayList <String> MESSAGES = new ArrayList <String> (Arrays.asList(

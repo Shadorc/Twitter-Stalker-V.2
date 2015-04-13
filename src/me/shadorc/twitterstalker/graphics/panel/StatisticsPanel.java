@@ -98,7 +98,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		userInfosStats.add(new JLabel());
 		userInfosStats.add(new JLabel());
 
-		JLabel tweets = new JLabel(Storage.tra("Tweets analysÈs : ") + user.getTweetsAnalysed() + "/" + user.getTweetsPosted());
+		JLabel tweets = new JLabel(Storage.tra("Tweets analys√©s : ") + user.getTweetsAnalysed() + "/" + user.getTweetsPosted());
 		tweets.setForeground(Color.WHITE);
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
@@ -130,7 +130,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(textPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
 		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(textPanel, stats, "Timeline", Data.PURETWEETS, Data.MENTIONS, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(textPanel, stats, "RenommÈe", Data.FAVORITE, Data.RETWEET);
+		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(textPanel, stats, "Renomm√©e", Data.FAVORITE, Data.RETWEET);
 		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(textPanel, stats, "Sources", Data.SOURCE);
 		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(textPanel, stats, "Jours", Data.DAYS);
 		if(OptionsPanel.isSelected(Data.HOURS))		EditorPane.get(textPanel, stats, "Heures", Data.HOURS);
@@ -138,12 +138,12 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(textPanel, stats, "Hashtags", Data.HASHTAG);
 		if(OptionsPanel.isSelected(Data.POPULARE))	EditorPane.get(textPanel, stats, "Populaires", Data.POPULARE);
 		if(OptionsPanel.isSelected(Data.LANG))		EditorPane.get(textPanel, stats, "Langues", Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnÈs", Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(textPanel, stats, "Utilisateurs mentionn√©s", Data.MENTIONS_SENT);
 		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnant", Data.MENTIONS_RECEIVED);
 
 		if(textPanel.getComponents().length == 0) {
 			textPanel.setLayout(new BorderLayout());
-			JLabel error = new JLabel(Storage.tra("Aucune statistique n'a ÈtÈ sÈlectionnÈe. DÈsolÈ, mais le bug est dans un autre ch‚teau."), JLabel.CENTER);
+			JLabel error = new JLabel(Storage.tra("Aucune statistique n'a √©t√© s√©lectionn√©e. D√©sol√©, mais le bug est dans un autre ch√¢teau."), JLabel.CENTER);
 			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
 			textPanel.add(error, JLabel.CENTER);
 		} else {
