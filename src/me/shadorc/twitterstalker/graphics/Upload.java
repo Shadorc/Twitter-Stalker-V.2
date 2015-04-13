@@ -30,21 +30,25 @@ import javax.swing.JPanel;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 
-public class Upload implements Runnable {
+public class Upload {
 
 	private String message;
-	private Container panel;
 	private File screen;
 
 	public Upload(String message, Container panel) {
 
 		this.message = message;
-		this.panel = panel;
 		this.screen = new File("./screen.png");
 
 		try {
-			ImageIO.write(this.paintComponent(), "png", screen);
-			new Thread(this).start();
+			BufferedImage image = this.getScreenshot(panel);
+			//TODO: Change width condition
+			if(image.getWidth() > 1000) {
+				image = this.splitImage(image);
+			}
+			image = this.addBorder(image);
+			ImageIO.write(image, "png", screen);
+			this.showPreview();
 
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la capture d'écran, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
@@ -54,15 +58,28 @@ public class Upload implements Runnable {
 		}
 	}
 
-	@Override
-	public void run() {
+	private BufferedImage splitImage(BufferedImage image) {
+
+		BufferedImage image1 = image.getSubimage(0, 0, image.getWidth(), image.getHeight()/2);
+		BufferedImage image2 = image.getSubimage(0, image1.getHeight(), image.getWidth(), image.getHeight()/2);
+
+		BufferedImage img = new BufferedImage(image1.getWidth() + image2.getWidth(), Math.max(image1.getHeight(), image2.getHeight()), BufferedImage.TYPE_INT_RGB);
+
+		Graphics2D g = img.createGraphics();
+		g.drawImage(image1, 0, 0, null);
+		g.drawImage(image2, image1.getWidth(), 0, null);
+		g.dispose();
+
+		return img;
+	}
+
+	private void showPreview() {
 		final StatusUpdate status = new StatusUpdate("Twitter Stalker [http://lc.cx/TSDL] : " +  message + ".");
 		status.setMedia(screen);
 
 		ImageIcon preview = new ImageIcon(screen.getPath());
 		//-1 : conserv aspect ratio
 		preview = new ImageIcon(preview.getImage().getScaledInstance(preview.getIconWidth()/3, -1, Image.SCALE_SMOOTH));
-
 		JFrame frame = new JFrame(Storage.tra("Partager"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -147,7 +164,7 @@ public class Upload implements Runnable {
 		frame.setVisible(true);
 	}
 
-	private BufferedImage createBorder(BufferedImage bufferedImage) {
+	private BufferedImage addBorder(BufferedImage bufferedImage) {
 		int borderWidth = 2;
 		BufferedImage bi = new BufferedImage(bufferedImage.getWidth(null) + 2 * borderWidth, bufferedImage.getHeight(null) + 2 * borderWidth, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = bi.createGraphics();
@@ -159,7 +176,7 @@ public class Upload implements Runnable {
 		return bi;
 	}
 
-	private BufferedImage paintComponent() {
+	private BufferedImage getScreenshot(Container panel) {
 		Dimension size = new Dimension((int) panel.getPreferredSize().getWidth() + 50, (int) panel.getPreferredSize().getHeight()+10);
 		panel.setSize(size);
 
@@ -167,11 +184,17 @@ public class Upload implements Runnable {
 
 		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
 
+		//Remove buttons panel
+		panel.getComponent(2).setVisible(false);
+
 		CellRendererPane crp = new CellRendererPane();
 		crp.add(panel);
 		crp.paintComponent(img.createGraphics(), panel, crp, panel.getBounds());
 
-		return this.createBorder(img.getSubimage(0, 0, (int) size.getWidth(), (int) size.getHeight()-66));
+		//Add buttons panel
+		panel.getComponent(2).setVisible(true);
+
+		return img;
 	}
 
 	private void layoutComponent(Component c) {

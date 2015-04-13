@@ -2,6 +2,7 @@ V2.1.0 :
 	- Ajout des statistiques sur les langues des tweets
 	- Ajout de la traduction anglaise
 	- Ajout de la recherche automatique de mises à jour
+	- Amélioration de la lisibilité du partage des comparaisons
 	- Correction d'un crash si un utilisateur mentionnant/mentionné n'existait plus
 	- Corrections de bugs & diverses améliorations
 	
