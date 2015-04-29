@@ -81,6 +81,7 @@ public class Stats {
 
 				//Last tweet in day
 				lastTweet = (new Date().getTime() - status.getCreatedAt().getTime()) / 86400000;
+				if(lastTweet == 0) lastTweet = 1;
 
 				user.incremenAnalyzedTweets();
 				this.setStats(status);
