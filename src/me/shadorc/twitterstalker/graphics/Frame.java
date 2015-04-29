@@ -174,12 +174,12 @@ public class Frame extends JFrame {
 		return twitter;
 	}
 
-	public static Font getFont(String name, float size) {
+	public static Font getFont(String name, int size) {
 		Font font;
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, Frame.class.getResourceAsStream("/res/" + name)).deriveFont(Font.PLAIN, size);
 		} catch (FontFormatException | IOException e) {
-			font = new Font("Consolas", Font.PLAIN, (int) size);
+			font = new Font("Consolas", Font.PLAIN, size);
 		}
 		return font;
 	}

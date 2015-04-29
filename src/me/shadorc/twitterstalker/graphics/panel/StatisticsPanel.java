@@ -60,7 +60,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JPanel userInfos = new JPanel(new GridLayout(0, 3));
 		userInfos.setOpaque(false);
 
-		Font font = Frame.getFont("RobotoCondensed-Regular.ttf", 40.15f);
+		Font font = Frame.getFont("RobotoCondensed-Regular.ttf", 40);
 
 		JPanel labelsPane = new JPanel(new GridLayout(2, 0));
 		labelsPane.setOpaque(false);
@@ -79,17 +79,18 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		JLabel image = user.getProfileImage();
 		image.setHorizontalAlignment(JLabel.CENTER);
-		image.setFont(font);
 		userInfos.add(image);
+
+		font = font.deriveFont(72f);
 
 		JLabel username = new JLabel("@" + user.getName(), JLabel.LEFT);
 		username.setForeground(Color.WHITE);
-		username.setFont(font.deriveFont(72f));
+		username.setFont(font);
 		userInfos.add(username);
 
 		top.add(userInfos, BorderLayout.CENTER);
 
-		font = Frame.getFont("RobotoCondensed-Regular.ttf", 14.68f);
+		font = font.deriveFont(16f);
 
 		JPanel userInfosStats = new JPanel(new GridLayout(0, 5));
 		userInfosStats.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));

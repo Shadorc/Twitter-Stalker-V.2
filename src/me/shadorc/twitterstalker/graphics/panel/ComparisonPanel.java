@@ -157,7 +157,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		descPanel.add(user.getProfileImage(), BorderLayout.WEST);
 		JLabel name = new JLabel("@" + user.getName());
 		name.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-		name.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 40f));
+		name.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 40));
 		name.setForeground(Color.WHITE);
 		descPanel.add(name, BorderLayout.CENTER);
 
@@ -179,7 +179,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 	private JLabel createInfoLabel(String infos) {
 		JLabel tweetsPerDay = new JLabel(infos);
-		tweetsPerDay.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 15f));
+		tweetsPerDay.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 16));
 		tweetsPerDay.setForeground(Color.WHITE);
 		return tweetsPerDay;
 	}
