@@ -40,7 +40,7 @@ public class Stats {
 			tweetsToAnalyse = OptionsPanel.getMaxTweetsNumber();
 		}
 
-		if(user.isPrivate()) {
+		if(user.isPrivate() && !user.getName().equals(Frame.getTwitter().getScreenName())) {
 			bu.setEnabled(true);
 			bu.setText(null);
 			throw new TwitterException(Storage.tra("L'utilisateur est protégé"), new Exception(user.getName()), 401);
