@@ -140,7 +140,11 @@ public class Storage {
 			String line;
 			while((line = reader.readLine()) != null) {
 				if(original.equals(line.replaceAll("\"", ""))) {
-					return reader.readLine().replaceAll("\"", "");
+					if((line = reader.readLine()) != null) {
+						return line.replaceAll("\"", "");
+					} else {
+						return original;
+					}
 				}
 			}
 
