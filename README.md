@@ -5,4 +5,4 @@ Twitter Stalker is a simple application allowing you to get many statistics and 
 http://shadorc.webnode.fr/twitter-stalker/
 
 Any suggestions ?
-Twitter : @Shad0rc
+<br>Twitter : @Shad0rc
