@@ -106,7 +106,7 @@ public class Stats {
 
 		if(user.getName().equals(Frame.getTwitter().getScreenName())) {
 			for(int i = 1; user.getMentionsAnalysed() < OptionsPanel.getMaxMentionsNumber(); i++) {
-				//If infinite loop, stop it.
+
 				secure = user.getMentionsAnalysed();
 
 				try {
@@ -124,8 +124,8 @@ public class Stats {
 					break;
 				}
 
-				if(secure == user.getMentionsAnalysed()) {
-					System.err.println("ARRET D'URGENCE LOLILOL L'API TWITTER : Mentions");
+				//User has never tweeted mentions or tweeted fewer than 150 mentions
+				if(secure == user.getMentionsAnalysed() || user.getMentionsAnalysed() < 150) {
 					break;
 				}
 			}
