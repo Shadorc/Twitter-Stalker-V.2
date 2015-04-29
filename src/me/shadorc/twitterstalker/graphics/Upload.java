@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,6 +43,7 @@ public class Upload {
 
 		try {
 			BufferedImage image = this.getScreenshot(panel);
+			System.err.println("Taille de la fenêtre : " + image.getWidth());
 			//TODO: Change width condition
 			if(image.getWidth() > 1000) {
 				image = this.splitImage(image);
@@ -56,21 +58,6 @@ public class Upload {
 		} finally {
 			Frame.reset();
 		}
-	}
-
-	private BufferedImage splitImage(BufferedImage image) {
-
-		BufferedImage image1 = image.getSubimage(0, 0, image.getWidth(), image.getHeight()/2);
-		BufferedImage image2 = image.getSubimage(0, image1.getHeight(), image.getWidth(), image.getHeight()/2);
-
-		BufferedImage img = new BufferedImage(image1.getWidth() + image2.getWidth(), Math.max(image1.getHeight(), image2.getHeight()), BufferedImage.TYPE_INT_RGB);
-
-		Graphics2D g = img.createGraphics();
-		g.drawImage(image1, 0, 0, null);
-		g.drawImage(image2, image1.getWidth(), 0, null);
-		g.dispose();
-
-		return img;
 	}
 
 	private void showPreview() {
@@ -100,8 +87,7 @@ public class Upload {
 		text.setFont(Frame.getFont("SEGOEUI.TTF", 25));
 		panel.add(text, BorderLayout.CENTER);
 
-		final JPanel buttonsPanel = new JPanel(new BorderLayout());
-		buttonsPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+		final JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
 		buttonsPanel.setOpaque(false);
 
 		final JButton tweet = new JButton(Storage.tra("Tweeter"));
@@ -133,7 +119,9 @@ public class Upload {
 			public void actionPerformed(ActionEvent event) {
 				buttonsPanel.remove(tweet);
 				info.setText(Storage.tra("Chargement..."));
-				buttonsPanel.add(info, BorderLayout.CENTER);
+				buttonsPanel.removeAll();
+				buttonsPanel.add(new JLabel());
+				buttonsPanel.add(info);
 				buttonsPanel.revalidate();
 				new Thread(new Runnable() {
 					@Override
@@ -152,7 +140,8 @@ public class Upload {
 				}).start();
 			}
 		});
-		buttonsPanel.add(tweet, BorderLayout.CENTER);
+		buttonsPanel.add(new JLabel());
+		buttonsPanel.add(tweet);
 
 		panel.add(buttonsPanel, BorderLayout.PAGE_END);
 
@@ -162,18 +151,6 @@ public class Upload {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
-	}
-
-	private BufferedImage addBorder(BufferedImage bufferedImage) {
-		int borderWidth = 2;
-		BufferedImage bi = new BufferedImage(bufferedImage.getWidth(null) + 2 * borderWidth, bufferedImage.getHeight(null) + 2 * borderWidth, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = bi.createGraphics();
-		g.setColor(Color.BLACK);
-		g.drawImage(bufferedImage, borderWidth, borderWidth, null);
-		g.drawRect(0, 0, bi.getWidth(), bi.getHeight());
-		g.dispose();
-
-		return bi;
 	}
 
 	private BufferedImage getScreenshot(Container panel) {
@@ -206,5 +183,35 @@ public class Upload {
 				}
 			}
 		}
+	}
+
+	private BufferedImage splitImage(BufferedImage image) {
+
+		BufferedImage image1 = image.getSubimage(0, 0, image.getWidth(), image.getHeight()/2);
+		BufferedImage image2 = image.getSubimage(0, image1.getHeight(), image.getWidth(), image.getHeight()/2);
+
+		//Border between two images
+		int borderSize = 1;
+
+		BufferedImage img = new BufferedImage(image1.getWidth() + image2.getWidth() + borderSize, Math.max(image1.getHeight(), image2.getHeight()), BufferedImage.TYPE_INT_RGB);
+
+		Graphics2D g = img.createGraphics();
+		g.drawImage(image1, 0, 0, null);
+		g.drawImage(image2, image1.getWidth() + borderSize, 0, null);
+		g.dispose();
+
+		return img;
+	}
+
+	private BufferedImage addBorder(BufferedImage bufferedImage) {
+		int borderWidth = 2;
+		BufferedImage bi = new BufferedImage(bufferedImage.getWidth(null) + 2 * borderWidth, bufferedImage.getHeight(null) + 2 * borderWidth, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = bi.createGraphics();
+		g.setColor(Color.BLACK);
+		g.drawImage(bufferedImage, borderWidth, borderWidth, null);
+		g.drawRect(0, 0, bi.getWidth(), bi.getHeight());
+		g.dispose();
+
+		return bi;
 	}
 }
