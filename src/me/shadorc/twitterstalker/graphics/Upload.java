@@ -17,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -43,10 +44,8 @@ public class Upload {
 
 		try {
 			BufferedImage image = this.getScreenshot(panel);
-			System.err.println("Taille de la fenêtre : " + image.getWidth());
-			//TODO: Change width condition
-			if(image.getWidth() > 1000) {
-				image = this.splitImage(image);
+			if(image.getHeight() > 2000) {
+				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/2000.0));
 			}
 			image = this.addBorder(image);
 			ImageIO.write(image, "png", screen);
@@ -185,19 +184,25 @@ public class Upload {
 		}
 	}
 
-	private BufferedImage splitImage(BufferedImage image) {
+	private BufferedImage splitImage(BufferedImage image, int split) {
 
-		BufferedImage image1 = image.getSubimage(0, 0, image.getWidth(), image.getHeight()/2);
-		BufferedImage image2 = image.getSubimage(0, image1.getHeight(), image.getWidth(), image.getHeight()/2);
+		ArrayList <BufferedImage> images = new ArrayList <BufferedImage> ();
+
+		for(int i = 0; i < split; i++) {
+			int startY = (i > 0) ? (images.get(i-1).getHeight()*i) : 0;
+			images.add(image.getSubimage(0, startY, image.getWidth(), image.getHeight()/split));
+		}
 
 		//Border between two images
 		int borderSize = 1;
 
-		BufferedImage img = new BufferedImage(image1.getWidth() + image2.getWidth() + borderSize, Math.max(image1.getHeight(), image2.getHeight()), BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(image.getWidth()*split + borderSize*(split-1), image.getHeight()/split, BufferedImage.TYPE_INT_RGB);
 
 		Graphics2D g = img.createGraphics();
-		g.drawImage(image1, 0, 0, null);
-		g.drawImage(image2, image1.getWidth() + borderSize, 0, null);
+		for(int  i = 0; i < split; i++) {
+			int startX = (i > 0) ? (images.get(i-1).getWidth()*i + borderSize*i) : 0;
+			g.drawImage(images.get(i), startX, 0, null);
+		}
 		g.dispose();
 
 		return img;
