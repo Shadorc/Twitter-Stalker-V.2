@@ -44,6 +44,9 @@
 "Veuillez entrer l'@ du compte à analyser"
 "Please enter the @ of the account to analyze"
 
+"Veuillez entrer l'@ du compte de l'archive"
+"Please enter the @ of the archive's account"
+
 "Merci d'entrer un code PIN valide"
 "Please enter a valid code"
 
@@ -169,6 +172,9 @@
 
 "Comparaison"
 "Comparison"
+
+"Archive"
+"Archive"
 
 "Nombre de lettres par mot minimum : "
 "Minimum number of letters per word : "

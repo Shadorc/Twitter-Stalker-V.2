@@ -43,6 +43,9 @@
 "Veuillez entrer l'@ du compte à analyser"
 "Veuillez entrer l'@ du compte à analyser"
 
+"Veuillez entrer l'@ du compte de l'archive"
+"Veuillez entrer l'@ du compte de l'archive"
+
 "Merci d'entrer un code PIN valide"
 "Merci d'entrer un code PIN valide"
 
@@ -168,6 +171,9 @@
 
 "Comparaison"
 "Comparaison"
+
+"Archive"
+"Archive"
 
 "Nombre de lettres par mot minimum : "
 "Nombre de lettres par mot minimum : "
