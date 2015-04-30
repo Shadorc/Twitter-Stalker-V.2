@@ -73,8 +73,6 @@ public class Stats {
 		int secure = 0;
 
 		for(int i = 1; user.getTweetsAnalysed() < tweetsToAnalyse; i++) {
-			//If infinite loop, stop it.
-			secure = user.getTweetsAnalysed();
 
 			List <Status> timeline;
 			if(statusList == null) {
@@ -107,11 +105,6 @@ public class Stats {
 			double progress = (100.0 * user.getTweetsAnalysed()) / (tweetsToAnalyse);
 			if(progress > 100) progress = 100;
 			bu.setText(df.format(progress) + "%");
-
-			if(secure == user.getTweetsAnalysed()) {
-				System.err.println("ARRET D'URGENCE LOLILOL L'API TWITTER : Tweets");
-				break;
-			}
 		}
 
 		if(user.getName().equals(Frame.getTwitter().getScreenName())) {
