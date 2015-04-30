@@ -38,7 +38,7 @@
 "Veuillez entrer le code PIN"
 "Please enter the code"
 
-"Veuillez entrez l'@ d'un compte à analyser"
+"Veuillez entrer l'@ d'un compte à analyser"
 "Please enter the @ of an account to analyze"
 
 "Veuillez entrer l'@ du compte à analyser"
