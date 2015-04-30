@@ -56,8 +56,8 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 			throw new TwitterException(Storage.tra("L'utilisateur n'existe pas."), new Exception("User 2"), 604);
 		}
 
-		stats1 = new Stats(user1, button);
-		stats2 = new Stats(user2, button);
+		stats1 = new Stats(user1, button, null);
+		stats2 = new Stats(user2, button, null);
 
 		if(Stats.stop == true) return;
 

@@ -25,7 +25,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private JButton statistics, comparison, options;
+	private JButton statistics, comparison, archive, options;
 
 	public MenuPanel() {
 		super(new BorderLayout());
@@ -51,7 +51,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 		center.add(optionButtonPane, BorderLayout.WEST);
 
-		JPanel buttons = new JPanel(new GridLayout(2, 0, 50, 50));
+		JPanel buttons = new JPanel(new GridLayout(3, 0, 50, 50));
 		buttons.setOpaque(false);
 		buttons.setBorder(BorderFactory.createEmptyBorder(65, 155, 65, 155));
 
@@ -60,6 +60,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 		comparison = this.createJButton(Storage.tra("Comparaison"));
 		buttons.add(comparison);
+
+		archive = this.createJButton(Storage.tra("Archive"));
+		buttons.add(archive);
 
 		center.add(buttons, BorderLayout.CENTER);
 
@@ -105,6 +108,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
 		} else if(e.getSource() == comparison) {
 			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.COMPARISON)));
+		} else if(e.getSource() == archive) {
+			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.ARCHIVE)));
 		} else if(e.getSource() == options) {
 			Frame.setPanel(new OptionsPanel());
 		}

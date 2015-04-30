@@ -26,7 +26,7 @@ public class Stats {
 	private HashMap <Data, StatInfo> stats;
 	private DecimalFormat df;
 
-	public Stats(TwitterUser user, JButton bu) throws TwitterException {
+	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
 		stop = false;
 		stats = new HashMap <> ();
 		df = new DecimalFormat("#.#");
@@ -36,6 +36,8 @@ public class Stats {
 
 		if(tweetsToAnalyse == 0) {
 			throw new TwitterException(Storage.tra("L'utilisateur n'a posté aucun tweet"), new Exception(user.getName()), 600);
+		} else if(statusList != null) {
+			tweetsToAnalyse = statusList.size();
 		} else if(tweetsToAnalyse > OptionsPanel.getMaxTweetsNumber()) {
 			tweetsToAnalyse = OptionsPanel.getMaxTweetsNumber();
 		}
@@ -73,7 +75,14 @@ public class Stats {
 			//If infinite loop, stop it.
 			secure = user.getTweetsAnalysed();
 
-			for(Status status : Frame.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200))) {
+			List <Status> timeline;
+			if(statusList == null) {
+				timeline = Frame.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200));
+			} else {
+				timeline = statusList;
+			}
+
+			for(Status status : timeline) {
 
 				if(stop) {
 					return;
@@ -167,10 +176,12 @@ public class Stats {
 			//Regex removes HTML tag
 			stats.get(Data.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
 
-			//Lang is two-letter iso language code
-			String lang = new Locale(status.getLang()).getDisplayLanguage(OptionsPanel.getLocaleLang());
-			String capLang = lang.substring(0, 1).toUpperCase() + lang.substring(1);
-			stats.get(Data.LANG).add(capLang);
+			try {
+				//Lang is two-letter iso language code
+				String lang = new Locale(status.getLang()).getDisplayLanguage(OptionsPanel.getLocaleLang());
+				String capLang = lang.substring(0, 1).toUpperCase() + lang.substring(1);
+				stats.get(Data.LANG).add(capLang);
+			} catch(NullPointerException ignore) {	}
 
 			//Get day and add capitalize
 			String day = new SimpleDateFormat("EEEE", OptionsPanel.getLocaleLang()).format(status.getCreatedAt());

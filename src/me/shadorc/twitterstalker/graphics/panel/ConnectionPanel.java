@@ -10,22 +10,36 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
-import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.TextField;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.Stats;
+import twitter4j.JSONArray;
+import twitter4j.JSONException;
+import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.TwitterObjectFactory;
 
 public class ConnectionPanel extends JPanel implements ActionListener, KeyListener {
 
@@ -64,7 +78,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		JPanel fieldPane = new JPanel();
 		fieldPane.setOpaque(false);
 
-		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.PIN))) {
+		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.PIN)) || text.equals(Storage.tra(Text.ARCHIVE))) {
 			fieldPane.setLayout(new BorderLayout());
 			fieldPane.setBorder(BorderFactory.createEmptyBorder(110, 50, 0, 50));
 
@@ -101,7 +115,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		JPanel bottomPanel = new JPanel(new BorderLayout());
 		bottomPanel.setOpaque(false);
 
-		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.COMPARISON))) {
+		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.COMPARISON)) || text.equals(Storage.tra(Text.ARCHIVE))) {
 			back = new Button("Retour", new int[] {95, 10, 0, 0}, true, this);
 			bottomPanel.add(back, BorderLayout.WEST);
 		} else {
@@ -175,7 +189,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					@Override
 					public void run() {
 						try {
-							statsPanel = new StatisticsPanel(field1.getText().replaceAll("@", ""), search);
+							statsPanel = new StatisticsPanel(field1.getUserName(), search, null);
 							if(Stats.stop == true) return;
 							Frame.setPanel(statsPanel);
 						} catch (TwitterException e) {
@@ -238,6 +252,69 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						}
 					}
 				}).start();
+
+			} else if(text.equals(Storage.tra(Text.ARCHIVE))) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home"), "Desktop"));
+							chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+							File file = null;
+							if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+								file = new File(chooser.getSelectedFile().getPath() + "/data/js/tweets");
+							}
+
+							List <Status> statusList = new ArrayList <Status> ();
+
+							ArrayList <File> jsonFiles = new ArrayList <File> (Arrays.asList(file.listFiles()));
+
+							search.setEnabled(false);
+							for(File f : jsonFiles) {
+								search.setText(new DecimalFormat("#.#").format((jsonFiles.indexOf(f)+1.0)*100.0/jsonFiles.size()) + "%");
+								try {
+									//Read all file
+									String text = new String(Files.readAllBytes(Paths.get(f.getPath())), StandardCharsets.UTF_8);
+									//Remove useless first line to get only JSON
+									text = text.substring(text.indexOf("["));
+
+									//Create an array with all SJON object in the file
+									JSONArray json = new JSONArray(text);
+
+									//Iterate the whole array of JSON objects
+									for(int i = 0; i < json.length(); i++) {
+										try {
+											statusList.add(TwitterObjectFactory.createStatus(json.getJSONObject(i).toString()));
+										} catch (TwitterException | JSONException e) {
+											e.printStackTrace();
+										}
+									}
+								} catch (IOException | JSONException e) {
+									e.printStackTrace();
+								}
+							}
+							statsPanel = new StatisticsPanel(field1.getUserName(), search, statusList);
+							if(Stats.stop == true) return;
+							Frame.setPanel(statsPanel);
+						} catch (TwitterException e) {
+							e.printStackTrace();
+
+							if(e.getErrorCode() == 88) {
+								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							} else if(e.getStatusCode() == 600) {
+								field1.error(Storage.tra(Text.NO_TWEET));
+							} else if(e.getStatusCode() == 604) {
+								field1.error(Storage.tra(Text.INVALID_USER));
+							} else if(e.getStatusCode() == 401) {
+								field1.error(Storage.tra(Text.PRIVATE));
+							} else {
+								field1.error(Storage.tra(Text.ERROR) + " " + e.getMessage());
+							}
+						}
+					}
+				}).start();
+
 			}
 		}
 	}
