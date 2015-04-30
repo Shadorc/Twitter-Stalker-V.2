@@ -32,7 +32,8 @@ public class Stats {
 		df = new DecimalFormat("#.#");
 
 		int tweetsToAnalyse = user.getTweetsPosted();
-		double lastTweet = 0;
+		double timeTweet = 1;
+		double timeFirstTweet = 1;
 
 		if(tweetsToAnalyse == 0) {
 			throw new TwitterException(Storage.tra("L'utilisateur n'a posté aucun tweet"), new Exception(user.getName()), 600);
@@ -88,9 +89,9 @@ public class Stats {
 					return;
 				}
 
-				//Last tweet in day
-				lastTweet = (new Date().getTime() - status.getCreatedAt().getTime()) / 86400000;
-				if(lastTweet == 0) lastTweet = 1;
+				//Number of days since this tweet was posted
+				timeTweet = (new Date().getTime() - status.getCreatedAt().getTime()) / 86400000;
+				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
 
 				user.incremenAnalyzedTweets();
 				this.setStats(status);
@@ -140,7 +141,7 @@ public class Stats {
 			}
 		}
 
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalysed() / lastTweet), "tweets par jour"));
+		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalysed() / timeFirstTweet), "tweets par jour"));
 		stats.put(Data.WORDS_PER_TWEET, new StatInfo((stats.get(Data.WORDS_COUNT).getNum() / user.getTweetsAnalysed()), "mots par tweet"));
 		stats.put(Data.LETTERS_PER_TWEET, new StatInfo((stats.get(Data.LETTERS).getNum() / user.getTweetsAnalysed()), "lettres par tweet"));
 		stats.put(Data.LETTERS_PER_WORD, new StatInfo((stats.get(Data.LETTERS).getNum() / stats.get(Data.WORDS_COUNT).getNum()), "lettres par mot"));
