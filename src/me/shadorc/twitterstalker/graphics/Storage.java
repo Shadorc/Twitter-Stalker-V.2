@@ -51,7 +51,9 @@ public class Storage {
 		TWEET_PER_DAYS,
 		WORDS_PER_TWEET,
 		LETTERS_PER_TWEET,
-		PURETWEETS;
+		PURETWEETS,
+		MEDIA,
+		URL;
 	}
 
 	public static String getData(Data data) {

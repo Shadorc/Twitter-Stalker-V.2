@@ -69,6 +69,8 @@ public class Stats {
 		stats.put(Data.DAYS, new StatInfo());
 		stats.put(Data.HOURS, new StatInfo());
 		stats.put(Data.SOURCE, new StatInfo());
+		stats.put(Data.MEDIA, new StatInfo());
+		stats.put(Data.URL, new StatInfo());
 
 		int secure = 0;
 
@@ -146,6 +148,8 @@ public class Stats {
 		stats.put(Data.RETWEET_BY_ME, new StatInfo(stats.get(Data.RETWEET_BY_ME).getNum(), Storage.tra("Retweet"), user));
 		stats.put(Data.RETWEET, new StatInfo(stats.get(Data.RETWEET).getNum(), Storage.tra("Retweetés"), user));
 		stats.put(Data.FAVORITE, new StatInfo(stats.get(Data.FAVORITE).getNum(), Storage.tra("Favorisés"), user));
+		stats.put(Data.MEDIA, new StatInfo(stats.get(Data.MEDIA).getNum(), Storage.tra("Médias"), user));
+		stats.put(Data.URL, new StatInfo(stats.get(Data.URL).getNum(), Storage.tra("URL"), user));
 	}
 
 	private void setStats(Status status) throws TwitterException {
@@ -164,12 +168,19 @@ public class Stats {
 			if(status.getFavoriteCount() > 0) {
 				stats.get(Data.FAVORITE).increment();
 			}
+			if(status.getMediaEntities().length > 0) {
+				stats.get(Data.MEDIA).increment();
+			}
+			if(status.getURLEntities().length > 0) {
+				stats.get(Data.URL).increment();
+			}
 
 			stats.get(Data.POPULARE).add(new WordInfo(status));
 
 			//Regex removes HTML tag
 			stats.get(Data.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
 
+			//If it's an archive that is analyzed, lang doesn't exist and throws null
 			try {
 				//Lang is two-letter iso language code
 				String lang = new Locale(status.getLang()).getDisplayLanguage(OptionsPanel.getLocaleLang());
