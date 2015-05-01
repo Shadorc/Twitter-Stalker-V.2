@@ -72,8 +72,6 @@ public class Stats {
 		stats.put(Data.MEDIA, new StatInfo());
 		stats.put(Data.URL, new StatInfo());
 
-		int secure = 0;
-
 		for(int i = 1; user.getTweetsAnalysed() < tweetsToAnalyse; i++) {
 
 			List <Status> timeline;
@@ -112,7 +110,7 @@ public class Stats {
 		if(user.getName().equals(Frame.getTwitter().getScreenName())) {
 			for(int i = 1; user.getMentionsAnalysed() < OptionsPanel.getMaxMentionsNumber(); i++) {
 
-				secure = user.getMentionsAnalysed();
+				int secure = user.getMentionsAnalysed();
 
 				try {
 					for(Status status : Frame.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
@@ -175,7 +173,9 @@ public class Stats {
 				stats.get(Data.URL).increment();
 			}
 
-			stats.get(Data.POPULARE).add(new WordInfo(status));
+			if(status.getRetweetCount() + status.getFavoriteCount() > 0) {
+				stats.get(Data.POPULARE).add(new WordInfo(status));
+			}
 
 			//Regex removes HTML tag
 			stats.get(Data.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
@@ -199,7 +199,7 @@ public class Stats {
 			//Split spaces and line breaks ("|\\" equals "and")
 			for(String word : status.getText().split(" |\\\n")) {
 
-				//Delete all letters except a-z/A-Z/0-9/@/# and accents lowercase them
+				//Delete all letters except a-z/A-Z/0-9/@/# and accents and lowercase
 				word = word.replaceAll("[^a-zA-ZÀ-ÿ0-9^@#]", "").toLowerCase();
 
 				stats.get(Data.WORDS_COUNT).increment();
