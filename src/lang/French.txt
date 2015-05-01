@@ -43,14 +43,17 @@
 "Veuillez entrer l'@ du compte à analyser"
 "Veuillez entrer l'@ du compte à analyser"
 
-"Veuillez entrer l'@ du compte de l'archive"
-"Veuillez entrer l'@ du compte de l'archive"
+"Veuillez séléctionner l'archive à analyser"
+"Veuillez séléctionner l'archive à analyser"
 
 "Merci d'entrer un code PIN valide"
 "Merci d'entrer un code PIN valide"
 
 "Merci d'entrer un utilisateur valide"
 "Merci d'entrer un utilisateur valide"
+
+"Merci de choisir une archive valide"
+"Merci de choisir une archive valide"
 
 "Limite de l'API atteinte : "
 "Limite de l'API atteinte : "
