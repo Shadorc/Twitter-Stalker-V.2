@@ -6,10 +6,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -48,6 +50,9 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 	private TextField field1, field2;
 	private JButton search, back;
 	private String text;
+
+	private File file;
+	private List <Status> statusList;
 
 	private StatisticsPanel statsPanel;
 	private ComparisonPanel comparePanel;
@@ -145,6 +150,78 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		labelsPanel.add(programming);
 		bottomPanel.add(labelsPanel, BorderLayout.EAST);
 		this.add(bottomPanel);
+
+		if(text.equals(Storage.tra(Text.ARCHIVE))) {
+			this.setArchive();
+		}
+	}
+
+	private void setArchive() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				field1.setEditable(false);
+				for(FocusListener li : field1.getFocusListeners()) {
+					field1.removeFocusListener(li);
+				}
+				for(MouseListener li : field1.getMouseListeners()) {
+					field1.removeMouseListener(li);
+				}
+
+				while(file == null || !file.exists()) {
+					JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home"), "Desktop"));
+					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+					int choice = chooser.showOpenDialog(null);
+
+					if(choice == JFileChooser.APPROVE_OPTION) {
+						file = new File(chooser.getSelectedFile().getPath() + "/data/js/tweets");
+					} else if(choice == JFileChooser.CANCEL_OPTION) {
+						Frame.setPanel(new MenuPanel());
+						return;
+					}
+
+					if(!file.exists()) {
+						field1.error(Text.INVALID_ARCHIVE);
+					}
+				}
+				
+				field1.setForeground(Color.WHITE);
+				field1.setText(Storage.tra("Chargement des tweets..."));
+
+				statusList = new ArrayList <Status> ();
+
+				ArrayList <File> jsonFiles = new ArrayList <File> (Arrays.asList(file.listFiles()));
+
+				search.setEnabled(false);
+				for(File f : jsonFiles) {
+					search.setText(new DecimalFormat("#.#").format((jsonFiles.indexOf(f)+1.0)*100.0/jsonFiles.size()) + "%");
+					try {
+						//Read all file
+						String file = new String(Files.readAllBytes(Paths.get(f.getPath())), StandardCharsets.UTF_8);
+						//Remove useless first line to get only JSON
+						file = file.substring(file.indexOf("["));
+
+						//Create an array with all SJON object in the file
+						JSONArray json = new JSONArray(file);
+
+						//Iterate the whole array of JSON objects
+						for(int i = 0; i < json.length(); i++) {
+							try {
+								statusList.add(TwitterObjectFactory.createStatus(json.getJSONObject(i).toString()));
+							} catch (TwitterException | JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					} catch (IOException | JSONException e) {
+						e.printStackTrace();
+					}
+				}
+
+				field1.setText(statusList.get(0).getUser().getScreenName());
+				valid();
+			}
+		}).start();
 	}
 
 	public void invalidPin() {
@@ -175,7 +252,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 	public void keyTyped(KeyEvent e) { }
 
 	private void valid() {
-		if(search.isEnabled()) {
+		if(search.isEnabled() || text.equals(Storage.tra(Text.ARCHIVE))) {
 			if(text.equals(Storage.tra(Text.PIN))) {
 				//If field contains only numbers and the pin is more than 6 characters
 				if(field1.isValidPin()) {
@@ -258,42 +335,6 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					@Override
 					public void run() {
 						try {
-							JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home"), "Desktop"));
-							chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-							File file = null;
-							if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-								file = new File(chooser.getSelectedFile().getPath() + "/data/js/tweets");
-							}
-
-							List <Status> statusList = new ArrayList <Status> ();
-
-							ArrayList <File> jsonFiles = new ArrayList <File> (Arrays.asList(file.listFiles()));
-
-							search.setEnabled(false);
-							for(File f : jsonFiles) {
-								search.setText(new DecimalFormat("#.#").format((jsonFiles.indexOf(f)+1.0)*100.0/jsonFiles.size()) + "%");
-								try {
-									//Read all file
-									String text = new String(Files.readAllBytes(Paths.get(f.getPath())), StandardCharsets.UTF_8);
-									//Remove useless first line to get only JSON
-									text = text.substring(text.indexOf("["));
-
-									//Create an array with all SJON object in the file
-									JSONArray json = new JSONArray(text);
-
-									//Iterate the whole array of JSON objects
-									for(int i = 0; i < json.length(); i++) {
-										try {
-											statusList.add(TwitterObjectFactory.createStatus(json.getJSONObject(i).toString()));
-										} catch (TwitterException | JSONException e) {
-											e.printStackTrace();
-										}
-									}
-								} catch (IOException | JSONException e) {
-									e.printStackTrace();
-								}
-							}
 							statsPanel = new StatisticsPanel(field1.getUserName(), search, statusList);
 							if(Stats.stop == true) return;
 							Frame.setPanel(statsPanel);
@@ -314,7 +355,6 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						}
 					}
 				}).start();
-
 			}
 		}
 	}

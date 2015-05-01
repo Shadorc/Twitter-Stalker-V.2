@@ -37,6 +37,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 	private JPanel textPanel;
 	private TwitterUser user;
 	private Stats stats;
+	private boolean isArchive;
 
 	StatisticsPanel(String name, JButton button, List <Status> statusList) throws TwitterException {
 		super(new BorderLayout());
@@ -44,9 +45,10 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		try {
 			user = new TwitterUser(name);
 		} catch (TwitterException e) {
-			e.printStackTrace();
 			throw new TwitterException(Storage.tra("L'utilisateur n'existe pas."), new Exception(name), 604);
 		}
+
+		isArchive = (statusList != null);
 
 		stats = new Stats(user, button, statusList);
 
@@ -134,14 +136,14 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(textPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
 		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(textPanel, stats, "Timeline", Data.PURETWEETS, Data.MENTIONS, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE) && statusList == null)		EditorPane.get(textPanel, stats, "Renommée", Data.FAVORITE, Data.RETWEET);
+		if(OptionsPanel.isSelected(Data.REPUTE) && !isArchive)		EditorPane.get(textPanel, stats, "Renommée", Data.FAVORITE, Data.RETWEET);
 		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(textPanel, stats, "Sources", Data.SOURCE);
 		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(textPanel, stats, "Jours", Data.DAYS);
 		if(OptionsPanel.isSelected(Data.HOURS))		EditorPane.get(textPanel, stats, "Heures", Data.HOURS);
 		if(OptionsPanel.isSelected(Data.WORDS))		EditorPane.get(textPanel, stats, "Mots", Data.WORDS);
 		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(textPanel, stats, "Hashtags", Data.HASHTAG);
-		if(OptionsPanel.isSelected(Data.POPULARE) && statusList == null)	EditorPane.get(textPanel, stats, "Populaires", Data.POPULARE);
-		if(OptionsPanel.isSelected(Data.LANG) && statusList == null)		EditorPane.get(textPanel, stats, "Langues", Data.LANG);
+		if(OptionsPanel.isSelected(Data.POPULARE) && !isArchive)	EditorPane.get(textPanel, stats, "Populaires", Data.POPULARE);
+		if(OptionsPanel.isSelected(Data.LANG) && !isArchive)		EditorPane.get(textPanel, stats, "Langues", Data.LANG);
 		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnés", Data.MENTIONS_SENT);
 		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnant", Data.MENTIONS_RECEIVED);
 
@@ -178,7 +180,11 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JButton bu = (JButton) e.getSource();
 
 		if(bu == back) {
-			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
+			if(isArchive) {
+				Frame.setPanel(new MenuPanel());
+			} else {
+				Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
+			}
 		} else if(bu == upload) {
 			Frame.upload("@" + user.getName() + "'s stats");
 		}

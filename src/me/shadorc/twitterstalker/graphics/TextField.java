@@ -27,16 +27,17 @@ public class TextField extends JTextField implements FocusListener {
 		String PIN = "Veuillez entrer le code PIN";
 		String USERNAME = "Veuillez entrer l'@ du compte à analyser";
 		String COMPARISON = "Veuillez entrer l'@ d'un compte à analyser";
-		String ARCHIVE = "Veuillez entrer l'@ du compte de l'archive";
+		String ARCHIVE = "Veuillez séléctionner l'archive à analyser";
 		String INVALID_PIN = "Merci d'entrer un code PIN valide";
 		String INVALID_USER = "Merci d'entrer un utilisateur valide";
+		String INVALID_ARCHIVE = "Merci de choisir une archive valide";
 		String API_LIMIT = "Limite de l'API atteinte : ";
 		String NO_TWEET = "L'utilisateur n'a jamais tweeté";
 		String PRIVATE = "Le compte est privé";
 		String ERROR = "Erreur inattendue : ";
 
 		ArrayList <String> MESSAGES = new ArrayList <String> (Arrays.asList(
-				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, API_LIMIT, NO_TWEET, PRIVATE, ERROR}));
+				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, INVALID_ARCHIVE, API_LIMIT, NO_TWEET, PRIVATE, ERROR}));
 	}
 
 	public TextField(String text, Font font) {
