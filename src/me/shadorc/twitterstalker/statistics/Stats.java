@@ -15,6 +15,7 @@ import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.HashtagEntity;
 import twitter4j.Paging;
+import twitter4j.RateLimitStatus;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.UserMentionEntity;
@@ -77,6 +78,9 @@ public class Stats {
 
 		for(int i = 1; user.getTweetsAnalysed() < tweetsToAnalyse; i++) {
 
+			RateLimitStatus rls = Frame.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
+			System.out.println("User timeline : " + rls.getRemaining() + " / " + rls.getLimit() + ", réinitialisation dans " + (rls.getSecondsUntilReset()/60) + "min " + (int) ((rls.getSecondsUntilReset()/60f - (int) (rls.getSecondsUntilReset()/60f))*60) + "s");
+
 			List <Status> timeline;
 			if(statusList == null) {
 				timeline = Frame.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200));
@@ -115,6 +119,9 @@ public class Stats {
 			for(int i = 1; user.getMentionsAnalysed() < OptionsPanel.getMaxMentionsNumber(); i++) {
 
 				int secure = user.getMentionsAnalysed();
+
+				RateLimitStatus rls = Frame.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
+				System.out.println("Mentions timeline : " + rls.getRemaining() + " / " + rls.getLimit() + ", réinitialisation dans " + (rls.getSecondsUntilReset()/60) + "min " + (int) ((rls.getSecondsUntilReset()/60f - (int) (rls.getSecondsUntilReset()/60f))*60) + "s");
 
 				try {
 					for(Status status : Frame.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
