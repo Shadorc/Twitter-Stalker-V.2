@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class StatInfo {
 		num++;
 	}
 
-	public void increment(int num) {
+	public void increment(long num) {
 		this.num += num;
 	}
 
@@ -64,6 +65,15 @@ public class StatInfo {
 		map.put(Long.toString(status.getId()), status);
 	}
 
+	public void add(String name, Date date) {
+		if(map.containsKey(name) && new Date((long) this.getNum()).after(date)) {
+			map.get(name).setNum(date.getTime());
+		} else if(!map.containsKey(name)) {
+			this.add(name);
+			map.get(name).setNum(date.getTime());
+		}
+	}
+
 	public List <WordInfo> sort() {
 
 		List <WordInfo> list = new ArrayList <>(map.values());
@@ -72,7 +82,7 @@ public class StatInfo {
 		Comparator <WordInfo> comparator = new Comparator <WordInfo>() {
 			@Override
 			public int compare(WordInfo w1, WordInfo w2) {
-				return Integer.compare(w1.getCount(), w2.getCount());
+				return Long.compare(w1.getCount(), w2.getCount());
 			}
 		};
 

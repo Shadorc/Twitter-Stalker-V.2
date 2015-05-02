@@ -53,7 +53,8 @@ public class Storage {
 		LETTERS_PER_TWEET,
 		PURETWEETS,
 		MEDIA,
-		URL;
+		URL,
+		FIRST_TALK;
 	}
 
 	public static String getData(Data data) {

@@ -10,7 +10,7 @@ public class WordInfo {
 
 	private Status status;
 	private String word;
-	private int count;
+	private long count;
 
 	WordInfo(String word) {
 		this.word = word;
@@ -24,6 +24,10 @@ public class WordInfo {
 
 	public void increment() {
 		count++;
+	}
+
+	public void setNum(long count) {
+		this.count = count;
 	}
 
 	public String getInfo() {
@@ -45,7 +49,7 @@ public class WordInfo {
 		return "http://twitter.com/" + status.getUser().getScreenName() + "/status/" + this.getId();
 	}
 
-	public int getCount() {
+	public long getCount() {
 		return count;
 	}
 

@@ -71,6 +71,7 @@ public class Stats {
 		stats.put(Data.SOURCE, new StatInfo());
 		stats.put(Data.MEDIA, new StatInfo());
 		stats.put(Data.URL, new StatInfo());
+		stats.put(Data.FIRST_TALK, new StatInfo());
 
 		for(int i = 1; user.getTweetsAnalysed() < tweetsToAnalyse; i++) {
 
@@ -96,6 +97,7 @@ public class Stats {
 
 				for(UserMentionEntity mention : status.getUserMentionEntities()) {
 					stats.get(Data.MENTIONS_SENT).add(mention.getScreenName());
+					stats.get(Data.FIRST_TALK).add(mention.getScreenName(), status.getCreatedAt());
 				}
 				for(HashtagEntity hashtag : status.getHashtagEntities()) {
 					stats.get(Data.HASHTAG).add("#" + hashtag.getText().toLowerCase());
