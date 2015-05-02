@@ -34,16 +34,12 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 	private JButton back, upload;
 	private JPanel statsPanel;
-	private String name1, name2;
+	private TwitterUser user1, user2;
 	private Stats stats1, stats2;
 
 	ComparisonPanel(String name1, String name2, JButton button) throws TwitterException {
 		super(new BorderLayout());
 
-		this.name1 = name1;
-		this.name2 = name2;
-
-		TwitterUser user1, user2;
 		try {
 			user1 = new TwitterUser(name1);
 		} catch (TwitterException e) {
@@ -189,9 +185,9 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		statsPanel.setOpaque(false);
 
 		if(stats == stats1) {
-			statsPanel.add(new EditorPane(stats1, stats2, name1));
+			statsPanel.add(new EditorPane(stats1, stats2, user1, user2));
 		} else {
-			statsPanel.add(new EditorPane(stats2, stats1, name2));
+			statsPanel.add(new EditorPane(stats2, stats1, user2, user1));
 		}
 
 		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(statsPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
@@ -225,7 +221,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		if(bu == back) {
 			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.COMPARISON)));
 		} else if(bu == upload) {
-			Frame.upload("Comparison between @" + name1 + " & @" + name2);
+			Frame.upload("Comparison between @" + user1.getName() + " & @" + user2.getName());
 		}
 	}
 }

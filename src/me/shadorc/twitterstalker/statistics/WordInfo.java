@@ -41,6 +41,10 @@ public class WordInfo {
 		return "<img src=" + new TwitterUser(word).getImageUrl() + " border=1 align=middle> " + " @" + this.getInfo();
 	}
 
+	public String getWord() {
+		return word;
+	}
+
 	public String getText() {
 		return status.getText();
 	}
