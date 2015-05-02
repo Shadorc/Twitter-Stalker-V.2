@@ -25,11 +25,13 @@ public class Stats {
 
 	private HashMap <Data, StatInfo> stats;
 	private DecimalFormat df;
+	private boolean isArchive;
 
 	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
 		stop = false;
 		stats = new HashMap <> ();
 		df = new DecimalFormat("#.#");
+		isArchive = (statusList != null);
 
 		int tweetsToAnalyse = user.getTweetsPosted();
 		double timeTweet = 1;
@@ -183,12 +185,12 @@ public class Stats {
 			stats.get(Data.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
 
 			//If it's an archive that is analyzed, lang doesn't exist and throws null
-			try {
+			if(!isArchive) {
 				//Lang is two-letter iso language code
 				String lang = new Locale(status.getLang()).getDisplayLanguage(OptionsPanel.getLocaleLang());
 				String capLang = lang.substring(0, 1).toUpperCase() + lang.substring(1);
 				stats.get(Data.LANG).add(capLang);
-			} catch(NullPointerException ignore) {	}
+			}
 
 			//Get day and add capitalize
 			String day = new SimpleDateFormat("EEEE", OptionsPanel.getLocaleLang()).format(status.getCreatedAt());
