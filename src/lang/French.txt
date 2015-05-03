@@ -148,6 +148,12 @@
 "Langues"
 "Langues"
 
+"URL"
+"URL"
+
+"Médias"
+"Médias"
+
 "Twittos mentionnés"
 "Twittos mentionnés"
 
@@ -264,3 +270,33 @@
 
 "Ne pas télécharger"
 "Ne pas télécharger"
+
+"tweete plus"
+"tweete plus"
+
+"retweete plus"
+"retweete plus"
+
+"est plus populaire"
+"est plus populaire"
+
+"confond le jour du seigneur et le jour du flood"
+"confond le jour du seigneur et le jour du flood"
+
+"mentionne plus"
+"mentionne plus"
+
+"poste plus d'URL"
+"poste plus d'URL"
+
+"poste plus de médias"
+"poste plus de médias"
+
+"tweete plus tard"
+"tweete plus tard"
+
+"tweete énormément"
+"tweete énormément"
+
+"ne sait pas qu'il existe autre chose que Twitter Web"
+"ne sait pas qu'il existe autre chose que Twitter Web"

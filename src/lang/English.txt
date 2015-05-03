@@ -149,6 +149,12 @@
 "Langues"
 "Languages"
 
+"URL"
+"URL"
+
+"Médias"
+"Medias"
+
 "Twittos mentionnés"
 "Mentionned users"
 
@@ -271,3 +277,27 @@
 
 "est plus populaire"
 "is more popular"
+
+"retweete plus"
+"retweets more"
+
+"confond le jour du seigneur et le jour du flood"
+"confuses the Lord's day and day of the flood"
+
+"mentionne plus"
+"mentions more"
+
+"poste plus d'URL"
+"posts more URL"
+
+"poste plus de médias"
+"posts more medias"
+
+"tweete plus tard"
+"tweets later"
+
+"tweete énormément"
+"tweets a lot"
+
+"ne sait pas qu'il existe autre chose que Twitter Web"
+"doesn't know that there's something other than Twitter Web"
