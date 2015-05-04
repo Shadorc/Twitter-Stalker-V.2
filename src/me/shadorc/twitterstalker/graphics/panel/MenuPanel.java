@@ -51,9 +51,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 		center.add(optionButtonPane, BorderLayout.WEST);
 
-		JPanel buttons = new JPanel(new GridLayout(3, 0, 50, 50));
+		JPanel buttons = new JPanel(new GridLayout(3, 0, 50, 40));
 		buttons.setOpaque(false);
-		buttons.setBorder(BorderFactory.createEmptyBorder(65, 155, 65, 155));
+		buttons.setBorder(BorderFactory.createEmptyBorder(50, 175, 90, 175));
 
 		statistics = this.createJButton(Storage.tra("Statistiques"));
 		buttons.add(statistics);
