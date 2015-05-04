@@ -1,8 +1,11 @@
 package me.shadorc.twitterstalker.graphics;
 
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -12,6 +15,7 @@ import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import me.shadorc.twitterstalker.statistics.PopularePreview;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
+import me.shadorc.twitterstalker.statistics.WordInfo;
 import twitter4j.TwitterException;
 
 public class EditorPane extends JEditorPane {
@@ -46,6 +50,11 @@ public class EditorPane extends JEditorPane {
 						}
 					} else if(type.equals(Data.POPULARE)) {
 						text += "- " + "<a href=" + stats.get(type, i).getStatusUrl() + ">" + stats.get(type, i).getInfo() + "</a>";
+					} else if(type.equals(Data.FIRST_TALK)) {
+						ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(type));
+						Collections.reverse(copy);
+						String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date(copy.get(i).getCount()));
+						text += "- " + copy.get(i).getWord() + " (" + date + ")";
 					} else {
 						text += "- " + stats.get(type, i).getInfo();
 					}

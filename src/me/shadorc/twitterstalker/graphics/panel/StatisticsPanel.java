@@ -146,6 +146,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		if(OptionsPanel.isSelected(Data.LANG) && !isArchive)		EditorPane.get(textPanel, stats, "Langues", Data.LANG);
 		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnés", Data.MENTIONS_SENT);
 		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnant", Data.MENTIONS_RECEIVED);
+		if(isArchive) EditorPane.get(textPanel, stats, "Mentions les plus anciennes", Data.FIRST_TALK);
 
 		if(textPanel.getComponents().length == 0) {
 			textPanel.setLayout(new BorderLayout());
