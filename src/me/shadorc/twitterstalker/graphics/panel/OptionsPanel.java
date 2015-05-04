@@ -90,7 +90,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBoxMap = new HashMap <> ();
 		checkBoxMap.put(Data.SOURCE, new CheckBoxOption("Applis", Data.SOURCE));
 		checkBoxMap.put(Data.HASHTAG, new CheckBoxOption("Hashtags", Data.HASHTAG));
-		checkBoxMap.put(Data.WORDS, new CheckBoxOption("Mots", Data.HASHTAG));
+		checkBoxMap.put(Data.WORDS, new CheckBoxOption("Mots", Data.WORDS));
 		checkBoxMap.put(Data.DAYS, new CheckBoxOption("Jours", Data.DAYS));
 		checkBoxMap.put(Data.HOURS, new CheckBoxOption("Heures", Data.HOURS));
 		checkBoxMap.put(Data.TIMELINE, new CheckBoxOption("Timeline", Data.TIMELINE));
