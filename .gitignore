@@ -32,4 +32,4 @@ Thumbs.db
 build/
 
 # Project Files
-data
+data.json
