@@ -185,7 +185,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						field1.error(Text.INVALID_ARCHIVE);
 					}
 				}
-				
+
 				field1.setForeground(Color.WHITE);
 				field1.setText(Storage.tra("Chargement des tweets..."));
 
@@ -210,10 +210,13 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							try {
 								statusList.add(TwitterObjectFactory.createStatus(json.getJSONObject(i).toString()));
 							} catch (TwitterException | JSONException e) {
+								field1.error(Text.ARCHIVE_ERROR);
 								e.printStackTrace();
 							}
 						}
 					} catch (IOException | JSONException e) {
+						field1.error(Text.ARCHIVE_ERROR);
+						search.setText(null);
 						e.printStackTrace();
 					}
 				}
@@ -261,32 +264,40 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					field1.error(Storage.tra(Text.INVALID_PIN));
 				}
 
-			} else if(text.equals(Storage.tra(Text.USERNAME))) {
+			} else if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.ARCHIVE))) {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
 						try {
-							statsPanel = new StatisticsPanel(field1.getUserName(), search, null);
+							statsPanel = new StatisticsPanel(field1.getUserName(), search, statusList);
 							if(Stats.stop == true) return;
 							Frame.setPanel(statsPanel);
 						} catch (TwitterException e) {
 							e.printStackTrace();
 
+							String error;
 							if(e.getErrorCode() == 88) {
-								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-							} else if(e.getStatusCode() == 600) {
-								field1.error(Storage.tra(Text.NO_TWEET));
-							} else if(e.getStatusCode() == 604) {
-								field1.error(Storage.tra(Text.INVALID_USER));
-							} else if(e.getStatusCode() == 401) {
-								field1.error(Storage.tra(Text.PRIVATE));
+								error = Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
 							} else {
-								field1.error(Storage.tra(Text.ERROR) + " " + e.getMessage());
+								switch(e.getStatusCode()) {
+									case 401:
+										error = Storage.tra(Text.PRIVATE);
+										break;
+									case 600:
+										error = Storage.tra(Text.NO_TWEET);
+										break;
+									case 604:
+										error = Storage.tra(Text.INVALID_USER);
+										break;
+									default:
+										error = Storage.tra(Text.ERROR) + " " + e.getMessage();
+										break;
+								}
 							}
+							field1.error(error);
 						}
 					}
 				}).start();
-
 			} else if(text.equals(Storage.tra(Text.COMPARISON))) {
 				new Thread(new Runnable() {
 					@Override
@@ -298,59 +309,36 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						} catch (TwitterException e) {
 							e.printStackTrace();
 
+							String message = e.getCause().getMessage();
+							String globalEr = null;
+							String error = null;
+
 							if(e.getErrorCode() == 88) {
-								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-								field2.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-							} else if(e.getStatusCode() == 600) {
-								String message = e.getCause().getMessage();
-								if(field1.getText().equals(message)) {
-									field1.error(Storage.tra(Text.NO_TWEET));
-								} else {
-									field2.error(Storage.tra(Text.NO_TWEET));
-								}
-							} else if(e.getStatusCode() == 604) {
-								String message = e.getCause().getMessage();
-								if(message.contains("1")) {
-									field1.error(Storage.tra(Text.INVALID_USER));
-								} else {
-									field2.error(Storage.tra(Text.INVALID_USER));
-								}
-							} else if(e.getStatusCode() == 401) {
-								String message = e.getCause().getMessage();
-								if(field1.getText().equals(message)) {
-									field1.error(Storage.tra(Text.PRIVATE));
-								} else {
-									field2.error(Storage.tra(Text.PRIVATE));
-								}
+								globalEr = Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
 							} else {
-								field1.error(Storage.tra(Text.ERROR + e.getMessage()));
-								field2.error(Storage.tra(Text.ERROR + e.getMessage()));
+								switch(e.getStatusCode()) {
+									case 401:
+										error = Storage.tra(Text.PRIVATE);
+										break;
+									case 600:
+										error = Storage.tra(Text.NO_TWEET);
+										break;
+									case 604:
+										error = Storage.tra(Text.INVALID_USER);
+										break;
+									default:
+										globalEr = Storage.tra(Text.ERROR) + e.getMessage();
+										break;
+								}
 							}
-						}
-					}
-				}).start();
 
-			} else if(text.equals(Storage.tra(Text.ARCHIVE))) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							statsPanel = new StatisticsPanel(field1.getUserName(), search, statusList);
-							if(Stats.stop == true) return;
-							Frame.setPanel(statsPanel);
-						} catch (TwitterException e) {
-							e.printStackTrace();
-
-							if(e.getErrorCode() == 88) {
-								field1.error(Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
-							} else if(e.getStatusCode() == 600) {
-								field1.error(Storage.tra(Text.NO_TWEET));
-							} else if(e.getStatusCode() == 604) {
-								field1.error(Storage.tra(Text.INVALID_USER));
-							} else if(e.getStatusCode() == 401) {
-								field1.error(Storage.tra(Text.PRIVATE));
+							if(globalEr != null) {
+								field1.error(globalEr);
+								field2.error(globalEr);
+							} else if(field1.getText().equals(message) || message.contains("1")) {
+								field1.error(error);
 							} else {
-								field1.error(Storage.tra(Text.ERROR) + " " + e.getMessage());
+								field2.error(error);
 							}
 						}
 					}

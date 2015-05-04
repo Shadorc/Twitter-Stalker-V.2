@@ -34,10 +34,11 @@ public class TextField extends JTextField implements FocusListener {
 		String API_LIMIT = "Limite de l'API atteinte : ";
 		String NO_TWEET = "L'utilisateur n'a jamais tweeté";
 		String PRIVATE = "Le compte est privé";
+		String ARCHIVE_ERROR = "Erreur lors du chargement de l'archive";
 		String ERROR = "Erreur inattendue : ";
 
 		ArrayList <String> MESSAGES = new ArrayList <String> (Arrays.asList(
-				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, INVALID_ARCHIVE, API_LIMIT, NO_TWEET, PRIVATE, ERROR}));
+				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, INVALID_ARCHIVE, API_LIMIT, NO_TWEET, PRIVATE, ARCHIVE_ERROR, ERROR}));
 	}
 
 	public TextField(String text, Font font) {
