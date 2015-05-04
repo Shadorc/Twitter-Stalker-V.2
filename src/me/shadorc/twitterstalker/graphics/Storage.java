@@ -60,7 +60,6 @@ public class Storage {
 		FIRST_TALK;
 	}
 
-	//FIXME: Certaines fois quand on décoche une stat et qu'on revient elle est plus décocher ou alors elle se recoche après
 	public static String getData(Data data) {
 		try {
 			if(!file.exists()) {

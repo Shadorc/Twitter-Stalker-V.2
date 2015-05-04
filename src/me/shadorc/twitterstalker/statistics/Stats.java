@@ -168,25 +168,12 @@ public class Stats {
 
 		} else {
 
-			if(status.getText().startsWith("@")) {
-				stats.get(Data.MENTIONS).increment();
-			}
-			if(status.getRetweetCount() > 0) {
-				stats.get(Data.RETWEET).increment();
-			}
-			if(status.getFavoriteCount() > 0) {
-				stats.get(Data.FAVORITE).increment();
-			}
-			if(status.getMediaEntities().length > 0) {
-				stats.get(Data.MEDIA).increment();
-			}
-			if(status.getURLEntities().length > 0) {
-				stats.get(Data.URL).increment();
-			}
-
-			if(status.getRetweetCount() + status.getFavoriteCount() > 0) {
-				stats.get(Data.POPULARE).add(new WordInfo(status));
-			}
+			if(status.getRetweetCount() + status.getFavoriteCount() > 0)	stats.get(Data.POPULARE).add(new WordInfo(status));
+			if(status.getRetweetCount() > 0)								stats.get(Data.RETWEET).increment();
+			if(status.getFavoriteCount() > 0)								stats.get(Data.FAVORITE).increment();
+			if(status.getText().startsWith("@"))							stats.get(Data.MENTIONS).increment();
+			if(status.getMediaEntities().length > 0)						stats.get(Data.MEDIA).increment();
+			if(status.getURLEntities().length > 0)							stats.get(Data.URL).increment();
 
 			//Regex removes HTML tag
 			stats.get(Data.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
