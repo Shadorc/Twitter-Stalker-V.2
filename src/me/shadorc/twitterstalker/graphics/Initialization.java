@@ -80,6 +80,7 @@ public class Initialization {
 				}
 			}
 		} catch (IOException e) {
+			System.err.println("Les nouvelles mises à jour n'ont pas pu être vérifiées : " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
