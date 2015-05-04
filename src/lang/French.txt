@@ -300,3 +300,9 @@
 
 "ne sait pas qu'il existe autre chose que Twitter Web"
 "ne sait pas qu'il existe autre chose que Twitter Web"
+
+"Mentions les plus anciennes"
+"Mentions les plus anciennes"
+
+"Chargement des tweets..."
+"Chargement des tweets..."

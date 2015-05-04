@@ -301,3 +301,9 @@
 
 "ne sait pas qu'il existe autre chose que Twitter Web"
 "doesn't know that there's something other than Twitter Web"
+
+"Mentions les plus anciennes"
+"Oldest mentions"
+
+"Chargement des tweets..."
+"Loading tweets..."
