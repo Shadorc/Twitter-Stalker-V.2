@@ -28,6 +28,9 @@
 "Erreur lors de l'ouverture, l'URL a été copiée dans le presse-papier."
 "Erreur lors de l'ouverture, l'URL a été copiée dans le presse-papier."
 
+"Erreur lors du chargement de l'archive"
+"Erreur lors du chargement de l'archive"
+
 "Erreur"
 "Erreur"
 

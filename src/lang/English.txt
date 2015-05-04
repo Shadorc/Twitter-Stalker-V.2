@@ -29,6 +29,9 @@
 "Erreur lors de l'ouverture, l'URL a été copiée dans le presse-papier."
 "Error while opening, the URL has been paster in theclipboard."
 
+"Erreur lors du chargement de l'archive"
+"Error while loading the archive"
+
 "Erreur"
 "Error"
 
