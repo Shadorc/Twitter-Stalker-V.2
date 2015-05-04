@@ -1,20 +1,23 @@
 package me.shadorc.twitterstalker.graphics;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.JOptionPane;
 
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import twitter4j.JSONException;
+import twitter4j.JSONObject;
 
 public class Storage {
 
-	private static File file = new File("./data");
+	private static File file = new File("./data.json");
 
 	public enum Data {
 		/*Installation*/
@@ -57,48 +60,43 @@ public class Storage {
 		FIRST_TALK;
 	}
 
+	//FIXME: Certaines fois quand on décoche une stat et qu'on revient elle est plus décocher ou alors elle se recoche après
 	public static String getData(Data data) {
-		BufferedReader reader = null;
-
 		try {
-			file.createNewFile();
-			reader = new BufferedReader(new FileReader(file));
-
-			String line;
-			while((line = reader.readLine()) != null) {
-				if(line.startsWith(data.toString() + ":")) {
-					return line.split(":", 2)[1];
+			if(!file.exists()) {
+				file.createNewFile();
+			} else {
+				String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
+				JSONObject obj = new JSONObject(text);
+				if(obj.has(data.toString())) {
+					return obj.getString(data.toString());
 				}
 			}
-
-		} catch (IOException e) {
-			return null;
-
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException | NullPointerException e) {
-				return null;
-			}
+		} catch (IOException | JSONException e) {
+			e.printStackTrace();
 		}
-
 		return null;
 	}
 
-	public static void saveData(Data data, String text) {
-		BufferedWriter writer = null;
-
+	public static void saveData(Data data, String value) {
+		FileWriter writer = null;
 		try {
-			writer = new BufferedWriter(new FileWriter(file, true));
+			String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
 
-			if(getData(data) == null) {
-				writer.write(data.toString() + ":" + text + "\n");
+			JSONObject jsonObject;
+			if(text.length() != 0) {
+				jsonObject = new JSONObject(text);
 			} else {
-				replaceData(data, text);
+				jsonObject = new JSONObject();
 			}
+			jsonObject.put(data.toString(), value);
 
-		} catch (IOException e) {
+			writer = new FileWriter(file);
+			writer.write(jsonObject.toString().replaceAll(",", ",\n"));
+
+		} catch (IOException | JSONException e) {
 			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 
 		} finally {
 			try {
@@ -106,32 +104,9 @@ public class Storage {
 				writer.close();
 			} catch (IOException | NullPointerException e) {
 				JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
 			}
 		}
-	}
-
-	private static void replaceData(Data data, String text) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-
-		String line = "";
-		String allData = "";
-
-		while((line = reader.readLine()) != null) {
-			allData += line + "\n";
-		}
-
-		reader.close();
-
-		for(String li : allData.split("\n")) {
-			if(li.startsWith(data.toString() + ":")) {
-				allData = allData.replaceAll(li, data.toString() + ":" + text);
-				break;
-			}
-		}
-
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		writer.write(allData);
-		writer.close();
 	}
 
 	public static String tra(String original) {
