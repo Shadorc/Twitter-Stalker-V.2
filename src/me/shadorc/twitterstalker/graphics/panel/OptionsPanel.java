@@ -5,19 +5,26 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 
@@ -67,19 +74,12 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		mentions_number = this.createComboBox(Data.MENTIONS_NUMBER, new String[] {"200","400","600"}, "600");
 		languages = this.createComboBox(Data.INTERFACE_LANG, new String[] {"French","English"}, Locale.getDefault().getDisplayLanguage(Locale.ENGLISH));
 
-		options.add(this.createOption("Nombre de lettres par mot minimum : ", letters_word));
-		options.add(this.createOption("Nombre de mentions : ", mentions_number));
-		options.add(this.createOption("Nombre de tweets : ", tweets_number));
-		options.add(this.createOption("Taille des listes : ", list_lenght));
-		options.add(this.createOption("Langue : ", languages));
-
-		//Align the label with others options
-		JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		pane.setOpaque(false);
-		JLabel labelStats = new JLabel(Storage.tra("Statistiques à effectuer :"));
-		labelStats.setFont(Frame.getFont("SEGOEUI.TTF", 30));
-		pane.add(labelStats);
-		options.add(pane);
+		options.add(this.createOption("Nombre de lettres par mot minimum : ", "<html>Nombre de lettres minimum pour qu'un mot soit prit en compte dans les statistiques.<br>Exemple :<br>Si le nombre de lettres par mot minimum est de 3 alors \"de\" ne sera pas afficher dans la catégorie \"Mots\"</html>", letters_word));
+		options.add(this.createOption("Nombre de mentions : ", "<html>Le nombre de mentions maximums à analyser. (Max : 800)</html>", mentions_number));
+		options.add(this.createOption("Nombre de tweets : ", "<html>Le nombre de tweets maximums à analyser. (Max 3200)</html>", tweets_number));
+		options.add(this.createOption("Taille des listes : ", "<html>Le nombre de statistiques à afficher par catégorie.</html>", list_lenght));
+		options.add(this.createOption("Langue : ", "<html>Le langage de l'application.</html>", languages));
+		options.add(this.createOption("Statistiques à effectuer :", "<html>Les statistiques qui seront affichées après analyse.</html>", null));
 
 		centerPanel.add(options, BorderLayout.PAGE_START);
 
@@ -131,14 +131,45 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		return jcb;
 	}
 
-	private JPanel createOption(String text, JComboBox <String> jcb) {
+	private JPanel createOption(String desc, final String help, JComboBox <String> jcb) {
 		JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		pane.setOpaque(false);
 
-		JLabel label = new JLabel(Storage.tra(text));
+		final JPopupMenu menu = new JPopupMenu();
+		menu.add(new JLabel(Storage.tra(help)));
+		menu.setBackground(Color.WHITE);
+		menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		menu.setFont(Frame.getFont("SEGOEUI.TTF", 20));
+
+		JButton bu = new JButton();
+		bu.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				menu.setVisible(false);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				Point mouse = MouseInfo.getPointerInfo().getLocation();
+				menu.show(null, (int) mouse.getX(), (int) (mouse.getY() - menu.getSize().getHeight()));
+				menu.setVisible(true);
+			}
+		});
+		bu.setBackground(null);
+		bu.setContentAreaFilled(false);
+		bu.setBorderPainted(false);
+		bu.setFocusable(false);
+		bu.setOpaque(false);
+		bu.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource("/res/help.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+		pane.add(bu);
+
+		JLabel label = new JLabel(Storage.tra(desc));
 		label.setFont(Frame.getFont("SEGOEUI.TTF", 30));
 		pane.add(label);
-		pane.add(jcb);
+		if(jcb != null) {
+			pane.add(jcb);
+		}
 
 		return pane;
 	}
