@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -18,7 +17,6 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -29,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.CheckBoxOption;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
@@ -111,7 +110,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 
 		JPanel button = new JPanel(new BorderLayout());
 		button.setOpaque(false);
-		back = new Button("Retour", new int[] {0, 10, 10, 0}, true, this);
+		back = new Button("Retour", new int[] {0, 10, 10, 0}, Size.MEDIUM, this);
 		button.add(back, BorderLayout.WEST);
 		this.add(button, BorderLayout.PAGE_END);
 	}
@@ -131,19 +130,18 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		return jcb;
 	}
 
-	private JPanel createOption(String desc, final String help, JComboBox <String> jcb) {
+	private JPanel createOption(String desc, final String helpText, JComboBox <String> jcb) {
 		JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		pane.setOpaque(false);
 
 		final JPopupMenu menu = new JPopupMenu();
-		menu.add(new JLabel(Storage.tra(help)));
+		menu.add(new JLabel(Storage.tra(helpText)));
 		menu.setBackground(Color.WHITE);
 		menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		menu.setFont(Frame.getFont("SEGOEUI.TTF", 20));
 
-		JButton bu = new JButton();
-		bu.addMouseListener(new MouseAdapter() {
-
+		JButton help = new Button("Aide", new int[] {5, 5, 5, 5}, Size.SMALL, null);
+		help.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				menu.setVisible(false);
@@ -156,13 +154,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 				menu.setVisible(true);
 			}
 		});
-		bu.setBackground(null);
-		bu.setContentAreaFilled(false);
-		bu.setBorderPainted(false);
-		bu.setFocusable(false);
-		bu.setOpaque(false);
-		bu.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource("/res/help.png")).getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
-		pane.add(bu);
+		pane.add(help);
 
 		JLabel label = new JLabel(Storage.tra(desc));
 		label.setFont(Frame.getFont("SEGOEUI.TTF", 30));

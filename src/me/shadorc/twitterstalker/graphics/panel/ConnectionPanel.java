@@ -32,6 +32,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.TextField;
@@ -106,7 +107,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		searchPanel.setOpaque(false);
 		searchPanel.add(new JLabel());
 
-		search = new Button("Valider", new int[] {30, 0, 0, 0}, false, this);
+		search = new Button("Valider", new int[] {30, 0, 0, 0}, Size.NORMAL, this);
 		search.setDisabledIcon(new ImageIcon(this.getClass().getResource("/res/loading.gif")));
 		search.setForeground(Color.WHITE);
 		search.setFont(Frame.getFont("RobotoCondensed-LightItalic.ttf", 20));
@@ -121,7 +122,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		bottomPanel.setOpaque(false);
 
 		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.COMPARISON)) || text.equals(Storage.tra(Text.ARCHIVE))) {
-			back = new Button("Retour", new int[] {95, 10, 0, 0}, true, this);
+			back = new Button("Retour", new int[] {95, 10, 0, 0}, Size.MEDIUM, this);
 			bottomPanel.add(back, BorderLayout.WEST);
 		} else {
 			bottomPanel.add(new JLabel(), BorderLayout.WEST);

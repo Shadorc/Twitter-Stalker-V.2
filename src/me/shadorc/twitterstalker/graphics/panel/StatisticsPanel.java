@@ -20,6 +20,7 @@ import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.EditorPane;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
+import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
@@ -162,14 +163,14 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JPanel buttonsPanel = new JPanel(new GridLayout(0, 14));
 		buttonsPanel.setOpaque(false);
 
-		back = new Button("Retour", new int[] {10, 0, 10, 20}, true, this);
+		back = new Button("Retour", new int[] {10, 0, 10, 20}, Size.MEDIUM, this);
 		buttonsPanel.add(back);
 
 		for(int i = 0; i < 12; i++) {
 			buttonsPanel.add(new JLabel());
 		}
 
-		upload = new Button("Upload", new int[] {10, 20, 10, 0}, true, this);
+		upload = new Button("Upload", new int[] {10, 20, 10, 0}, Size.MEDIUM, this);
 		upload.setToolTipText(Storage.tra("Partager les statistiques"));
 		buttonsPanel.add(upload);
 
