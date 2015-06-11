@@ -24,23 +24,18 @@ public class ScrollbarUI extends MetalScrollBarUI {
 
 	public ScrollbarUI(Position pos) {
 		this.pos = pos;
-
-		if(pos == Position.VERTICAL) {
-			imageThumb = new ImageIcon(this.getClass().getResource("/res/barreV.png")).getImage();
-		} else {
-			imageThumb = new ImageIcon(this.getClass().getResource("/res/barreH.png")).getImage();
-		}
+		this.imageThumb = new ImageIcon(this.getClass().getResource("/res/barre" + (pos == Position.VERTICAL ? "V" : "H") + ".png")).getImage();
 	}
 
 	//Bar painting
 	@Override
 	protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
 		//shift the bar to the right/top
-		int shiftRight = pos == Position.VERTICAL ? 7 : 0;
-		int shiftTop = pos == Position.HORIZONTAL ? 3 : 0;
+		int shiftRight = (pos == Position.VERTICAL ? 7 : 0);
+		int shiftTop = (pos == Position.HORIZONTAL ? 3 : 0);
 		//reduce bar's width/height
-		double widthReduce = pos == Position.VERTICAL ? 1.5 : 0;
-		double heightReduce = pos == Position.HORIZONTAL ? 1.5 : 0;
+		double widthReduce = (pos == Position.VERTICAL ? 1.5 : 0);
+		double heightReduce = (pos == Position.HORIZONTAL ? 1.5 : 0);
 
 		g.translate(thumbBounds.x + shiftRight, thumbBounds.y + shiftTop);
 		AffineTransform transform = AffineTransform.getScaleInstance((double) thumbBounds.width/imageThumb.getWidth(null) - widthReduce, (double) thumbBounds.height/imageThumb.getHeight(null) - heightReduce);
@@ -51,21 +46,21 @@ public class ScrollbarUI extends MetalScrollBarUI {
 	//Scroll background painting (invisible)
 	@Override
 	protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-		c.setBackground(new Color(179, 229, 252));
+		c.setBackground(new Color(0, 0, 0, 0));
 	}
 
 	/*Delete top and bottom buttons*/
 	@Override
 	protected JButton createDecreaseButton(int orientation) {
-		return createZeroButton();
+		return createInvisibleButton();
 	}
 
 	@Override    
 	protected JButton createIncreaseButton(int orientation) {
-		return createZeroButton();
+		return createInvisibleButton();
 	}
 
-	private JButton createZeroButton() {
+	private JButton createInvisibleButton() {
 		JButton button = new JButton();
 		button.setPreferredSize(new Dimension(0, 0));
 		button.setMinimumSize(new Dimension(0, 0));

@@ -26,6 +26,6 @@ public class CheckBoxOption extends JCheckBox implements ItemListener {
 
 	@Override
 	public void itemStateChanged(ItemEvent event) {
-		Storage.saveData(data, event.getStateChange() == ItemEvent.SELECTED ? "true" : "false");
+		Storage.saveData(data, Boolean.toString(event.getStateChange() == ItemEvent.SELECTED));
 	}
 }

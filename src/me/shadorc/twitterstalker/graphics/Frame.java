@@ -35,10 +35,10 @@ public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	private static String version = "2.1.0-Bêta";
+
 	private static Frame frame;
 	private static JPanel currentPanel;
-
-	private static String version = "2.1.0-Bêta";
 
 	private static Twitter twitter;
 	private static RequestToken requestToken;
@@ -175,13 +175,11 @@ public class Frame extends JFrame {
 	}
 
 	public static Font getFont(String name, int size) {
-		Font font;
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, Frame.class.getResourceAsStream("/res/" + name)).deriveFont(Font.PLAIN, size);
+			return Font.createFont(Font.TRUETYPE_FONT, Frame.class.getResourceAsStream("/res/" + name)).deriveFont(Font.PLAIN, size);
 		} catch (FontFormatException | IOException e) {
-			font = new Font("Consolas", Font.PLAIN, size);
+			return new Font("Consolas", Font.PLAIN, size);
 		}
-		return font;
 	}
 
 	public static void setPanel(JPanel panel) {
