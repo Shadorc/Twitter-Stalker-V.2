@@ -214,7 +214,12 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 			else if(jcb == tweets_number) 	Storage.saveData(Data.TWEETS_NUMBER, data);
 			else if(jcb == mentions_number)	Storage.saveData(Data.MENTIONS_NUMBER, data);
 			else if(jcb == letters_word) 	Storage.saveData(Data.LETTERS_PER_WORD, data);
-			else if(jcb == languages) 		Storage.saveData(Data.INTERFACE_LANG, data);
+			else if(jcb == languages) {
+				//Prevent weird IndexOutOfBound Exception
+				languages.hidePopup();
+				Storage.saveData(Data.INTERFACE_LANG, data);
+				Frame.setPanel(new OptionsPanel());
+			}
 		}
 	}
 }
