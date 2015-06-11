@@ -39,7 +39,6 @@ public class Initialization {
 					link.save();
 
 					Storage.saveData(Data.INSTALL, "true");
-
 				}
 				//"Never"
 				else if (reply == JOptionPane.CANCEL_OPTION) {
@@ -51,11 +50,10 @@ public class Initialization {
 		}
 	}
 
-
 	public static void checkForUpdate(String version) {
 		//Check the last version and prevent user if an update is available
 		try {
-			String lastVersion = Infonet.parseHTML(new URL("http://shadorc.webnode.fr/twitter-stalker/"), "Version actuelle ", "(", ")", true, true);
+			String lastVersion = Infonet.parseHTML(new URL("http://shadorc.webnode.fr/twitter-stalker/"), "Version actuelle ", "(", ")");
 
 			if(!version.equals(lastVersion) && Storage.getData(Data.UPDATE) == null) {
 
