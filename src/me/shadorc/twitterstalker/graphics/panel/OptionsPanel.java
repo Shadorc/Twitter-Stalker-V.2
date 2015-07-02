@@ -73,7 +73,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		mentions_number = this.createComboBox(Data.MENTIONS_NUMBER, new String[] {"200","400","600"}, "600");
 		languages = this.createComboBox(Data.INTERFACE_LANG, new String[] {"French","English"}, Locale.getDefault().getDisplayLanguage(Locale.ENGLISH));
 
-		options.add(this.createOption("Nombre de lettres par mot minimum : ", "<html>Nombre de lettres minimum pour qu'un mot soit prit en compte dans les statistiques.<br>Exemple :<br>Si le nombre de lettres par mot minimum est de 3 alors \"de\" ne sera pas afficher dans la catégorie \"Mots\"</html>", letters_word));
+		options.add(this.createOption("Nombre de lettres par mot minimum : ", "<html>Nombre de lettres minimum pour qu'un mot soit pris en compte dans les statistiques.<br>Exemple :<br>Si le nombre de lettres par mot minimum est de 3 alors \"de\" ne sera pas afficher dans la catégorie \"Mots\"</html>", letters_word));
 		options.add(this.createOption("Nombre de mentions : ", "<html>Le nombre de mentions maximums à analyser. (Max : 800)</html>", mentions_number));
 		options.add(this.createOption("Nombre de tweets : ", "<html>Le nombre de tweets maximums à analyser. (Max 3200)</html>", tweets_number));
 		options.add(this.createOption("Taille des listes : ", "<html>Le nombre de statistiques à afficher par catégorie.</html>", list_lenght));
