@@ -27,7 +27,7 @@ public class TextField extends JTextField implements FocusListener {
 		String PIN = "Veuillez entrer le code PIN";
 		String USERNAME = "Veuillez entrer l'@ du compte à analyser";
 		String COMPARISON = "Veuillez entrer l'@ d'un compte à analyser";
-		String ARCHIVE = "Veuillez séléctionner l'archive à analyser";
+		String ARCHIVE = "Veuillez sélectionner l'archive à analyser";
 		String INVALID_PIN = "Merci d'entrer un code PIN valide";
 		String INVALID_USER = "Merci d'entrer un utilisateur valide";
 		String INVALID_ARCHIVE = "Merci de choisir une archive valide";
