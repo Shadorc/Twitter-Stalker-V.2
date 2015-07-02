@@ -151,7 +151,7 @@ public class Stats {
 		stats.put(Data.LETTERS_PER_WORD, new StatInfo((stats.get(Data.LETTERS).getNum() / stats.get(Data.WORDS_COUNT).getNum()), "lettres par mot"));
 
 		double puretweets = user.getTweetsAnalysed() - stats.get(Data.MENTIONS).getNum() - stats.get(Data.RETWEET_BY_ME).getNum();
-		stats.put(Data.PURETWEETS, new StatInfo(puretweets, "Puretweets", user));
+		stats.put(Data.PURETWEETS, new StatInfo(puretweets, Storage.tra("Puretweets"), user));
 
 		stats.put(Data.MENTIONS, new StatInfo(stats.get(Data.MENTIONS).getNum(), Storage.tra("Mentions"), user));
 		stats.put(Data.RETWEET_BY_ME, new StatInfo(stats.get(Data.RETWEET_BY_ME).getNum(), Storage.tra("Retweet"), user));

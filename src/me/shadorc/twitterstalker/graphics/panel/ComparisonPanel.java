@@ -58,7 +58,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 		if(Stats.stop == true) return;
 
-		button.setText("Interface");
+		button.setText(Storage.tra("Interface"));
 
 		this.setBackground(new Color(179, 229, 252));
 
