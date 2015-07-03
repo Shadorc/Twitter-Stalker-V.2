@@ -117,6 +117,7 @@ public class Storage {
 			String line;
 			while((line = reader.readLine()) != null) {
 				if(original.equals(line.replaceAll("\"", ""))) {
+					//Check if the line is not out of the text file
 					if((line = reader.readLine()) != null) {
 						return line.replaceAll("\"", "");
 					} else {
