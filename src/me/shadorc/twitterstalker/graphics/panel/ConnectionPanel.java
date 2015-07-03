@@ -29,6 +29,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.ColorUIResource;
 
 import me.shadorc.twitterstalker.graphics.Button;
@@ -170,10 +171,24 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 				}
 
 				while(file == null || !file.exists()) {
+					//Change UIManager look to look like the operating system one, this is for the JFileChooser
+					try {
+						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+						e.printStackTrace();
+					}
+
 					JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home"), "Desktop"));
 					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 					int choice = chooser.showOpenDialog(null);
+
+					//Reset UIManager look to avoid changing buttons, drop-downs menus...
+					try {
+						UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+						e.printStackTrace();
+					}
 
 					if(choice == JFileChooser.APPROVE_OPTION) {
 						file = new File(chooser.getSelectedFile().getPath() + "/data/js/tweets");
