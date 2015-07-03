@@ -140,7 +140,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		menu.setFont(Frame.getFont("SEGOEUI.TTF", 20));
 
-		JButton help = new Button(Storage.tra("Aide"), new int[] {5, 5, 5, 5}, Size.SMALL, null);
+		JButton help = new Button("Aide", new int[] {5, 5, 5, 5}, Size.SMALL, null);
 		help.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseExited(MouseEvent e) {
