@@ -43,10 +43,10 @@ public class ScrollbarUI extends MetalScrollBarUI {
 		g.translate(-thumbBounds.x, -thumbBounds.y);
 	}
 
-	//Scroll background painting (invisible)
+	//Scroll background painting (same color as the background)
 	@Override
 	protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-		c.setBackground(new Color(0, 0, 0, 0));
+		c.setBackground(new Color(179, 229, 252));
 	}
 
 	/*Delete top and bottom buttons*/
