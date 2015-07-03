@@ -47,6 +47,14 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		super(new BorderLayout());
 		this.setBackground(new Color(2, 136, 209));
 
+		list_lenght = this.createComboBox(Data.LIST_LENGHT, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "3");
+		letters_word = this.createComboBox(Data.LETTERS_PER_WORD, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "1");
+		//Limit : 3200 Tweets
+		tweets_number = this.createComboBox(Data.TWEETS_NUMBER, new String[] {"200","400","600","800","1000","1200","1400","1600","1800","2000","2200","2400","2600","2800","3000"}, "3000");
+		//Limit : 800 Mentions
+		mentions_number = this.createComboBox(Data.MENTIONS_NUMBER, new String[] {"200","400","600"}, "600");
+		languages = this.createComboBox(Data.INTERFACE_LANG, new String[] {"French","English"}, Locale.getDefault().getDisplayLanguage(Locale.ENGLISH));
+
 		JPanel top = new JPanel(new BorderLayout());
 		top.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(25, 0, 25, 0)));
 		top.setBackground(new Color(3,169,244));
@@ -64,14 +72,6 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		JPanel options = new JPanel(new GridLayout(6, 0));
 		options.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
 		options.setOpaque(false);
-
-		list_lenght = this.createComboBox(Data.LIST_LENGHT, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "3");
-		letters_word = this.createComboBox(Data.LETTERS_PER_WORD, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "1");
-		//Limit : 3200 Tweets
-		tweets_number = this.createComboBox(Data.TWEETS_NUMBER, new String[] {"200","400","600","800","1000","1200","1400","1600","1800","2000","2200","2400","2600","2800","3000"}, "3000");
-		//Limit : 800 Mentions
-		mentions_number = this.createComboBox(Data.MENTIONS_NUMBER, new String[] {"200","400","600"}, "600");
-		languages = this.createComboBox(Data.INTERFACE_LANG, new String[] {"French","English"}, Locale.getDefault().getDisplayLanguage(Locale.ENGLISH));
 
 		options.add(this.createOption("Nombre de lettres par mot minimum : ", "<html>Nombre de lettres minimum pour qu'un mot soit pris en compte dans les statistiques.<br>Exemple :<br>Si le nombre de lettres par mot minimum est de 3 alors \"de\" ne sera pas afficher dans la catégorie \"Mots\"</html>", letters_word));
 		options.add(this.createOption("Nombre de mentions : ", "<html>Le nombre de mentions maximums à analyser. (Max : 800)</html>", mentions_number));
