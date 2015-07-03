@@ -5,14 +5,10 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -22,7 +18,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 
@@ -73,12 +68,12 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		options.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
 		options.setOpaque(false);
 
-		options.add(this.createOption("Nombre de lettres par mot minimum : ", "<html>Nombre de lettres minimum pour qu'un mot soit pris en compte dans les statistiques.<br>Exemple :<br>Si le nombre de lettres par mot minimum est de 3 alors \"de\" ne sera pas afficher dans la catégorie \"Mots\"</html>", letters_word));
-		options.add(this.createOption("Nombre de mentions : ", "Le nombre de mentions maximums à analyser. (Max : 800)", mentions_number));
-		options.add(this.createOption("Nombre de tweets : ", "Le nombre de tweets maximums à analyser. (Max 3200)", tweets_number));
-		options.add(this.createOption("Taille des listes : ", "Le nombre de statistiques à afficher par catégorie.", list_lenght));
-		options.add(this.createOption("Langue : ", "Le langage de l'application.", languages));
-		options.add(this.createOption("Statistiques à effectuer :", "Les statistiques qui seront affichées après analyse.", null));
+		options.add(this.createOption("Taille minimum des mots à analyser : ", letters_word));
+		options.add(this.createOption("Langue du programme : ", languages));
+		options.add(this.createOption("Mentions à analyser : ", mentions_number));
+		options.add(this.createOption("Tweets à analyser : ", tweets_number));
+		options.add(this.createOption("Taille des listes : ", list_lenght));
+		options.add(this.createOption("Statistiques à afficher :", null));
 
 		centerPanel.add(options, BorderLayout.PAGE_START);
 
@@ -121,47 +116,19 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		jcb.setFocusable(false);
 		((JScrollPane) ((Container) jcb.getUI().getAccessibleChild(jcb, 0)).getComponent(0)).getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
 		jcb.setBackground(new Color(179, 229, 252));
-		Object obj = Storage.getData(data);
-		if(obj != null) {
-			jcb.setSelectedItem(obj.toString());
-		} else {
-			jcb.setSelectedItem(def);
-		}
+		String obj = Storage.getData(data);
+		jcb.setSelectedItem((obj != null) ? obj : def);
 		return jcb;
 	}
 
-	private JPanel createOption(String desc, String helpText, JComboBox <String> jcb) {
+	private JPanel createOption(String desc, JComboBox <String> jcb) {
 		JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		pane.setOpaque(false);
-
-		final JPopupMenu menu = new JPopupMenu();
-		menu.add(new JLabel(Storage.tra(helpText)));
-		menu.setBackground(Color.WHITE);
-		menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		menu.setFont(Frame.getFont("SEGOEUI.TTF", 20));
-
-		JButton help = new Button("Aide", new int[] {5, 5, 5, 5}, Size.SMALL, null);
-		help.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseExited(MouseEvent e) {
-				menu.setVisible(false);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				Point mouse = MouseInfo.getPointerInfo().getLocation();
-				menu.show(null, (int) mouse.getX(), (int) (mouse.getY() - menu.getSize().getHeight()));
-				menu.setVisible(true);
-			}
-		});
-		pane.add(help);
 
 		JLabel label = new JLabel(Storage.tra(desc));
 		label.setFont(Frame.getFont("SEGOEUI.TTF", 30));
 		pane.add(label);
-		if(jcb != null) {
-			pane.add(jcb);
-		}
+		if(jcb != null) pane.add(jcb);
 
 		return pane;
 	}
