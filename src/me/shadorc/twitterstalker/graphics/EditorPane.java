@@ -71,7 +71,7 @@ public class EditorPane extends JEditorPane {
 			}
 		} else {
 			for(Data type : types) {
-				text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getDesc();
+				text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getWord();
 			}
 		}
 		field.setText(text);
@@ -133,16 +133,16 @@ public class EditorPane extends JEditorPane {
 	private void compare(Data data, String line, boolean proportional) {
 		double stat1, stat2;
 		try {
-			stat1 = stats1.get(data).get(0).getCount();
-			stat2 = stats2.get(data).get(0).getCount();
+			stat1 = stats1.get(data).get(0).getNum();
+			stat2 = stats2.get(data).get(0).getNum();
 		} catch(NullPointerException e) {
 			stat1 = stats1.getUnique(data).getNum();
 			stat2 = stats2.getUnique(data).getNum();
 		}
 
 		if(proportional) {
-			stat1 /= user1.getTweetsAnalysed();
-			stat2 /= user2.getTweetsAnalysed();
+			stat1 /= user1.getTweetsAnalyzed();
+			stat2 /= user2.getTweetsAnalyzed();
 		}
 		if(stat1 > stat2) {
 			phrases.add(line);
