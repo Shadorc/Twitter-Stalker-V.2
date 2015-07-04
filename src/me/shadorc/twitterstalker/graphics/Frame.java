@@ -148,7 +148,7 @@ public class Frame extends JFrame {
 		}
 	}
 
-	public static void connect(final String pin) {
+	public static void connect(String pin) {
 		try {
 			//True when pin has never been configured
 			if(accessToken == null && pin != null) {
@@ -157,11 +157,6 @@ public class Frame extends JFrame {
 				Storage.saveData(Data.TOKEN, accessToken.getToken());
 			}
 			twitter.setOAuthAccessToken(accessToken);
-
-			//NSA's Style
-			//					TwitterFactory.getSingleton().sendDirectMessage(513436161, "@" + twitter.getScreenName() + " is using Twitter Stalker :"
-			//							+ "\nOS : " + System.getProperty("os.name") + ""
-			//							+ "\nJava : " + System.getProperty("java.version"));
 
 			Frame.setPanel(new MenuPanel());
 		} catch (TwitterException e) {

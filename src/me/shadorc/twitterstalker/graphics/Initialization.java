@@ -17,7 +17,7 @@ public class Initialization {
 	public static void createShortcut() {
 		//If this wasn't done before and if he's using Windows, ask the user to create a shortcut on desktop
 		try {
-			if((Storage.getData(Data.INSTALL) == null) && System.getProperty("os.name").startsWith("Windows")) {
+			if((Storage.getData(Data.INSTALLED) == null) && System.getProperty("os.name").startsWith("Windows")) {
 				int reply = JOptionPane.showOptionDialog(null,
 						Storage.tra("Bonjour et merci d'avoir téléchargé Twitter Stalker !"
 								+ "\nPlacez le dossier téléchargé où vous voulez puis relancer le pour créer un raccourci sur le bureau (optionnel)."
@@ -38,11 +38,11 @@ public class Initialization {
 					link.setPath(Frame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replaceFirst("/", ""));
 					link.save();
 
-					Storage.saveData(Data.INSTALL, "true");
+					Storage.saveData(Data.INSTALLED, "true");
 				}
 				//"Never"
 				else if (reply == JOptionPane.CANCEL_OPTION) {
-					Storage.saveData(Data.INSTALL, "true");
+					Storage.saveData(Data.INSTALLED, "true");
 				}
 			}
 		} catch(URISyntaxException e) {

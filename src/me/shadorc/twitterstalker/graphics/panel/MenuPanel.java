@@ -17,9 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Storage;
-import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 
 public class MenuPanel extends JPanel implements ActionListener {
@@ -32,7 +32,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		super(new BorderLayout());
 		this.setBackground(new Color(3,169,244));
 
-		JLabel title = new JLabel(Storage.tra("Que voulez-vous faire ?"), JLabel.CENTER);
+		JLabel title = new JLabel(Storage.tra("Que voulez-vous analyser ?"), JLabel.CENTER);
 
 		title.setForeground(new Color(33,33,33));
 		title.setFont(Frame.getFont("RobotoCondensed-LightItalic.ttf", 72));
@@ -56,7 +56,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		buttons.setOpaque(false);
 		buttons.setBorder(BorderFactory.createEmptyBorder(50, 175, 90, 175));
 
-		statistics = this.createJButton(Storage.tra("Statistiques"));
+		statistics = this.createJButton(Storage.tra("Compte"));
 		buttons.add(statistics);
 
 		comparison = this.createJButton(Storage.tra("Comparaison"));
@@ -67,7 +67,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 		center.add(buttons, BorderLayout.CENTER);
 
-		//This button is to have equal distance between border and menu
+		//This invisible button is to have equal distance between right border and menu
 		JButton fictitious = new JButton(new ImageIcon(this.getClass().getResource("/res/fictitious.png")));
 		fictitious.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 		fictitious.setContentAreaFilled(false);
@@ -105,14 +105,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == statistics) {
-			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
-		} else if(e.getSource() == comparison) {
-			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.COMPARISON)));
-		} else if(e.getSource() == archive) {
-			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.ARCHIVE)));
-		} else if(e.getSource() == options) {
-			Frame.setPanel(new OptionsPanel());
-		}
+		if(e.getSource() == statistics)		 Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
+		else if(e.getSource() == comparison) Frame.setPanel(new ConnectionPanel(Storage.tra(Text.COMPARISON)));
+		else if(e.getSource() == archive)	 Frame.setPanel(new ConnectionPanel(Storage.tra(Text.ARCHIVE)));
+		else if(e.getSource() == options)	 Frame.setPanel(new OptionsPanel());
 	}
 }

@@ -8,10 +8,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 
-import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.JSONException;
 import twitter4j.JSONObject;
 
@@ -21,40 +21,51 @@ public class Storage {
 
 	public enum Data {
 		/*Installation*/
-		INSTALL,
+		INSTALLED,
 		UPDATE,
+
 		/*Connection*/
 		TOKEN,
 		TOKEN_SECRET,
+
 		/*Options*/
-		LIST_LENGHT,
-		TWEETS_NUMBER,
-		MENTIONS_NUMBER,
+		LETTERS_PER_WORD_MIN,
 		INTERFACE_LANG,
+		MENTIONS_TO_ANALYZE,
+		TWEETS_TO_ANALYZE,
+		LIST_LENGHT,
+
 		/*Stats*/
-		LETTERS_PER_WORD,
-		HASHTAG,
-		TIMELINE,
 		TWEETS,
-		REPUTE,
+		WORDS_PER_TWEET,
+		LETTERS_PER_TWEET,
+		LETTERS_PER_WORD,
+
+		TIMELINE,
+		PURETWEETS,
 		MENTIONS,
 		RETWEET_BY_ME,
+
+		SOURCE,
+		DAYS,
+		HOURS,
+		WORDS,
+		HASHTAG,
+		LANG,
+
+		POPULARE,
+
+		MENTIONS_SENT,
+		MENTIONS_RECEIVED,
+
+		TWEETS_NUMBER,
+		MENTIONS_NUMBER,
+		TWEET_PER_DAYS,
+		REPUTE,
 		RETWEET,
 		FAVORITE,
 		WORDS_COUNT,
 		LETTERS,
-		MENTIONS_RECEIVED,
-		MENTIONS_SENT,
-		POPULARE,
-		LANG,
-		WORDS,
-		DAYS,
-		HOURS,
-		SOURCE,
-		TWEET_PER_DAYS,
-		WORDS_PER_TWEET,
-		LETTERS_PER_TWEET,
-		PURETWEETS,
 		MEDIA,
 		URL,
 		FIRST_TALK;

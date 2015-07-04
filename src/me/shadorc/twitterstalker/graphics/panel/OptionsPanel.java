@@ -43,11 +43,11 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		this.setBackground(new Color(2, 136, 209));
 
 		list_lenght = this.createComboBox(Data.LIST_LENGHT, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "3");
-		letters_word = this.createComboBox(Data.LETTERS_PER_WORD, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "1");
+		letters_word = this.createComboBox(Data.LETTERS_PER_WORD_MIN, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "1");
 		//Limit : 3200 Tweets
-		tweets_number = this.createComboBox(Data.TWEETS_NUMBER, new String[] {"200","400","600","800","1000","1200","1400","1600","1800","2000","2200","2400","2600","2800","3000"}, "3000");
+		tweets_number = this.createComboBox(Data.TWEETS_TO_ANALYZE, new String[] {"200","400","600","800","1000","1200","1400","1600","1800","2000","2200","2400","2600","2800","3000"}, "3000");
 		//Limit : 800 Mentions
-		mentions_number = this.createComboBox(Data.MENTIONS_NUMBER, new String[] {"200","400","600"}, "600");
+		mentions_number = this.createComboBox(Data.MENTIONS_TO_ANALYZE, new String[] {"200","400","600"}, "600");
 		languages = this.createComboBox(Data.INTERFACE_LANG, new String[] {"French","English"}, Locale.getDefault().getDisplayLanguage(Locale.ENGLISH));
 
 		JPanel top = new JPanel(new BorderLayout());
@@ -178,9 +178,9 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 			String data = event.getItem().toString();
 
 			if(jcb == list_lenght) 			Storage.saveData(Data.LIST_LENGHT, data);
-			else if(jcb == tweets_number) 	Storage.saveData(Data.TWEETS_NUMBER, data);
-			else if(jcb == mentions_number)	Storage.saveData(Data.MENTIONS_NUMBER, data);
-			else if(jcb == letters_word) 	Storage.saveData(Data.LETTERS_PER_WORD, data);
+			else if(jcb == tweets_number) 	Storage.saveData(Data.TWEETS_TO_ANALYZE, data);
+			else if(jcb == mentions_number)	Storage.saveData(Data.MENTIONS_TO_ANALYZE, data);
+			else if(jcb == letters_word) 	Storage.saveData(Data.LETTERS_PER_WORD_MIN, data);
 			else if(jcb == languages) {
 				//Prevent weird IndexOutOfBound Exception
 				languages.hidePopup();
