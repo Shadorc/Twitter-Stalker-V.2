@@ -34,6 +34,8 @@ import twitter4j.TwitterException;
 
 public class Upload {
 
+	private static double HEIGHT_LIMIT = 2000;
+
 	private String message;
 	private File screen;
 
@@ -44,8 +46,8 @@ public class Upload {
 
 		try {
 			BufferedImage image = this.getScreenshot(panel);
-			if(image.getHeight() > 2000) {
-				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/2000.0));
+			if(image.getHeight() > HEIGHT_LIMIT) {
+				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/HEIGHT_LIMIT));
 			}
 			image = this.addBorder(image);
 			ImageIO.write(image, "png", screen);
@@ -57,6 +59,74 @@ public class Upload {
 		} finally {
 			Frame.reset();
 		}
+	}
+
+	private BufferedImage getScreenshot(Container panel) {
+		Dimension size = new Dimension((int) panel.getPreferredSize().getWidth()+50, (int) panel.getPreferredSize().getHeight()+10);
+		panel.setSize(size);
+
+		this.layoutComponent(panel);
+
+		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+		//Remove buttons panel
+		panel.getComponent(2).setVisible(false);
+
+		CellRendererPane crp = new CellRendererPane();
+		crp.add(panel);
+		crp.paintComponent(img.createGraphics(), panel, crp, panel.getBounds());
+
+		//Re-add buttons panel
+		panel.getComponent(2).setVisible(true);
+
+		return img;
+	}
+
+	private void layoutComponent(Component comp) {
+		synchronized (comp.getTreeLock()) {
+			comp.doLayout();
+			if(comp instanceof Container) {
+				for(Component child : ((Container) comp).getComponents()) {
+					this.layoutComponent(child);
+				}
+			}
+		}
+	}
+
+	private BufferedImage splitImage(BufferedImage image, int split) {
+
+		ArrayList <BufferedImage> images = new ArrayList <BufferedImage> ();
+
+		for(int i = 0; i < split; i++) {
+			int startY = (i > 0) ? (images.get(i-1).getHeight()*i) : 0;
+			images.add(image.getSubimage(0, startY, image.getWidth(), image.getHeight()/split));
+		}
+
+		//Border between two images
+		int borderSize = 1;
+
+		BufferedImage img = new BufferedImage(image.getWidth()*split + borderSize*(split-1), image.getHeight()/split, BufferedImage.TYPE_INT_RGB);
+
+		Graphics2D g = img.createGraphics();
+		for(int  i = 0; i < split; i++) {
+			int startX = (i > 0) ? (images.get(i-1).getWidth()*i + borderSize*i) : 0;
+			g.drawImage(images.get(i), startX, 0, null);
+		}
+		g.dispose();
+
+		return img;
+	}
+
+	private BufferedImage addBorder(BufferedImage bufferedImage) {
+		int borderWidth = 2;
+		BufferedImage bi = new BufferedImage(bufferedImage.getWidth(null) + 2 * borderWidth, bufferedImage.getHeight(null) + 2 * borderWidth, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = bi.createGraphics();
+		g.setColor(Color.BLACK);
+		g.drawImage(bufferedImage, borderWidth, borderWidth, null);
+		g.drawRect(0, 0, bi.getWidth(), bi.getHeight());
+		g.dispose();
+
+		return bi;
 	}
 
 	private void showPreview() {
@@ -130,7 +200,7 @@ public class Upload {
 							info.setText(Storage.tra("Terminé"));
 						} catch (TwitterException e) {
 							info.setForeground(Color.RED);
-							info.setText(Storage.tra("Erreur") + " !" + e.getMessage());
+							info.setText(Storage.tra("Erreur") + " ! " + e.getMessage());
 							e.printStackTrace();
 						} finally {
 							screen.delete();
@@ -150,73 +220,5 @@ public class Upload {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
-	}
-
-	private BufferedImage getScreenshot(Container panel) {
-		Dimension size = new Dimension((int) panel.getPreferredSize().getWidth() + 50, (int) panel.getPreferredSize().getHeight()+10);
-		panel.setSize(size);
-
-		this.layoutComponent(panel);
-
-		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
-
-		//Remove buttons panel
-		panel.getComponent(2).setVisible(false);
-
-		CellRendererPane crp = new CellRendererPane();
-		crp.add(panel);
-		crp.paintComponent(img.createGraphics(), panel, crp, panel.getBounds());
-
-		//Add buttons panel
-		panel.getComponent(2).setVisible(true);
-
-		return img;
-	}
-
-	private void layoutComponent(Component c) {
-		synchronized (c.getTreeLock()) {
-			c.doLayout();
-			if(c instanceof Container) {
-				for(Component child : ((Container) c).getComponents()) {
-					this.layoutComponent(child);
-				}
-			}
-		}
-	}
-
-	private BufferedImage splitImage(BufferedImage image, int split) {
-
-		ArrayList <BufferedImage> images = new ArrayList <BufferedImage> ();
-
-		for(int i = 0; i < split; i++) {
-			int startY = (i > 0) ? (images.get(i-1).getHeight()*i) : 0;
-			images.add(image.getSubimage(0, startY, image.getWidth(), image.getHeight()/split));
-		}
-
-		//Border between two images
-		int borderSize = 1;
-
-		BufferedImage img = new BufferedImage(image.getWidth()*split + borderSize*(split-1), image.getHeight()/split, BufferedImage.TYPE_INT_RGB);
-
-		Graphics2D g = img.createGraphics();
-		for(int  i = 0; i < split; i++) {
-			int startX = (i > 0) ? (images.get(i-1).getWidth()*i + borderSize*i) : 0;
-			g.drawImage(images.get(i), startX, 0, null);
-		}
-		g.dispose();
-
-		return img;
-	}
-
-	private BufferedImage addBorder(BufferedImage bufferedImage) {
-		int borderWidth = 2;
-		BufferedImage bi = new BufferedImage(bufferedImage.getWidth(null) + 2 * borderWidth, bufferedImage.getHeight(null) + 2 * borderWidth, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = bi.createGraphics();
-		g.setColor(Color.BLACK);
-		g.drawImage(bufferedImage, borderWidth, borderWidth, null);
-		g.drawRect(0, 0, bi.getWidth(), bi.getHeight());
-		g.dispose();
-
-		return bi;
 	}
 }
