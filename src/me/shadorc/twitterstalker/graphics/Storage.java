@@ -99,9 +99,10 @@ public class Storage {
 
 		} finally {
 			try {
-				writer.flush();
-				writer.close();
-			} catch (IOException | NullPointerException e) {
+				if(writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
@@ -131,8 +132,10 @@ public class Storage {
 
 		} finally {
 			try {
-				reader.close();
-			} catch (IOException | NullPointerException e) {
+				if(reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
 				return original;
 			}
 		}
