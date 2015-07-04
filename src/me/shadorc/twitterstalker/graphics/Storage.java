@@ -60,16 +60,36 @@ public class Storage {
 		FIRST_TALK;
 	}
 
+	public static void init() {
+		if(!file.exists() || file.length() == 0) {
+			FileWriter writer = null;
+
+			try {
+				file.createNewFile();
+
+				writer = new FileWriter(file);
+				writer.write(new JSONObject().toString());
+
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+
+			} finally {
+				try {
+					if(writer != null)	writer.close();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public static String getData(Data data) {
 		try {
-			if(!file.exists()) {
-				file.createNewFile();
-			} else {
-				String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
-				JSONObject obj = new JSONObject(text);
-				if(obj.has(data.toString())) {
-					return obj.getString(data.toString());
-				}
+			String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
+			JSONObject obj = new JSONObject(text);
+			if(obj.has(data.toString())) {
+				return obj.getString(data.toString());
 			}
 		} catch (IOException | JSONException e) {
 			e.printStackTrace();
@@ -82,12 +102,7 @@ public class Storage {
 		try {
 			String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
 
-			JSONObject jsonObject;
-			if(text.length() != 0) {
-				jsonObject = new JSONObject(text);
-			} else {
-				jsonObject = new JSONObject();
-			}
+			JSONObject jsonObject = new JSONObject(text);
 			jsonObject.put(data.toString(), value);
 
 			writer = new FileWriter(file);
@@ -99,9 +114,7 @@ public class Storage {
 
 		} finally {
 			try {
-				if(writer != null) {
-					writer.close();
-				}
+				if(writer != null)	writer.close();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
@@ -113,30 +126,30 @@ public class Storage {
 		BufferedReader reader = null;
 
 		try {
-			reader = new BufferedReader(new InputStreamReader(Storage.class.getResourceAsStream("/lang/" + OptionsPanel.getLang() + ".txt"), "UTF-8"));
+			String obj = Storage.getData(Data.INTERFACE_LANG);
+			String lang = (obj != null) ? obj : Locale.getDefault().getDisplayLanguage(Locale.ENGLISH);
+
+			reader = new BufferedReader(new InputStreamReader(Storage.class.getResourceAsStream("/lang/" + lang + ".txt"), "UTF-8"));
 
 			String line;
 			while((line = reader.readLine()) != null) {
-				if(original.equals(line.replaceAll("\"", ""))) {
+				if(original.equals(line.replaceAll("\"", "").replaceAll("\\\\n", "\n"))) {
 					//Check if the line is not out of the text file
 					if((line = reader.readLine()) != null) {
-						return line.replaceAll("\"", "");
-					} else {
-						return original;
+						return line.replaceAll("\"", "").replaceAll("\\\\n", "\n");
 					}
+					break;
 				}
 			}
 
 		} catch (IOException e) {
-			return original;
+			e.printStackTrace();
 
 		} finally {
 			try {
-				if(reader != null) {
-					reader.close();
-				}
+				if(reader != null)	reader.close();
 			} catch (IOException e) {
-				return original;
+				e.printStackTrace();
 			}
 		}
 

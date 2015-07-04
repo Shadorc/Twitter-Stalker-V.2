@@ -49,10 +49,13 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 
-		Initialization.createShortcut();
+		//Create json file if it doesn't exist
+		Storage.init();
 
 		//Load options
 		new OptionsPanel();
+
+		Initialization.createShortcut();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
