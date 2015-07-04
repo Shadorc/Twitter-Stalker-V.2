@@ -17,16 +17,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultEditorKit;
 
-public class TextField extends JTextField implements FocusListener {
+public class TextField extends JTextField {
 
 	private static final long serialVersionUID = 1L;
-
-	private String text;
 
 	public interface Text {
 		String PIN = "Veuillez entrer le code PIN";
 		String USERNAME = "Veuillez entrer l'@ du compte à analyser";
-		String COMPARISON = "Veuillez entrer l'@ d'un compte à analyser";
+		String COMPARISON = "Veuillez entrer l'@ d'un compte à comparer";
 		String ARCHIVE = "Veuillez sélectionner l'archive à analyser";
 		String INVALID_PIN = "Merci d'entrer un code PIN valide";
 		String INVALID_USER = "Merci d'entrer un utilisateur valide";
@@ -41,14 +39,13 @@ public class TextField extends JTextField implements FocusListener {
 				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, INVALID_ARCHIVE, API_LIMIT, NO_TWEET, PRIVATE, ARCHIVE_ERROR, ERROR}));
 	}
 
-	public TextField(String text, Font font) {
+	public TextField(final String text, Font font) {
 		super(text);
-
-		this.text = text;
 
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(final MouseEvent event) {
+				//Open right click drop-down menu
 				if(event.isPopupTrigger()) {
 					JPopupMenu menu = new JPopupMenu();
 					menu.setBackground(Color.WHITE);
@@ -74,11 +71,22 @@ public class TextField extends JTextField implements FocusListener {
 					menu.show(event.getComponent(), event.getX(), event.getY());
 				}
 			}
+		});
+
+		this.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent event) {
+				JTextField jtf = (JTextField) event.getSource();
+				if(jtf.getText().isEmpty()) {
+					jtf.setText(text);
+				}
+			}
 
 			@Override
-			public void mousePressed(MouseEvent event) {
+			public void focusGained(FocusEvent event) {
 				JTextField jtf = (JTextField) event.getSource();
 				String text = jtf.getText();
+				//If the text is a default message, delete it.
 				for(String s : Text.MESSAGES) {
 					if(Storage.tra(s).equals(text)) {
 						jtf.setForeground(Color.WHITE);
@@ -87,7 +95,7 @@ public class TextField extends JTextField implements FocusListener {
 				}
 			}
 		});
-		this.addFocusListener(this);
+
 		this.setHorizontalAlignment(JTextField.CENTER);
 		this.setFont(font);
 		this.setForeground(Color.WHITE);
@@ -106,25 +114,5 @@ public class TextField extends JTextField implements FocusListener {
 	public void error(String error) {
 		this.setForeground(Color.RED);
 		this.setText(error);
-	}
-
-	@Override
-	public void focusLost(FocusEvent event) {
-		JTextField jtf = (JTextField) event.getSource();
-		if(jtf.getText().isEmpty()) {
-			jtf.setText(text);
-		}
-	}
-
-	@Override
-	public void focusGained(FocusEvent event) {
-		JTextField jtf = (JTextField) event.getSource();
-		String text = jtf.getText();
-		for(String s : Text.MESSAGES) {
-			if(Storage.tra(s).equals(text)) {
-				jtf.setForeground(Color.WHITE);
-				jtf.setText("");
-			}
-		}
 	}
 }
