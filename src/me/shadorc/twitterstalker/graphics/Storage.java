@@ -46,6 +46,10 @@ public class Storage {
 		MENTIONS,
 		RETWEET_BY_ME,
 
+		REPUTE,
+		FAVORITE,
+		RETWEET,
+
 		SOURCE,
 		DAYS,
 		HOURS,
@@ -58,17 +62,13 @@ public class Storage {
 		MENTIONS_SENT,
 		MENTIONS_RECEIVED,
 
-		TWEETS_NUMBER,
-		MENTIONS_NUMBER,
-		TWEET_PER_DAYS,
-		REPUTE,
-		RETWEET,
-		FAVORITE,
 		WORDS_COUNT,
 		LETTERS,
 		MEDIA,
 		URL,
-		FIRST_TALK;
+
+		TWEET_PER_DAYS,
+		FIRST_TALK
 	}
 
 	public static void init() {

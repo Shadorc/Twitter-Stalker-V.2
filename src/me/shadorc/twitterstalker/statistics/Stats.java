@@ -55,8 +55,6 @@ public class Stats {
 		bu.setEnabled(false);
 		bu.setText("0%");
 
-		stats.put(Data.MENTIONS_NUMBER, new StatInfo());
-		stats.put(Data.TWEETS_NUMBER, new StatInfo());
 		stats.put(Data.MENTIONS, new StatInfo());
 		stats.put(Data.RETWEET_BY_ME, new StatInfo());
 		stats.put(Data.RETWEET, new StatInfo());
