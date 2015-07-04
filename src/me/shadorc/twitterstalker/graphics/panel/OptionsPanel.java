@@ -154,10 +154,6 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		return Integer.parseInt(letters_word.getSelectedItem().toString());
 	}
 
-	public static String getLang() {
-		return languages.getSelectedItem().toString();
-	}
-
 	public static Locale getLocaleLang() {
 		try {
 			return new Locale(Storage.getData(Data.INTERFACE_LANG).substring(0, 2));

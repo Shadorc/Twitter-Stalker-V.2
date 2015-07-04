@@ -1,6 +1,5 @@
 package me.shadorc.twitterstalker.statistics;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,44 +7,26 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import me.shadorc.twitterstalker.graphics.Storage;
-
 public class StatInfo {
 
 	private HashMap <String, WordInfo> map;
-	private String desc;
-	private double num;
-
-	private DecimalFormat df = new DecimalFormat("#.#");
+	private WordInfo wi;
 
 	StatInfo() {
 		this.map = new HashMap <String, WordInfo> ();
+		this.wi = new WordInfo("");
 	}
 
-	StatInfo(double num, String desc) {
-		this.num = num;
-		this.desc = df.format(num) + " " + Storage.tra(desc);
+	StatInfo(String desc, double num, double total) {
+		this.wi = new WordInfo(desc, num, total);
 	}
 
-	StatInfo(double num, String desc, TwitterUser user) {
-		this.num = num;
-		this.desc = (df.format(100*num/user.getTweetsAnalyzed()) + "% " + desc + " (" + df.format(num) + ")");
+	public void setTotal(double total) {
+		this.wi.setTotal(total);
 	}
 
-	public void increment() {
-		num++;
-	}
-
-	public void increment(long num) {
-		this.num += num;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public double getNum() {
-		return num;
+	public WordInfo getWordInfo() {
+		return wi;
 	}
 
 	public void add(String word) {
@@ -61,8 +42,9 @@ public class StatInfo {
 		wi.increment();
 	}
 
+	//Used by FIRST_TALK
 	public void add(String name, Date date) {
-		if(map.containsKey(name) && new Date((long) this.getNum()).after(date)) {
+		if(map.containsKey(name) && new Date((long) wi.getNum()).before(date)) {
 			map.get(name).setNum(date.getTime());
 		} else if(!map.containsKey(name)) {
 			this.add(name);
@@ -70,8 +52,8 @@ public class StatInfo {
 		}
 	}
 
-	public void add(WordInfo status) {
-		map.put(Long.toString(status.getId()), status);
+	public void add(WordInfo wi) {
+		map.put(Long.toString(wi.getStatus().getId()), wi);
 	}
 
 	public List <WordInfo> sort() {
@@ -82,7 +64,7 @@ public class StatInfo {
 		Comparator <WordInfo> comparator = new Comparator <WordInfo>() {
 			@Override
 			public int compare(WordInfo w1, WordInfo w2) {
-				return Long.compare(w1.getCount(), w2.getCount());
+				return Double.compare(w1.getNum(), w2.getNum());
 			}
 		};
 

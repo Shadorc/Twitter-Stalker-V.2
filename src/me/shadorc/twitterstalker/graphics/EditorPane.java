@@ -48,13 +48,16 @@ public class EditorPane extends JEditorPane {
 						} catch(TwitterException e) {
 							text += "- " + Storage.tra("Utilisateur inexistant");
 						}
+
 					} else if(type.equals(Data.POPULARE)) {
-						text += "- " + "<a href=" + stats.get(type, i).getStatusUrl() + ">" + stats.get(type, i).getInfo() + "</a>";
+						text += "- " + "<a href=" + stats.get(type, i).getStatusUrl() + ">" + stats.get(type, i).getStatusInfo() + "</a>";
+
 					} else if(type.equals(Data.FIRST_TALK)) {
 						ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(type));
 						Collections.reverse(copy);
-						String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date(copy.get(i).getCount()));
+						String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date((long) copy.get(i).getNum()));
 						text += "- " + copy.get(i).getWord() + " (" + date + ")";
+
 					} else {
 						text += "- " + stats.get(type, i).getInfo();
 					}

@@ -19,6 +19,7 @@ import javax.swing.event.HyperlinkListener;
 import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import twitter4j.Status;
 
 public class PopularePreview implements HyperlinkListener {
 
@@ -44,12 +45,13 @@ public class PopularePreview implements HyperlinkListener {
 			menu.removeAll();
 
 		} else if(he.getEventType() == EventType.ENTERED) {
-			for(WordInfo status : stats.get(Data.POPULARE)) {
-				if(status.getStatusUrl().equals(he.getURL().toString())) {
+			for(WordInfo wi : stats.get(Data.POPULARE)) {
+				Status status = wi.getStatus();
+				if(wi.getStatusUrl().equals(he.getURL().toString())) {
 					menu.add(new JLabel("<html><font color='white' size=4>&emsp;" + status.getText() + "&emsp;"));
 
 					DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
-					menu.add(new JLabel("<html><b>" + df.format(status.getDate()), SwingConstants.CENTER));
+					menu.add(new JLabel("<html><b>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
 
 					Point mouse = MouseInfo.getPointerInfo().getLocation();
 					menu.show(null, (int) mouse.getX() - 100, (int) mouse.getY() - 60);

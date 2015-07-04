@@ -114,5 +114,7 @@ public class TextField extends JTextField {
 	public void error(String error) {
 		this.setForeground(Color.RED);
 		this.setText(error);
+		//Unfocus the JTextField
+		this.getParent().requestFocus();
 	}
 }
