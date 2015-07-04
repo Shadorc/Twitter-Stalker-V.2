@@ -105,7 +105,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		userInfosStats.add(new JLabel());
 		userInfosStats.add(new JLabel());
 
-		JLabel tweets = new JLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalysed() + "/" + user.getTweetsPosted());
+		JLabel tweets = new JLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted());
 		tweets.setForeground(Color.WHITE);
 		tweets.setFont(font);
 		userInfosStats.add(tweets);

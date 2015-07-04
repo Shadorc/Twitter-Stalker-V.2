@@ -20,8 +20,8 @@ import twitter4j.User;
 public class TwitterUser {
 
 	private User user;
-	private int tweetsAnalysed;
-	private int mentionsAnalysed;
+	private int tweetsAnalyzed;
+	private int mentionsAnalyzed;
 
 	public TwitterUser(String user) throws TwitterException {
 		this.user = Frame.getTwitter().showUser(user);
@@ -32,11 +32,11 @@ public class TwitterUser {
 	}
 
 	public void incremenAnalyzedTweets() {
-		tweetsAnalysed++;
+		tweetsAnalyzed++;
 	}
 
 	public void incremenAnalyzedMentions() {
-		mentionsAnalysed++;
+		mentionsAnalyzed++;
 	}
 
 	public String getName() {
@@ -51,12 +51,12 @@ public class TwitterUser {
 		return DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(user.getCreatedAt());
 	}
 
-	public int getTweetsAnalysed() {
-		return tweetsAnalysed;
+	public int getTweetsAnalyzed() {
+		return tweetsAnalyzed;
 	}
 
-	public int getMentionsAnalysed() {
-		return mentionsAnalysed;
+	public int getMentionsAnalyzed() {
+		return mentionsAnalyzed;
 	}
 
 	public int getTweetsPosted() {

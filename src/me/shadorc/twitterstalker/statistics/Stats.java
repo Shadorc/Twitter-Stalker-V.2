@@ -30,20 +30,19 @@ public class Stats {
 
 	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
 		stop = false;
-		stats = new HashMap <> ();
-		df = new DecimalFormat("#.#");
-		isArchive = (statusList != null);
 
-		int tweetsToAnalyse = user.getTweetsPosted();
-		double timeTweet = 1;
-		double timeFirstTweet = 1;
-
-		if(tweetsToAnalyse == 0) {
+		if(user.getTweetsPosted() == 0) {
 			throw new TwitterException(Storage.tra("L'utilisateur n'a posté aucun tweet"), new Exception(user.getName()), 600);
-		} else if(statusList != null) {
-			tweetsToAnalyse = statusList.size();
-		} else if(tweetsToAnalyse > OptionsPanel.getMaxTweetsNumber()) {
-			tweetsToAnalyse = OptionsPanel.getMaxTweetsNumber();
+		}
+
+		this.stats = new HashMap <Data, StatInfo> ();
+		this.df = new DecimalFormat("#.#");
+		this.isArchive = (statusList != null);
+
+		int tweetsToAnalyze = (statusList != null) ? statusList.size() : user.getTweetsPosted();
+
+		if(tweetsToAnalyze > OptionsPanel.getMaxTweetsNumber()) {
+			tweetsToAnalyze = OptionsPanel.getMaxTweetsNumber();
 		}
 
 		if(user.isPrivate() && !user.getName().equals(Frame.getTwitter().getScreenName())) {
@@ -74,23 +73,19 @@ public class Stats {
 		stats.put(Data.URL, new StatInfo());
 		stats.put(Data.FIRST_TALK, new StatInfo());
 
-		for(int i = 1; user.getTweetsAnalysed() < tweetsToAnalyse; i++) {
+		double timeTweet = 1;
+		double timeFirstTweet = 1;
+
+		for(int i = 1; user.getTweetsAnalyzed() < tweetsToAnalyze; i++) {
 
 			RateLimitStatus rls = Frame.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
 			System.out.println("User timeline : " + rls.getRemaining() + " / " + rls.getLimit() + ", réinitialisation dans " + (rls.getSecondsUntilReset()/60) + "min " + (int) ((rls.getSecondsUntilReset()/60f - (int) (rls.getSecondsUntilReset()/60f))*60) + "s");
 
-			List <Status> timeline;
-			if(statusList == null) {
-				timeline = Frame.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200));
-			} else {
-				timeline = statusList;
-			}
+			List <Status> timeline = (statusList == null) ? Frame.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200)) : statusList;
 
 			for(Status status : timeline) {
 
-				if(stop) {
-					return;
-				}
+				if(stop) return;
 
 				//Number of days since this tweet was posted
 				timeTweet = (new Date().getTime() - status.getCreatedAt().getTime()) / 86400000;
@@ -108,15 +103,15 @@ public class Stats {
 				}
 			}
 
-			double progress = (100.0 * user.getTweetsAnalysed()) / (tweetsToAnalyse);
+			double progress = (100.0 * user.getTweetsAnalyzed()) / tweetsToAnalyze;
 			if(progress > 100) progress = 100;
 			bu.setText(df.format(progress) + "%");
 		}
 
 		if(user.getName().equals(Frame.getTwitter().getScreenName())) {
-			for(int i = 1; user.getMentionsAnalysed() < OptionsPanel.getMaxMentionsNumber(); i++) {
+			for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.getMaxMentionsNumber(); i++) {
 
-				int secure = user.getMentionsAnalysed();
+				int secure = user.getMentionsAnalyzed();
 
 				RateLimitStatus rls = Frame.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
 				System.out.println("Mentions timeline : " + rls.getRemaining() + " / " + rls.getLimit() + ", réinitialisation dans " + (rls.getSecondsUntilReset()/60) + "min " + (int) ((rls.getSecondsUntilReset()/60f - (int) (rls.getSecondsUntilReset()/60f))*60) + "s");
@@ -124,9 +119,7 @@ public class Stats {
 				try {
 					for(Status status : Frame.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
 
-						if(stop) {
-							return;
-						}
+						if(stop) return;
 
 						user.incremenAnalyzedMentions();
 						stats.get(Data.MENTIONS_RECEIVED).add(status.getUser().getScreenName());
@@ -137,18 +130,18 @@ public class Stats {
 				}
 
 				//User has never tweeted mentions or tweeted fewer than 150 mentions
-				if(secure == user.getMentionsAnalysed() || user.getMentionsAnalysed() < 150) {
+				if(secure == user.getMentionsAnalyzed() || user.getMentionsAnalyzed() < 150) {
 					break;
 				}
 			}
 		}
 
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalysed() / timeFirstTweet), "tweets par jour"));
-		stats.put(Data.WORDS_PER_TWEET, new StatInfo((stats.get(Data.WORDS_COUNT).getNum() / user.getTweetsAnalysed()), "mots par tweet"));
-		stats.put(Data.LETTERS_PER_TWEET, new StatInfo((stats.get(Data.LETTERS).getNum() / user.getTweetsAnalysed()), "lettres par tweet"));
+		stats.put(Data.TWEET_PER_DAYS, new StatInfo(((double) user.getTweetsAnalyzed() / timeFirstTweet), "tweets par jour"));
+		stats.put(Data.WORDS_PER_TWEET, new StatInfo((stats.get(Data.WORDS_COUNT).getNum() / user.getTweetsAnalyzed()), "mots par tweet"));
+		stats.put(Data.LETTERS_PER_TWEET, new StatInfo((stats.get(Data.LETTERS).getNum() / user.getTweetsAnalyzed()), "lettres par tweet"));
 		stats.put(Data.LETTERS_PER_WORD, new StatInfo((stats.get(Data.LETTERS).getNum() / stats.get(Data.WORDS_COUNT).getNum()), "lettres par mot"));
 
-		double puretweets = user.getTweetsAnalysed() - stats.get(Data.MENTIONS).getNum() - stats.get(Data.RETWEET_BY_ME).getNum();
+		double puretweets = user.getTweetsAnalyzed() - stats.get(Data.MENTIONS).getNum() - stats.get(Data.RETWEET_BY_ME).getNum();
 		stats.put(Data.PURETWEETS, new StatInfo(puretweets, Storage.tra("Puretweets"), user));
 
 		stats.put(Data.MENTIONS, new StatInfo(stats.get(Data.MENTIONS).getNum(), Storage.tra("Mentions"), user));

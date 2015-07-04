@@ -167,7 +167,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		infosPanel.add(this.createInfoLabel(Storage.tra("Followers : ") + user.getFollowersCount()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Followings : ") + user.getFollowingCount()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Membre depuis : ") + user.getAge() + Storage.tra(" jours")));
-		infosPanel.add(this.createInfoLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalysed() + "/" + user.getTweetsPosted()));
+		infosPanel.add(this.createInfoLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Nombre de tweets/jour : ") + user.getTweetsPerDay(stats)));
 		descPanel.add(infosPanel, BorderLayout.EAST);
 

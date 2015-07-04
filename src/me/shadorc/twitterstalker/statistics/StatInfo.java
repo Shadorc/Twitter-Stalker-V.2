@@ -19,7 +19,7 @@ public class StatInfo {
 	private DecimalFormat df = new DecimalFormat("#.#");
 
 	StatInfo() {
-		this.map = new HashMap <>();
+		this.map = new HashMap <String, WordInfo> ();
 	}
 
 	StatInfo(double num, String desc) {
@@ -29,7 +29,7 @@ public class StatInfo {
 
 	StatInfo(double num, String desc, TwitterUser user) {
 		this.num = num;
-		this.desc = (df.format(100*num/user.getTweetsAnalysed()) + "% " + desc + " (" + df.format(num) + ")");
+		this.desc = (df.format(100*num/user.getTweetsAnalyzed()) + "% " + desc + " (" + df.format(num) + ")");
 	}
 
 	public void increment() {
@@ -50,19 +50,15 @@ public class StatInfo {
 
 	public void add(String word) {
 		//Get the value of the word in the map
-		WordInfo wih = map.get(word);
+		WordInfo wi = map.get(word);
 
 		//If the word isn't in the map, create and add
-		if(wih == null) {
-			wih = new WordInfo(word);
-			map.put(word, wih);
+		if(wi == null) {
+			wi = new WordInfo(word);
+			map.put(word, wi);
 		}
 
-		wih.increment();
-	}
-
-	public void add(WordInfo status) {
-		map.put(Long.toString(status.getId()), status);
+		wi.increment();
 	}
 
 	public void add(String name, Date date) {
@@ -74,9 +70,13 @@ public class StatInfo {
 		}
 	}
 
+	public void add(WordInfo status) {
+		map.put(Long.toString(status.getId()), status);
+	}
+
 	public List <WordInfo> sort() {
 
-		List <WordInfo> list = new ArrayList <>(map.values());
+		List <WordInfo> list = new ArrayList <WordInfo> (map.values());
 
 		//Comparator who compares each words value
 		Comparator <WordInfo> comparator = new Comparator <WordInfo>() {
