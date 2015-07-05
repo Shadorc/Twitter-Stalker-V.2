@@ -144,9 +144,7 @@ public class Storage {
 
 	private static String tra(String key, String lang) {
 		try {
-			File file = new File(Storage.class.getResource("/lang/Translation." + lang + ".resx").toURI());
-
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Storage.class.getResourceAsStream("/lang/Translation." + lang + ".resx"));
 
 			NodeList nodeList = document.getElementsByTagName("data");
 			for (int i = 0; i < nodeList.getLength(); i++) {
