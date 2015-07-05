@@ -5,7 +5,7 @@ Twitter Stalker is a simple application allowing you to get many statistics and 
 http://shadorc.webnode.fr/twitter-stalker/
 
 <u>Any suggestions ?</u>
-Twitter : @Shad0rc
+<br>Twitter : @Shad0rc
 
 <h1>Helping with translation</h1>
 
@@ -15,9 +15,9 @@ I'm using ResX Resource Manager Visual Studio extension when translating to othe
 https://visualstudiogallery.msdn.microsoft.com/3b64e04c-e8de-4b97-8358-06c73a97cc68
 
 Standalone version of it also exist here:
-https://resxresourcemanager.codeplex.com/releases (ClickOnce Installer)
+<br>https://resxresourcemanager.codeplex.com/releases (ClickOnce Installer)
 
 You just need to use this software/extension and set columns to your language.
-Once finished, create a pull request or contact us on Twitter.
+<br>Once finished, create a pull request or contact us on Twitter.
 
 <b>Thanks !</b>
