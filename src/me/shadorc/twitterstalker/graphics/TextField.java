@@ -22,18 +22,18 @@ public class TextField extends JTextField {
 	private static final long serialVersionUID = 1L;
 
 	public interface Text {
-		String PIN = "Veuillez entrer le code PIN";
-		String USERNAME = "Veuillez entrer l'@ du compte à analyser";
-		String COMPARISON = "Veuillez entrer l'@ d'un compte à comparer";
-		String ARCHIVE = "Veuillez sélectionner l'archive à analyser";
-		String INVALID_PIN = "Merci d'entrer un code PIN valide";
-		String INVALID_USER = "Merci d'entrer un utilisateur valide";
-		String INVALID_ARCHIVE = "Merci de choisir une archive valide";
-		String API_LIMIT = "Limite de l'API atteinte : ";
-		String NO_TWEET = "L'utilisateur n'a jamais tweeté";
-		String PRIVATE = "Le compte est privé";
-		String ARCHIVE_ERROR = "Erreur lors du chargement de l'archive";
-		String ERROR = "Erreur inattendue : ";
+		String PIN = "enterPin";
+		String USERNAME = "enterAccount";
+		String COMPARISON = "enterComparison";
+		String ARCHIVE = "enterArchive";
+		String INVALID_PIN = "invalidPin";
+		String INVALID_USER = "invalidUser";
+		String INVALID_ARCHIVE = "invalidArchive";
+		String API_LIMIT = "apiLimit";
+		String NO_TWEET = "userNeverTweet";
+		String PRIVATE = "privateAccount";
+		String ARCHIVE_ERROR = "archiveError";
+		String ERROR = "unexpectedError";
 
 		ArrayList <String> MESSAGES = new ArrayList <String> (Arrays.asList(
 				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, INVALID_ARCHIVE, API_LIMIT, NO_TWEET, PRIVATE, ARCHIVE_ERROR, ERROR}));
@@ -51,12 +51,12 @@ public class TextField extends JTextField {
 					menu.setBackground(Color.WHITE);
 
 					JMenuItem paste = new JMenuItem(new DefaultEditorKit.PasteAction());
-					paste.setText(Storage.tra("Coller"));
+					paste.setText(Storage.tra("paste"));
 					paste.setBackground(Color.WHITE);
 					paste.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 15));
 					menu.add(paste);
 
-					JMenuItem delete = new JMenuItem(new AbstractAction(Storage.tra("Supprimer")) {
+					JMenuItem delete = new JMenuItem(new AbstractAction(Storage.tra("delete")) {
 						private static final long serialVersionUID = 1L;
 
 						public void actionPerformed(ActionEvent ae) {

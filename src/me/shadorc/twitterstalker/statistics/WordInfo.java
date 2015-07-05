@@ -62,7 +62,7 @@ public class WordInfo {
 	}
 
 	public String getStatusInfo() {
-		return status.getRetweetCount() + Storage.tra(" RT | ") + status.getFavoriteCount() + Storage.tra(" FAV");
+		return status.getRetweetCount() + Storage.tra("rt") + status.getFavoriteCount() + Storage.tra("fav");
 	}
 
 	public Status getStatus() {

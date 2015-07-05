@@ -74,7 +74,7 @@ public class Frame extends JFrame {
 			icon.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
 			error.add(icon, BorderLayout.PAGE_START);
 
-			JLabel info = new JLabel(Storage.tra("Erreur. Vérifiez votre connexion Internet."), JLabel.CENTER);
+			JLabel info = new JLabel(Storage.tra("internetError"), JLabel.CENTER);
 			info.setBorder(BorderFactory.createEmptyBorder(0, 0, 250, 0));
 			info.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 50));
 			info.setForeground(Color.WHITE);
@@ -137,7 +137,7 @@ public class Frame extends JFrame {
 				@Override
 				public void run() {
 					if(!Infonet.open(requestToken.getAuthorizationURL(), true)) {
-						JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de l'ouverture, l'URL a été copiée dans le presse-papier."), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, Storage.tra("urlError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}.start();

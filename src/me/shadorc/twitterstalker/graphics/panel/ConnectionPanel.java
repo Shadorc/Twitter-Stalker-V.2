@@ -193,7 +193,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 				}
 
 				field1.setForeground(Color.WHITE);
-				field1.setText(Storage.tra("Chargement des tweets..."));
+				field1.setText(Storage.tra("loadingTweet"));
 
 				statusList = new ArrayList <Status> ();
 
@@ -283,7 +283,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 
 							String error;
 							if(e.getErrorCode() == 88) {
-								error = Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
+								error = Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
 							} else {
 								switch(e.getStatusCode()) {
 									case 401:
@@ -321,7 +321,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							String error = null;
 
 							if(e.getErrorCode() == 88) {
-								globalEr = Storage.tra(Text.API_LIMIT) + Storage.tra("déblocage dans ") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
+								globalEr = Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
 							} else {
 								switch(e.getStatusCode()) {
 									case 401:

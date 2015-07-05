@@ -32,7 +32,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		super(new BorderLayout());
 		this.setBackground(new Color(3,169,244));
 
-		JLabel title = new JLabel(Storage.tra("Que voulez-vous analyser ?"), JLabel.CENTER);
+		JLabel title = new JLabel(Storage.tra("menuQuestion"), JLabel.CENTER);
 
 		title.setForeground(new Color(33,33,33));
 		title.setFont(Frame.getFont("RobotoCondensed-LightItalic.ttf", 72));
@@ -56,13 +56,13 @@ public class MenuPanel extends JPanel implements ActionListener {
 		buttons.setOpaque(false);
 		buttons.setBorder(BorderFactory.createEmptyBorder(50, 175, 90, 175));
 
-		statistics = this.createJButton(Storage.tra("Compte"));
+		statistics = this.createJButton(Storage.tra("account"));
 		buttons.add(statistics);
 
-		comparison = this.createJButton(Storage.tra("Comparaison"));
+		comparison = this.createJButton(Storage.tra("comparison"));
 		buttons.add(comparison);
 
-		archive = this.createJButton(Storage.tra("Archive"));
+		archive = this.createJButton(Storage.tra("archive"));
 		buttons.add(archive);
 
 		center.add(buttons, BorderLayout.CENTER);

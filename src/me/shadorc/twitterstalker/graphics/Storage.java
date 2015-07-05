@@ -1,16 +1,20 @@
 package me.shadorc.twitterstalker.graphics;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Locale;
 
 import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import twitter4j.JSONException;
 import twitter4j.JSONObject;
@@ -83,14 +87,14 @@ public class Storage {
 				writer.write(new JSONObject().toString());
 
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 
 			} finally {
 				try {
 					if(writer != null)	writer.close();
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
 			}
@@ -121,51 +125,45 @@ public class Storage {
 			writer.write(jsonObject.toString().replaceAll(",", ",\n"));
 
 		} catch (IOException | JSONException e) {
-			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 
 		} finally {
 			try {
 				if(writer != null)	writer.close();
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la sauvegarde, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public static String tra(String original) {
-		BufferedReader reader = null;
+	public static String tra(String key) {
+		return tra(key, OptionsPanel.getLocaleLang().getLanguage().substring(0, 2).toLowerCase());
+	}
 
+	private static String tra(String key, String lang) {
 		try {
-			String obj = Storage.getData(Data.INTERFACE_LANG);
-			String lang = (obj != null) ? obj : Locale.getDefault().getDisplayLanguage(Locale.ENGLISH);
+			File file = new File(Storage.class.getResource("/lang/Translation." + lang + ".resx").toURI());
 
-			reader = new BufferedReader(new InputStreamReader(Storage.class.getResourceAsStream("/lang/" + lang + ".txt"), "UTF-8"));
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
 
-			String line;
-			while((line = reader.readLine()) != null) {
-				if(original.equals(line.replaceAll("\"", "").replaceAll("\\\\n", "\n"))) {
-					//Check if the line is not out of the text file
-					if((line = reader.readLine()) != null) {
-						return line.replaceAll("\"", "").replaceAll("\\\\n", "\n");
-					}
-					break;
+			NodeList nodeList = document.getElementsByTagName("data");
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node node = nodeList.item(i);
+
+				if(node.getAttributes().getNamedItem("name").getTextContent().equals(key)) {
+
+					String text = node.getTextContent();
+					text = text.replaceAll("\n", ""); 			//Remove line break added by XML
+					text = text.substring(4, text.length()-2); 	//Remove whitespace at the start and at the end added by XML
+
+					return text;
 				}
 			}
+		} catch (Exception ignore) { }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-
-		} finally {
-			try {
-				if(reader != null)	reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		System.err.println("Translation not found : " + original);
-		return original;
+		System.err.println("Translation not found : " + lang + " : " + key);
+		return (lang.equals("fr")) ? key : tra(key, "fr");
 	}
 }

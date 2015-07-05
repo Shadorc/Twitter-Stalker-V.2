@@ -35,7 +35,7 @@ public class EditorPane extends JEditorPane {
 		field.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 		field.setFont(Frame.getFont("SEGOEUI.TTF", 26));
 
-		String text = "<font color=#212121>" + Storage.tra(desc) + "<font color=#727272><style=\"font-size:23\";>";
+		String text = "<font color=#212121>" + desc + "<font color=#727272><style=\"font-size:23\";>";
 		//If it's stats contains in array
 		if(types.length == 1) {
 			Data type = types[0];
@@ -46,7 +46,7 @@ public class EditorPane extends JEditorPane {
 						try {
 							text += "- " + stats.get(type, i).getUserInfo();
 						} catch(TwitterException e) {
-							text += "- " + Storage.tra("Utilisateur inexistant");
+							text += "- " + Storage.tra("nonExistentUser");
 						}
 
 					} else if(type.equals(Data.POPULARE)) {
@@ -103,25 +103,25 @@ public class EditorPane extends JEditorPane {
 
 		phrases = new ArrayList <String> ();
 
-		this.compare(Data.TWEET_PER_DAYS, "tweete plus", false);
-		this.compare(Data.RETWEET_BY_ME, "retweete plus", true);
-		this.compare(Data.MENTIONS_COUNT, "mentionne plus", true);
-		this.compare(Data.POPULARE, "est plus populaire", false);
-		this.compare(Data.URL, "poste plus d'URL", true);
-		this.compare(Data.MEDIA, "poste plus de médias", true);
+		this.compare(Data.TWEET_PER_DAYS, Storage.tra("tweetMore"), false);
+		this.compare(Data.RETWEET_BY_ME, Storage.tra("retweetMore"), true);
+		this.compare(Data.MENTIONS_COUNT, Storage.tra("moreMentions"), true);
+		this.compare(Data.POPULARE, Storage.tra("morePopular"), false);
+		this.compare(Data.URL, Storage.tra("moreUrl"), true);
+		this.compare(Data.MEDIA, Storage.tra("moreMedias"), true);
 
 		String sunday = new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1];
-		if(stats1.get(Data.SOURCE).size() == 1 && stats1.get(Data.SOURCE).get(0).getWord().equals("Twitter Web Client"))	phrases.add("ne sait pas qu'il existe autre chose que Twitter Web");
-		if(stats1.get(Data.DAYS).get(0).getWord().equalsIgnoreCase(sunday))	phrases.add("confond le jour du Seigneur et celui du flood");
-		if(stats1.get(Data.HOURS).get(0).getNum() > stats2.get(Data.HOURS).get(0).getNum())	phrases.add("tweete plus tard");
-		if(user1.getFollowingCount()/2 > user1.getFollowersCount())	phrases.add("follow beaucoup plus qu'il ne l'est");
-		if(stats1.getUnique(Data.TWEET_PER_DAYS).getRatio() >= 200)	phrases.add("tweete énormément");
-		if(user1.getAge() > 1825) phrases.add("est un vieux du game");
+		if(stats1.get(Data.SOURCE).size() == 1 && stats1.get(Data.SOURCE).get(0).getWord().equals("Twitter Web Client"))	Storage.tra(Storage.tra("onlyTwitterWeb"));
+		if(stats1.get(Data.HOURS).get(0).getNum() > stats2.get(Data.HOURS).get(0).getNum())									Storage.tra(Storage.tra("tweetLater"));
+		if(stats1.get(Data.DAYS).get(0).getWord().equalsIgnoreCase(sunday))													Storage.tra(Storage.tra("sundayTweet"));
+		if(user1.getFollowingCount()/2 > user1.getFollowersCount())															Storage.tra(Storage.tra("followALot"));
+		if(stats1.getUnique(Data.TWEET_PER_DAYS).getRatio() >= 200)															Storage.tra(Storage.tra("tweetALot"));
+		if(user1.getAge() > 1825) 																							Storage.tra(Storage.tra("oldOnTwitter"));
 
 		String text = "<font color=#212121>" + user1.getName() + "<font color=#727272><style=\"font-size:23\";><ul>";
 		Collections.shuffle(phrases);
 		for(int i = 0; i < phrases.size() && i < 5; i++) {
-			text += "<li>" + Storage.tra(phrases.get(i)) + "</li>";
+			text += "<li>" + phrases.get(i) + "</li>";
 		}
 		text += "</lu>";
 

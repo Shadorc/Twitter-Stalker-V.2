@@ -14,7 +14,7 @@ public class CheckBoxOption extends JCheckBox implements ItemListener {
 
 	public CheckBoxOption(String name, Data data) {
 		//If user has never changed this option, set true by default
-		super(Storage.tra(name), Storage.getData(data) == null ? true : Boolean.valueOf(Storage.getData(data)));
+		super(name, Storage.getData(data) == null ? true : Boolean.valueOf(Storage.getData(data)));
 
 		this.data = data;
 

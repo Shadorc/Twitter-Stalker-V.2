@@ -54,7 +54,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		top.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(25, 0, 25, 0)));
 		top.setBackground(new Color(3,169,244));
 
-		JLabel title = new JLabel(Storage.tra("Options"), JLabel.CENTER);
+		JLabel title = new JLabel(Storage.tra("options"), JLabel.CENTER);
 		title.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 72));
 		title.setForeground(new Color(33,33,33));
 		top.add(title, BorderLayout.PAGE_START);
@@ -68,12 +68,12 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		options.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
 		options.setOpaque(false);
 
-		options.add(this.createOption("Taille minimum des mots à analyser : ", letters_word));
-		options.add(this.createOption("Langue du programme : ", languages));
-		options.add(this.createOption("Mentions à analyser : ", mentions_number));
-		options.add(this.createOption("Tweets à analyser : ", tweets_number));
-		options.add(this.createOption("Taille des listes : ", list_lenght));
-		options.add(this.createOption("Statistiques à afficher :", null));
+		options.add(this.createOption(Storage.tra("minWordLenght"), letters_word));
+		options.add(this.createOption(Storage.tra("progLanguage"), languages));
+		options.add(this.createOption(Storage.tra("mentionsNumber"), mentions_number));
+		options.add(this.createOption(Storage.tra("tweetsNumber"), tweets_number));
+		options.add(this.createOption(Storage.tra("listLenght"), list_lenght));
+		options.add(this.createOption(Storage.tra("statsToShow"), null));
 
 		centerPanel.add(options, BorderLayout.PAGE_START);
 
@@ -82,18 +82,18 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBox.setOpaque(false);
 
 		checkBoxMap = new LinkedHashMap <Data, JCheckBox> ();
-		checkBoxMap.put(Data.TWEETS, new CheckBoxOption("Tweets", Data.TWEETS));
-		checkBoxMap.put(Data.TIMELINE, new CheckBoxOption("Timeline", Data.TIMELINE));
-		checkBoxMap.put(Data.REPUTE, new CheckBoxOption("Renommée", Data.REPUTE));
-		checkBoxMap.put(Data.SOURCE, new CheckBoxOption("Sources", Data.SOURCE));
-		checkBoxMap.put(Data.DAYS, new CheckBoxOption("Jours", Data.DAYS));
-		checkBoxMap.put(Data.HOURS, new CheckBoxOption("Heures", Data.HOURS));
-		checkBoxMap.put(Data.WORDS, new CheckBoxOption("Mots", Data.WORDS));
-		checkBoxMap.put(Data.HASHTAG, new CheckBoxOption("Hashtags", Data.HASHTAG));
-		checkBoxMap.put(Data.POPULARE, new CheckBoxOption("Populaires", Data.POPULARE));
-		checkBoxMap.put(Data.LANG, new CheckBoxOption("Langues", Data.LANG));
-		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Mentions envoyées", Data.MENTIONS_SENT));
-		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption("Mentions reçues", Data.MENTIONS_RECEIVED));
+		checkBoxMap.put(Data.TWEETS, new CheckBoxOption(Storage.tra("tweetsStat"), Data.TWEETS));
+		checkBoxMap.put(Data.TIMELINE, new CheckBoxOption(Storage.tra("timelineStat"), Data.TIMELINE));
+		checkBoxMap.put(Data.REPUTE, new CheckBoxOption(Storage.tra("reputeStat"), Data.REPUTE));
+		checkBoxMap.put(Data.SOURCE, new CheckBoxOption(Storage.tra("sourceStat"), Data.SOURCE));
+		checkBoxMap.put(Data.DAYS, new CheckBoxOption(Storage.tra("daysStat"), Data.DAYS));
+		checkBoxMap.put(Data.HOURS, new CheckBoxOption(Storage.tra("hoursStat"), Data.HOURS));
+		checkBoxMap.put(Data.WORDS, new CheckBoxOption(Storage.tra("wordsStat"), Data.WORDS));
+		checkBoxMap.put(Data.HASHTAG, new CheckBoxOption(Storage.tra("hashtagStat"), Data.HASHTAG));
+		checkBoxMap.put(Data.POPULARE, new CheckBoxOption(Storage.tra("popularStat"), Data.POPULARE));
+		checkBoxMap.put(Data.LANG, new CheckBoxOption(Storage.tra("languageStat"), Data.LANG));
+		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption(Storage.tra("mentionsSent"), Data.MENTIONS_SENT));
+		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption(Storage.tra("mentionsReceived"), Data.MENTIONS_RECEIVED));
 
 		for(Data data : checkBoxMap.keySet()) {
 			checkBox.add(checkBoxMap.get(data));
@@ -125,7 +125,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		JPanel pane = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		pane.setOpaque(false);
 
-		JLabel label = new JLabel(Storage.tra(desc));
+		JLabel label = new JLabel(desc);
 		label.setFont(Frame.getFont("SEGOEUI.TTF", 30));
 		pane.add(label);
 		if(jcb != null) pane.add(jcb);

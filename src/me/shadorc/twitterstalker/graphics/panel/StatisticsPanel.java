@@ -46,7 +46,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		try {
 			user = new TwitterUser(name);
 		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra("L'utilisateur n'existe pas."), new Exception(name), 604);
+			throw new TwitterException(Storage.tra("userDoesNotExist"), new Exception(name), 604);
 		}
 
 		isArchive = (statusList != null);
@@ -55,7 +55,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		if(Stats.stop == true) return;
 
-		button.setText(Storage.tra("Interface"));
+		button.setText(Storage.tra("interface"));
 
 		this.setBackground(new Color(179, 229, 252));
 
@@ -71,12 +71,12 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JPanel labelsPane = new JPanel(new GridLayout(2, 0));
 		labelsPane.setOpaque(false);
 
-		JLabel followers = new JLabel(Storage.tra("Abonnés : ") + user.getFollowersCount());
+		JLabel followers = new JLabel(Storage.tra("follower") + user.getFollowersCount());
 		followers.setFont(font);
 		followers.setForeground(Color.WHITE);
 		labelsPane.add(followers);
 
-		JLabel followings = new JLabel(Storage.tra("Abonnements : ") + user.getFollowingCount());
+		JLabel followings = new JLabel(Storage.tra("following") + user.getFollowingCount());
 		followings.setFont(font);
 		followings.setForeground(Color.WHITE);
 		labelsPane.add(followings);
@@ -105,7 +105,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		userInfosStats.add(new JLabel());
 		userInfosStats.add(new JLabel());
 
-		JLabel tweets = new JLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted());
+		JLabel tweets = new JLabel(Storage.tra("tweetsAnalyzed") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted());
 		tweets.setForeground(Color.WHITE);
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
@@ -115,7 +115,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		tweetsDays.setFont(font);
 		userInfosStats.add(tweetsDays);
 
-		JLabel age = new JLabel(Storage.tra("Inscrit le : ") + user.getCreatedAt() + " (" + user.getAge() + Storage.tra(" jours") + ")");
+		JLabel age = new JLabel(Storage.tra("joined") + user.getCreatedAt() + " (" + user.getAge() + Storage.tra("days") + ")");
 		age.setForeground(Color.WHITE);
 		age.setFont(font);
 		userInfosStats.add(age);
@@ -151,7 +151,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		if(textPanel.getComponents().length == 0) {
 			textPanel.setLayout(new BorderLayout());
-			JLabel error = new JLabel(Storage.tra("Aucune statistique n'a été sélectionnée. Désolé, mais le bug est dans un autre château."), JLabel.CENTER);
+			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
 			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
 			textPanel.add(error, JLabel.CENTER);
 		} else {
@@ -171,7 +171,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		}
 
 		upload = new Button("Upload", new int[] {10, 20, 10, 0}, Size.MEDIUM, this);
-		upload.setToolTipText(Storage.tra("Partager les statistiques"));
+		upload.setToolTipText(Storage.tra("shareStat"));
 		buttonsPanel.add(upload);
 
 		this.add(buttonsPanel, BorderLayout.PAGE_END);

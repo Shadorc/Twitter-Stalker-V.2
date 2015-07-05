@@ -32,7 +32,7 @@ public class Stats {
 		stop = false;
 
 		if(user.getTweetsPosted() == 0) {
-			throw new TwitterException(Storage.tra("L'utilisateur n'a posté aucun tweet"), new Exception(user.getName()), 600);
+			throw new TwitterException(Storage.tra("userNoTweet"), new Exception(user.getName()), 600);
 		}
 
 		this.stats = new HashMap <Data, StatInfo> ();
@@ -48,7 +48,7 @@ public class Stats {
 		if(user.isPrivate() && !user.getName().equals(Frame.getTwitter().getScreenName())) {
 			bu.setEnabled(true);
 			bu.setText(null);
-			throw new TwitterException(Storage.tra("L'utilisateur est protégé"), new Exception(user.getName()), 401);
+			throw new TwitterException(Storage.tra("userProtected"), new Exception(user.getName()), 401);
 		}
 
 		bu.setEnabled(false);
@@ -146,17 +146,17 @@ public class Stats {
 			}
 		}
 
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo(Storage.tra("Nombre de tweets/jour : "), user.getTweetsAnalyzed(), timeFirstTweet));
-		stats.put(Data.WORDS_PER_TWEET, new StatInfo(Storage.tra("mots par tweet"), this.getUnique(Data.WORDS_COUNT).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.LETTERS_PER_TWEET, new StatInfo(Storage.tra("lettres par tweet"), this.getUnique(Data.LETTERS).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.LETTERS_PER_WORD, new StatInfo(Storage.tra("lettres par mot"), this.getUnique(Data.LETTERS).getNum(), this.getUnique(Data.WORDS_COUNT).getNum()));
-		stats.put(Data.PURETWEETS_COUNT, new StatInfo("Puretweets", (user.getTweetsAnalyzed() - this.getUnique(Data.MENTIONS_COUNT).getNum() - this.getUnique(Data.RETWEET_BY_ME).getNum()), user.getTweetsAnalyzed()));
-		stats.put(Data.MENTIONS_COUNT, new StatInfo(Storage.tra("Mentions"), this.getUnique(Data.MENTIONS_COUNT).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.RETWEET_BY_ME, new StatInfo(Storage.tra("Retweets"), this.getUnique(Data.RETWEET_BY_ME).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.FAVORITE, new StatInfo(Storage.tra("Favorisés"), this.getUnique(Data.FAVORITE).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.RETWEET, new StatInfo(Storage.tra("Retweetés"), this.getUnique(Data.RETWEET).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.MEDIA, new StatInfo(Storage.tra("Médias"), this.getUnique(Data.MEDIA).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.URL, new StatInfo(Storage.tra("URL"), this.getUnique(Data.URL).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.TWEET_PER_DAYS, new StatInfo(Storage.tra("numTweetsPerDay"), user.getTweetsAnalyzed(), timeFirstTweet));
+		stats.put(Data.WORDS_PER_TWEET, new StatInfo(Storage.tra("wordsPerTweet"), this.getUnique(Data.WORDS_COUNT).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.LETTERS_PER_TWEET, new StatInfo(Storage.tra("lettersPerTweet"), this.getUnique(Data.LETTERS).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.LETTERS_PER_WORD, new StatInfo(Storage.tra("lettersPerWord"), this.getUnique(Data.LETTERS).getNum(), this.getUnique(Data.WORDS_COUNT).getNum()));
+		stats.put(Data.PURETWEETS_COUNT, new StatInfo(Storage.tra("puretweet"), (user.getTweetsAnalyzed() - this.getUnique(Data.MENTIONS_COUNT).getNum() - this.getUnique(Data.RETWEET_BY_ME).getNum()), user.getTweetsAnalyzed()));
+		stats.put(Data.MENTIONS_COUNT, new StatInfo(Storage.tra("mentions"), this.getUnique(Data.MENTIONS_COUNT).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.RETWEET_BY_ME, new StatInfo(Storage.tra("retweets"), this.getUnique(Data.RETWEET_BY_ME).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.FAVORITE, new StatInfo(Storage.tra("favored"), this.getUnique(Data.FAVORITE).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.RETWEET, new StatInfo(Storage.tra("retweeted"), this.getUnique(Data.RETWEET).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.MEDIA, new StatInfo(Storage.tra("medias"), this.getUnique(Data.MEDIA).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.URL, new StatInfo(Storage.tra("url"), this.getUnique(Data.URL).getNum(), user.getTweetsAnalyzed()));
 
 		//Set the number by which they will be divided to provide a ratio/percentage
 		stats.get(Data.SOURCE).setTotal(user.getTweetsAnalyzed());

@@ -54,7 +54,7 @@ public class Upload {
 			this.showPreview();
 
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, Storage.tra("Erreur lors de la capture d'écran, ") + e.getMessage(), Storage.tra("Erreur"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, Storage.tra("screenshotError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 
 		} finally {
 			Frame.reset();
@@ -136,7 +136,7 @@ public class Upload {
 		ImageIcon preview = new ImageIcon(screen.getPath());
 		//-1 : conserv aspect ratio
 		preview = new ImageIcon(preview.getImage().getScaledInstance(preview.getIconWidth()/3, -1, Image.SCALE_SMOOTH));
-		JFrame frame = new JFrame(Storage.tra("Partager"));
+		JFrame frame = new JFrame(Storage.tra("share"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		frame.addWindowListener(new WindowAdapter() {
@@ -159,7 +159,7 @@ public class Upload {
 		final JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
 		buttonsPanel.setOpaque(false);
 
-		final JButton tweet = new JButton(Storage.tra("Tweeter"));
+		final JButton tweet = new JButton(Storage.tra("tweet"));
 		tweet.setFocusable(false);
 		tweet.setFont(Frame.getFont("SEGOEUI.TTF", 25));
 		tweet.setBackground(new Color(85,172,238));
@@ -187,7 +187,7 @@ public class Upload {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				buttonsPanel.remove(tweet);
-				info.setText(Storage.tra("Chargement..."));
+				info.setText(Storage.tra("loading"));
 				buttonsPanel.removeAll();
 				buttonsPanel.add(new JLabel());
 				buttonsPanel.add(info);
@@ -197,10 +197,10 @@ public class Upload {
 					public void run() {
 						try {
 							Frame.getTwitter().updateStatus(status);
-							info.setText(Storage.tra("Terminé"));
+							info.setText(Storage.tra("finished"));
 						} catch (TwitterException e) {
 							info.setForeground(Color.RED);
-							info.setText(Storage.tra("Erreur") + " ! " + e.getMessage());
+							info.setText(Storage.tra("error") + " ! " + e.getMessage());
 							e.printStackTrace();
 						} finally {
 							screen.delete();

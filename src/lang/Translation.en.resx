@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="createShortcut" xml:space="preserve">
+    <value>Welcome and thanks for downloading Twitter Stalker !\nPlace the downloaded folder where you want to create a shortcut on the desktop(optional).\nWould you like to create a shortcut now?</value>
+  </data>
+  <data name="installation" xml:space="preserve">
+    <value>Installation</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="notNow" xml:space="preserve">
+    <value>Not now</value>
+  </data>
+  <data name="doNotRemindMe" xml:space="preserve">
+    <value>Don't remind me</value>
+  </data>
+  <data name="internetError" xml:space="preserve">
+    <value>Error. Check your Internet connection.</value>
+  </data>
+  <data name="urlError" xml:space="preserve">
+    <value>Error while opening, the URL has been paster in theclipboard.</value>
+  </data>
+  <data name="archiveError" xml:space="preserve">
+    <value>Error while loading the archive</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="saveError" xml:space="preserve">
+    <value>Error while saving, </value>
+  </data>
+  <data name="enterPin" xml:space="preserve">
+    <value>Please enter the PIN code</value>
+  </data>
+  <data name="enterComparison" xml:space="preserve">
+    <value>Please enter the @ of an account to compare</value>
+  </data>
+  <data name="enterAccount" xml:space="preserve">
+    <value>Please enter the @ of the account to analyze</value>
+  </data>
+  <data name="enterArchive" xml:space="preserve">
+    <value>Please select the archive to analyze</value>
+  </data>
+  <data name="invalidPin" xml:space="preserve">
+    <value>Please enter a valid PIN code</value>
+  </data>
+  <data name="invalidUser" xml:space="preserve">
+    <value>Please enter a valid user</value>
+  </data>
+  <data name="invalidArchive" xml:space="preserve">
+    <value>Please select a valid archive</value>
+  </data>
+  <data name="apiLimit" xml:space="preserve">
+    <value>Limit of the API achieved : </value>
+  </data>
+  <data name="userNeverTweet" xml:space="preserve">
+    <value>The user never tweeted</value>
+  </data>
+  <data name="privateAccount" xml:space="preserve">
+    <value>This account is private</value>
+  </data>
+  <data name="unexpectedError" xml:space="preserve">
+    <value>Unexpected error : </value>
+  </data>
+  <data name="paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="screenshotError" xml:space="preserve">
+    <value>Error while screenshooting, </value>
+  </data>
+  <data name="share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="tweet" xml:space="preserve">
+    <value>Tweet</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="finished" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="uploadError" xml:space="preserve">
+    <value>Error while uploading, </value>
+  </data>
+  <data name="userDoesNotExist" xml:space="preserve">
+    <value>The user doesn't exist.</value>
+  </data>
+  <data name="interface" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="follower" xml:space="preserve">
+    <value>Followers : </value>
+  </data>
+  <data name="following" xml:space="preserve">
+    <value>Followings : </value>
+  </data>
+  <data name="memberSince" xml:space="preserve">
+    <value>Member since : </value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value> days</value>
+  </data>
+  <data name="tweetsAnalyzed" xml:space="preserve">
+    <value>Analyzed tweets : </value>
+  </data>
+  <data name="tweetsStat" xml:space="preserve">
+    <value>Tweets</value>
+  </data>
+  <data name="timelineStat" xml:space="preserve">
+    <value>Timeline</value>
+  </data>
+  <data name="reputeStat" xml:space="preserve">
+    <value>Renown</value>
+  </data>
+  <data name="sourceStat" xml:space="preserve">
+    <value>Sources</value>
+  </data>
+  <data name="daysStat" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="wordsStat" xml:space="preserve">
+    <value>Words</value>
+  </data>
+  <data name="hoursStat" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="hashtagStat" xml:space="preserve">
+    <value>Hashtags</value>
+  </data>
+  <data name="popularStat" xml:space="preserve">
+    <value>Populars</value>
+  </data>
+  <data name="languageStat" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="medias" xml:space="preserve">
+    <value>Medias</value>
+  </data>
+  <data name="mentionsSent" xml:space="preserve">
+    <value>Mentions sent</value>
+  </data>
+  <data name="mentionsReceived" xml:space="preserve">
+    <value>Mentions received</value>
+  </data>
+  <data name="unlockIn" xml:space="preserve">
+    <value>unblocking in </value>
+  </data>
+  <data name="menuQuestion" xml:space="preserve">
+    <value>What do you want to analyze ?</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="comparison" xml:space="preserve">
+    <value>Comparison</value>
+  </data>
+  <data name="archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="minWordLenght" xml:space="preserve">
+    <value>Minimum word lenght to analyze : </value>
+  </data>
+  <data name="mentionsNumber" xml:space="preserve">
+    <value>Mentions to analyze : </value>
+  </data>
+  <data name="tweetsNumber" xml:space="preserve">
+    <value>Tweets to analyze : </value>
+  </data>
+  <data name="listLenght" xml:space="preserve">
+    <value>Size of the lists : </value>
+  </data>
+  <data name="statsToShow" xml:space="preserve">
+    <value>Statistical to display :</value>
+  </data>
+  <data name="numTweetsPerDay" xml:space="preserve">
+    <value>Number of tweets/day : </value>
+  </data>
+  <data name="joined" xml:space="preserve">
+    <value>Joined : </value>
+  </data>
+  <data name="noStatError" xml:space="preserve">
+    <value>No stats were chosen. Sorry, the bug is in another castle.</value>
+  </data>
+  <data name="shareStat" xml:space="preserve">
+    <value>Share stats</value>
+  </data>
+  <data name="nonExistentUser" xml:space="preserve">
+    <value>Non-existent user</value>
+  </data>
+  <data name="userNoTweet" xml:space="preserve">
+    <value>The user hasn't tweeted anything</value>
+  </data>
+  <data name="userProtected" xml:space="preserve">
+    <value>The user is protected</value>
+  </data>
+  <data name="tweetsPerDay" xml:space="preserve">
+    <value>tweets per day</value>
+  </data>
+  <data name="wordsPerTweet" xml:space="preserve">
+    <value>words per tweet</value>
+  </data>
+  <data name="lettersPerTweet" xml:space="preserve">
+    <value>letters per tweet</value>
+  </data>
+  <data name="lettersPerWord" xml:space="preserve">
+    <value>letters per word</value>
+  </data>
+  <data name="puretweet" xml:space="preserve">
+    <value>Puretweets</value>
+  </data>
+  <data name="mentions" xml:space="preserve">
+    <value>Mentions</value>
+  </data>
+  <data name="retweets" xml:space="preserve">
+    <value>Retweets</value>
+  </data>
+  <data name="retweeted" xml:space="preserve">
+    <value>Retweeted</value>
+  </data>
+  <data name="favored" xml:space="preserve">
+    <value>Favored</value>
+  </data>
+  <data name="rt" xml:space="preserve">
+    <value> RT | </value>
+  </data>
+  <data name="fav" xml:space="preserve">
+    <value> FAV</value>
+  </data>
+  <data name="progLanguage" xml:space="preserve">
+    <value>Program language : </value>
+  </data>
+  <data name="updateAvailable" xml:space="preserve">
+    <value>New update available</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="doNotDownload" xml:space="preserve">
+    <value>Don't download</value>
+  </data>
+  <data name="tweetMore" xml:space="preserve">
+    <value>tweets more</value>
+  </data>
+  <data name="retweetMore" xml:space="preserve">
+    <value>retweets more</value>
+  </data>
+  <data name="morePopular" xml:space="preserve">
+    <value>is more popular</value>
+  </data>
+  <data name="sundayTweet" xml:space="preserve">
+    <value>confuses the Lord's day and day of the flood</value>
+  </data>
+  <data name="moreMentions" xml:space="preserve">
+    <value>mentions more</value>
+  </data>
+  <data name="moreUrl" xml:space="preserve">
+    <value>posts more URL</value>
+  </data>
+  <data name="moreMedias" xml:space="preserve">
+    <value>posts more medias</value>
+  </data>
+  <data name="tweetLater" xml:space="preserve">
+    <value>tweets later</value>
+  </data>
+  <data name="tweetALot" xml:space="preserve">
+    <value>tweets a lot</value>
+  </data>
+  <data name="onlyTwitterWeb" xml:space="preserve">
+    <value>doesn't know that there's something other than Twitter Web</value>
+  </data>
+  <data name="oldMentionsStats" xml:space="preserve">
+    <value>Oldest mentions</value>
+  </data>
+  <data name="loadingTweet" xml:space="preserve">
+    <value>Loading tweets...</value>
+  </data>
+  <data name="oldOnTwitter" xml:space="preserve">
+    <value>is old in the Twitter Game</value>
+  </data>
+  <data name="followALot" xml:space="preserve">
+    <value>follow more than he is</value>
+  </data>
+</root>

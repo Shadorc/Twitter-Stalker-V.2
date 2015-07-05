@@ -44,13 +44,13 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		try {
 			user1 = new TwitterUser(name1);
 		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra("L'utilisateur n'existe pas."), new Exception("User 1"), 604);
+			throw new TwitterException(Storage.tra("userDoesNotExist"), new Exception("User 1"), 604);
 		}
 
 		try {
 			user2 = new TwitterUser(name2);
 		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra("L'utilisateur n'existe pas."), new Exception("User 2"), 604);
+			throw new TwitterException(Storage.tra("userDoesNotExist"), new Exception("User 2"), 604);
 		}
 
 		stats1 = new Stats(user1, button, null);
@@ -58,7 +58,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 		if(Stats.stop == true) return;
 
-		button.setText(Storage.tra("Interface"));
+		button.setText(Storage.tra("interface"));
 
 		this.setBackground(new Color(179, 229, 252));
 
@@ -140,7 +140,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		}
 
 		upload = new Button("Upload", new int[] {0, 20, 10, 0}, Size.MEDIUM, this);
-		upload.setToolTipText(Storage.tra("Partager les statistiques"));
+		upload.setToolTipText(Storage.tra("shareStat"));
 		buttonsPanel.add(upload);
 
 		this.add(buttonsPanel, BorderLayout.PAGE_END);
@@ -164,10 +164,10 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 			infosPanel.add(new JLabel());
 		}
 
-		infosPanel.add(this.createInfoLabel(Storage.tra("Abonnés : ") + user.getFollowersCount()));
-		infosPanel.add(this.createInfoLabel(Storage.tra("Abonnements : ") + user.getFollowingCount()));
-		infosPanel.add(this.createInfoLabel(Storage.tra("Membre depuis : ") + user.getAge() + Storage.tra(" jours")));
-		infosPanel.add(this.createInfoLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted()));
+		infosPanel.add(this.createInfoLabel(Storage.tra("follower") + user.getFollowersCount()));
+		infosPanel.add(this.createInfoLabel(Storage.tra("following") + user.getFollowingCount()));
+		infosPanel.add(this.createInfoLabel(Storage.tra("memberSince") + user.getAge() + Storage.tra("days")));
+		infosPanel.add(this.createInfoLabel(Storage.tra("tweetsAnalyzed") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted()));
 		infosPanel.add(this.createInfoLabel(user.getTweetsPerDay(stats)));
 		descPanel.add(infosPanel, BorderLayout.EAST);
 
@@ -191,21 +191,21 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 			statsPanel.add(new EditorPane(stats2, stats1, user2, user1));
 		}
 
-		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(statsPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(statsPanel, stats, "Timeline", Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(statsPanel, stats, "Renommée", Data.FAVORITE, Data.RETWEET);
-		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(statsPanel, stats, "Sources", Data.SOURCE);
-		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(statsPanel, stats, "Jours", Data.DAYS);
-		if(OptionsPanel.isSelected(Data.HOURS))		EditorPane.get(statsPanel, stats, "Heures", Data.HOURS);
-		if(OptionsPanel.isSelected(Data.WORDS))		EditorPane.get(statsPanel, stats, "Mots", Data.WORDS);
-		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(statsPanel, stats, "Hashtags", Data.HASHTAG);
-		if(OptionsPanel.isSelected(Data.POPULARE))	EditorPane.get(statsPanel, stats, "Populaires", Data.POPULARE);
-		if(OptionsPanel.isSelected(Data.LANG))		EditorPane.get(statsPanel, stats, "Langues", Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, "Mentions envoyées", Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(statsPanel, stats, Storage.tra("Tweets"), Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
+		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(statsPanel, stats, Storage.tra("Timeline"), Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
+		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(statsPanel, stats, Storage.tra("Renommée"), Data.FAVORITE, Data.RETWEET);
+		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(statsPanel, stats, Storage.tra("Sources"), Data.SOURCE);
+		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(statsPanel, stats, Storage.tra("Jours"), Data.DAYS);
+		if(OptionsPanel.isSelected(Data.HOURS))		EditorPane.get(statsPanel, stats, Storage.tra("Heures"), Data.HOURS);
+		if(OptionsPanel.isSelected(Data.WORDS))		EditorPane.get(statsPanel, stats, Storage.tra("Mots"), Data.WORDS);
+		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(statsPanel, stats, Storage.tra("Hashtags"), Data.HASHTAG);
+		if(OptionsPanel.isSelected(Data.POPULARE))	EditorPane.get(statsPanel, stats, Storage.tra("Populaires"), Data.POPULARE);
+		if(OptionsPanel.isSelected(Data.LANG))		EditorPane.get(statsPanel, stats, Storage.tra("Langues"), Data.LANG);
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, Storage.tra("Mentions envoyées"), Data.MENTIONS_SENT);
 
 		if(statsPanel.getComponents().length == 0) {
 			statsPanel.setLayout(new BorderLayout());
-			JLabel error = new JLabel(Storage.tra("Aucune statistique n'a été sélectionnée. Désolé, mais le bug est dans un autre château."), JLabel.CENTER);
+			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
 			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
 			statsPanel.add(error, JLabel.CENTER);
 		} else {
