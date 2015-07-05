@@ -19,20 +19,29 @@ import javax.swing.event.HyperlinkListener;
 import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import twitter4j.MediaEntity;
+import twitter4j.MediaEntity.Size;
 import twitter4j.Status;
 
 public class PopularePreview implements HyperlinkListener {
 
-	private JPopupMenu menu = new JPopupMenu();
-	private JEditorPane pane;
 	private Stats stats;
+	private JPopupMenu menu;
 
 	public PopularePreview(JEditorPane pane, Stats stats) {
-		this.pane = pane;
 		this.stats = stats;
+		this.menu = new JPopupMenu();
 
 		menu.setBackground(new Color(79, 182, 246));
 		menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		pane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent event) {
+				menu.setVisible(false);
+				menu.removeAll();
+			}
+		});
 	}
 
 	@Override
@@ -48,21 +57,21 @@ public class PopularePreview implements HyperlinkListener {
 			for(WordInfo wi : stats.get(Data.POPULARE)) {
 				Status status = wi.getStatus();
 				if(wi.getStatusUrl().equals(he.getURL().toString())) {
-					menu.add(new JLabel("<html><font color='white' size=4>&emsp;" + status.getText() + "&emsp;"));
+					String tweet = "<html><center><font color='white' size=4>&emsp;" + status.getText().replaceAll("\n", "&emsp;<br>&emsp;") + "&emsp;";
+
+					if(status.getMediaEntities().length != 0) {
+						MediaEntity img = status.getMediaEntities()[0];
+						Size size = img.getSizes().get(Size.SMALL);
+						tweet += "<br>&emsp;<img src=" + img.getMediaURLHttps() + " width=" + size.getWidth() + " height=" + size.getHeight() + " border=1 align=middle>&emsp;";
+					}
+
+					menu.add(new JLabel(tweet));
 
 					DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
-					menu.add(new JLabel("<html><b>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
+					menu.add(new JLabel("<html><b><i>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
 
 					Point mouse = MouseInfo.getPointerInfo().getLocation();
-					menu.show(null, (int) mouse.getX() - 100, (int) mouse.getY() - 60);
-					pane.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseExited(MouseEvent arg0) {
-							menu.setVisible(false);
-							menu.removeAll();
-						}
-					});
-					menu.setVisible(true);
+					menu.show(null, (int) mouse.getX() + 50, (int) ((int) mouse.getY() - menu.getPreferredSize().getHeight() - 20));
 					break;
 				}
 			}
