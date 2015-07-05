@@ -192,7 +192,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		}
 
 		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(statsPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(statsPanel, stats, "Timeline", Data.PURETWEETS, Data.MENTIONS, Data.RETWEET_BY_ME);
+		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(statsPanel, stats, "Timeline", Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
 		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(statsPanel, stats, "Renommée", Data.FAVORITE, Data.RETWEET);
 		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(statsPanel, stats, "Sources", Data.SOURCE);
 		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(statsPanel, stats, "Jours", Data.DAYS);

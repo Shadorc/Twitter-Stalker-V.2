@@ -59,7 +59,7 @@ public class EditorPane extends JEditorPane {
 						text += "- " + copy.get(i).getWord() + " (" + date + ")";
 
 					} else {
-						text += "- " + stats.get(type, i).getInfo();
+						text += "- " + stats.get(type, i).getPercenInfo();
 					}
 				} catch (IndexOutOfBoundsException e) {
 					if(i == 0) {
@@ -71,7 +71,11 @@ public class EditorPane extends JEditorPane {
 			}
 		} else {
 			for(Data type : types) {
-				text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getWord();
+				if(type == Data.WORDS_PER_TWEET || type == Data.LETTERS_PER_TWEET || type ==  Data.LETTERS_PER_WORD) {
+					text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getInfo();
+				} else {
+					text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getPercenInfo();
+				}
 			}
 		}
 		field.setText(text);
@@ -101,16 +105,16 @@ public class EditorPane extends JEditorPane {
 
 		this.compare(Data.TWEET_PER_DAYS, "tweete plus", false);
 		this.compare(Data.RETWEET_BY_ME, "retweete plus", true);
-		this.compare(Data.MENTIONS, "mentionne plus", true);
+		this.compare(Data.MENTIONS_COUNT, "mentionne plus", true);
 		this.compare(Data.POPULARE, "est plus populaire", false);
 		this.compare(Data.URL, "poste plus d'URL", true);
 		this.compare(Data.MEDIA, "poste plus de médias", true);
 
 		//new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1]) : translate Sunday to user language
-		if(stats1.get(Data.DAYS).get(0).getInfo().toLowerCase().contains(new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1])) {
+		if(stats1.get(Data.DAYS).get(0).getPercenInfo().toLowerCase().contains(new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1])) {
 			phrases.add("confond le jour du seigneur et le jour du flood");
 		}
-		if(stats1.get(Data.SOURCE).get(0).getInfo().contains("Twitter Web Client")) {
+		if(stats1.get(Data.SOURCE).size() == 1 && stats1.get(Data.SOURCE).get(0).getPercenInfo().contains("Twitter Web Client")) {
 			phrases.add("ne sait pas qu'il existe autre chose que Twitter Web");
 		}
 		if(stats1.getUnique(Data.TWEET_PER_DAYS).getNum() >= 200) {
@@ -119,11 +123,18 @@ public class EditorPane extends JEditorPane {
 		if(Integer.parseInt(stats1.get(Data.HOURS).get(0).getWord().replaceAll("h", "")) > Integer.parseInt(stats2.get(Data.HOURS).get(0).getWord().replaceAll("h",""))) {
 			phrases.add("tweete plus tard");
 		}
+		if(user1.getAge() > 1825) {
+			phrases.add("est un vieux du game");
+		}
+		if(user1.getFollowingCount()/2 > user1.getFollowersCount()) {
+			phrases.add("follow beaucoup plus qu'il ne l'est");
+		}
 
 		String text = "<font color=#212121>" + user1.getName() + "<font color=#727272><style=\"font-size:23\";>";
 		text += "<ul>";
-		for(String s : phrases) {
-			text += "<li>" + Storage.tra(s) + "</li>";
+		Collections.shuffle(phrases);
+		for(int i = 0; i < phrases.size() && i < 6; i++) {
+			text += "<li>" + Storage.tra(phrases.get(i)) + "</li>";
 		}
 		text += "</lu>";
 

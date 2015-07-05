@@ -42,8 +42,8 @@ public class Storage {
 		LETTERS_PER_WORD,
 
 		TIMELINE,
-		PURETWEETS,
-		MENTIONS,
+		PURETWEETS_COUNT,
+		MENTIONS_COUNT,
 		RETWEET_BY_ME,
 
 		REPUTE,
@@ -63,6 +63,7 @@ public class Storage {
 		MENTIONS_RECEIVED,
 
 		WORDS_COUNT,
+		HASHTAG_COUNT,
 		LETTERS,
 		MEDIA,
 		URL,

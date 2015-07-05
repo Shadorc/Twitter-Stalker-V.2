@@ -59,8 +59,8 @@ public class Stats {
 		stats.put(Data.LETTERS_PER_TWEET, new StatInfo());
 		stats.put(Data.LETTERS_PER_WORD, new StatInfo());
 		stats.put(Data.TIMELINE, new StatInfo());
-		stats.put(Data.PURETWEETS, new StatInfo());
-		stats.put(Data.MENTIONS, new StatInfo());
+		stats.put(Data.PURETWEETS_COUNT, new StatInfo());
+		stats.put(Data.MENTIONS_COUNT, new StatInfo());
 		stats.put(Data.RETWEET_BY_ME, new StatInfo());
 		stats.put(Data.REPUTE, new StatInfo());
 		stats.put(Data.FAVORITE, new StatInfo());
@@ -75,6 +75,7 @@ public class Stats {
 		stats.put(Data.MENTIONS_SENT, new StatInfo());
 		stats.put(Data.MENTIONS_RECEIVED, new StatInfo());
 		stats.put(Data.WORDS_COUNT, new StatInfo());
+		stats.put(Data.HASHTAG_COUNT, new StatInfo());
 		stats.put(Data.LETTERS, new StatInfo());
 		stats.put(Data.MEDIA, new StatInfo());
 		stats.put(Data.URL, new StatInfo());
@@ -108,6 +109,7 @@ public class Stats {
 				}
 				for(HashtagEntity hashtag : status.getHashtagEntities()) {
 					stats.get(Data.HASHTAG).add("#" + hashtag.getText().toLowerCase());
+					this.getUnique(Data.HASHTAG_COUNT).increment();
 				}
 			}
 
@@ -144,33 +146,26 @@ public class Stats {
 			}
 		}
 
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo(Storage.tra("tweets par jour"), user.getTweetsAnalyzed(), timeFirstTweet));
+		stats.put(Data.TWEET_PER_DAYS, new StatInfo(Storage.tra("Nombre de tweets/jour : "), user.getTweetsAnalyzed(), timeFirstTweet));
 		stats.put(Data.WORDS_PER_TWEET, new StatInfo(Storage.tra("mots par tweet"), this.getUnique(Data.WORDS_COUNT).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.LETTERS_PER_TWEET, new StatInfo(Storage.tra("lettres par tweet"), this.getUnique(Data.LETTERS).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.LETTERS_PER_WORD, new StatInfo(Storage.tra("lettres par mot"), this.getUnique(Data.LETTERS).getNum(), this.getUnique(Data.WORDS_COUNT).getNum()));
-
-		double puretweets = user.getTweetsAnalyzed() - this.getUnique(Data.MENTIONS).getNum() - this.getUnique(Data.RETWEET_BY_ME).getNum();
-		stats.put(Data.PURETWEETS, new StatInfo("Puretweets", puretweets, user.getTweetsAnalyzed()));
-
-		stats.put(Data.MENTIONS, new StatInfo(Storage.tra("Mentions"), this.getUnique(Data.MENTIONS).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.PURETWEETS_COUNT, new StatInfo("Puretweets", (user.getTweetsAnalyzed() - this.getUnique(Data.MENTIONS_COUNT).getNum() - this.getUnique(Data.RETWEET_BY_ME).getNum()), user.getTweetsAnalyzed()));
+		stats.put(Data.MENTIONS_COUNT, new StatInfo(Storage.tra("Mentions"), this.getUnique(Data.MENTIONS_COUNT).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.RETWEET_BY_ME, new StatInfo(Storage.tra("Retweet"), this.getUnique(Data.RETWEET_BY_ME).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.RETWEET, new StatInfo(Storage.tra("Retweetés"), this.getUnique(Data.RETWEET).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.FAVORITE, new StatInfo(Storage.tra("Favorisés"), this.getUnique(Data.FAVORITE).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.RETWEET, new StatInfo(Storage.tra("Retweetés"), this.getUnique(Data.RETWEET).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.MEDIA, new StatInfo(Storage.tra("Médias"), this.getUnique(Data.MEDIA).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.URL, new StatInfo(Storage.tra("URL"), this.getUnique(Data.URL).getNum(), user.getTweetsAnalyzed()));
 
 		stats.get(Data.SOURCE).setTotal(user.getTweetsAnalyzed());
-		stats.get(Data.HASHTAG).setTotal(user.getTweetsAnalyzed());
-		stats.get(Data.WORDS).setTotal(1); //TODO
 		stats.get(Data.DAYS).setTotal(user.getTweetsAnalyzed());
 		stats.get(Data.HOURS).setTotal(user.getTweetsAnalyzed());
-		stats.get(Data.TIMELINE).setTotal(user.getTweetsAnalyzed());
-		stats.get(Data.TWEETS).setTotal(1); //TODO
-		stats.get(Data.POPULARE).setTotal(1); //TODO
 		stats.get(Data.LANG).setTotal(user.getTweetsAnalyzed());
-		stats.get(Data.MENTIONS_SENT).setTotal(this.getUnique(Data.MENTIONS_SENT).getNum());
 		stats.get(Data.MENTIONS_RECEIVED).setTotal(user.getMentionsAnalyzed());
-		stats.get(Data.REPUTE).setTotal(1); //TODO
+		stats.get(Data.MENTIONS_SENT).setTotal((int) this.getUnique(Data.MENTIONS_COUNT).getNum());
+		stats.get(Data.WORDS).setTotal((int) this.getUnique(Data.WORDS_COUNT).getNum());
+		stats.get(Data.HASHTAG).setTotal((int) this.getUnique(Data.HASHTAG_COUNT).getNum());
 	}
 
 	private void setStats(Status status) throws TwitterException {
@@ -183,7 +178,7 @@ public class Stats {
 			if(status.getRetweetCount() + status.getFavoriteCount() > 0)	stats.get(Data.POPULARE).add(new WordInfo(status));
 			if(status.getRetweetCount() > 0)								this.getUnique(Data.RETWEET).increment();
 			if(status.getFavoriteCount() > 0)								this.getUnique(Data.FAVORITE).increment();
-			if(status.getText().startsWith("@"))							this.getUnique(Data.MENTIONS).increment();
+			if(status.getText().startsWith("@"))							this.getUnique(Data.MENTIONS_COUNT).increment();
 			if(status.getMediaEntities().length > 0)						this.getUnique(Data.MEDIA).increment();
 			if(status.getURLEntities().length > 0)							this.getUnique(Data.URL).increment();
 
@@ -213,7 +208,7 @@ public class Stats {
 				word = word.replaceAll("[^a-zA-ZÀ-ÿ0-9^@#]", "").toLowerCase();
 
 				this.getUnique(Data.WORDS_COUNT).increment();
-				this.getUnique(Data.LETTERS).setNum(word.length());
+				this.getUnique(Data.LETTERS).increment(word.length());
 
 				if(word.length() >= OptionsPanel.getMinLettersWord() && !word.startsWith("#") && !word.startsWith("@")) {
 					stats.get(Data.WORDS).add(word);

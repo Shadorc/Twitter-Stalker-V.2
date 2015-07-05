@@ -110,7 +110,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
 
-		JLabel tweetsDays = new JLabel(Storage.tra("Nombre de tweets/jour : ") + user.getTweetsPerDay(stats));
+		JLabel tweetsDays = new JLabel(user.getTweetsPerDay(stats));
 		tweetsDays.setForeground(Color.WHITE);
 		tweetsDays.setFont(font);
 		userInfosStats.add(tweetsDays);
@@ -136,7 +136,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		jsp.getHorizontalScrollBar().setUI(new ScrollbarUI(Position.HORIZONTAL));
 
 		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(textPanel, stats, "Tweets", Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(textPanel, stats, "Timeline", Data.PURETWEETS, Data.MENTIONS, Data.RETWEET_BY_ME);
+		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(textPanel, stats, "Timeline", Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
 		if(OptionsPanel.isSelected(Data.REPUTE) && !isArchive)		EditorPane.get(textPanel, stats, "Renommée", Data.FAVORITE, Data.RETWEET);
 		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(textPanel, stats, "Sources", Data.SOURCE);
 		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(textPanel, stats, "Jours", Data.DAYS);

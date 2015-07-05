@@ -11,22 +11,27 @@ public class StatInfo {
 
 	private HashMap <String, WordInfo> map;
 	private WordInfo wi;
+	private int total;
 
 	StatInfo() {
 		this.map = new HashMap <String, WordInfo> ();
-		this.wi = new WordInfo("");
+		this.wi = new WordInfo("", this);
 	}
 
-	StatInfo(String desc, double num, double total) {
+	StatInfo(String desc, long num, double total) {
 		this.wi = new WordInfo(desc, num, total);
-	}
-
-	public void setTotal(double total) {
-		this.wi.setTotal(total);
 	}
 
 	public WordInfo getWordInfo() {
 		return wi;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total; 
 	}
 
 	public void add(String word) {
@@ -35,11 +40,15 @@ public class StatInfo {
 
 		//If the word isn't in the map, create and add
 		if(wi == null) {
-			wi = new WordInfo(word);
+			wi = new WordInfo(word, this);
 			map.put(word, wi);
 		}
 
 		wi.increment();
+	}
+
+	public void add(WordInfo wi) {
+		map.put(Long.toString(wi.getStatus().getId()), wi);
 	}
 
 	//Used by FIRST_TALK
@@ -52,12 +61,7 @@ public class StatInfo {
 		}
 	}
 
-	public void add(WordInfo wi) {
-		map.put(Long.toString(wi.getStatus().getId()), wi);
-	}
-
 	public List <WordInfo> sort() {
-
 		List <WordInfo> list = new ArrayList <WordInfo> (map.values());
 
 		//Comparator who compares each words value

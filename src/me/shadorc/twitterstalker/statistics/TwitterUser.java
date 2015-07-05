@@ -4,7 +4,6 @@ import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -51,6 +50,10 @@ public class TwitterUser {
 		return DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(user.getCreatedAt());
 	}
 
+	public String getTweetsPerDay(Stats stats) {
+		return stats.getUnique(Data.TWEET_PER_DAYS).getWord() + stats.getUnique(Data.TWEET_PER_DAYS).getRatio();
+	}
+
 	public int getTweetsAnalyzed() {
 		return tweetsAnalyzed;
 	}
@@ -69,10 +72,6 @@ public class TwitterUser {
 
 	public int getFollowingCount() {
 		return user.getFriendsCount();
-	}
-
-	public String getTweetsPerDay(Stats stats) {
-		return new DecimalFormat("#.#").format(stats.getUnique(Data.TWEET_PER_DAYS).getNum());
 	}
 
 	public long getAge() {
