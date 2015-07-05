@@ -1,7 +1,7 @@
 ﻿Informations:
-	- La première ligne est l'originale, celle à traduire est la deuxième.
+	- La première ligne est l'originale, elle doit rester inchangée. La ligne à traduire est la deuxième.
 	- Laissez les guillemets et les espaces en début et fin de phrase s'ils y sont.
-	- Réécrire les '\n' sans les traduire au même endroit.
+	- Réécrire les '\n' et les balises '<...>' sans modification au même endroit.
 	- Merci beaucoup !
 
 "Bonjour et merci d'avoir téléchargé Twitter Stalker !\nPlacez le dossier téléchargé où vous voulez puis relancer le pour créer un raccourci sur le bureau (optionnel).\nVoulez-vous créer un raccourci sur le bureau maintenant ?"
@@ -40,14 +40,14 @@
 "Veuillez entrer le code PIN"
 "Veuillez entrer le code PIN"
 
-"Veuillez entrer l'@ d'un compte à analyser"
-"Veuillez entrer l'@ d'un compte à analyser"
+"Veuillez entrer l'@ d'un compte à comparer"
+"Veuillez entrer l'@ d'un compte à comparer"
 
 "Veuillez entrer l'@ du compte à analyser"
 "Veuillez entrer l'@ du compte à analyser"
 
-"Veuillez séléctionner l'archive à analyser"
-"Veuillez séléctionner l'archive à analyser"
+"Veuillez sélectionner l'archive à analyser"
+"Veuillez sélectionner l'archive à analyser"
 
 "Merci d'entrer un code PIN valide"
 "Merci d'entrer un code PIN valide"
@@ -106,11 +106,11 @@
 "Upload"
 "Upload"
 
-"Followers : "
-"Followers : "
+"Abonnés : "
+"Abonnés : "
 
-"Followings : "
-"Followings : "
+"Abonnements : "
+"Abonnements : "
 
 "Membre depuis : "
 "Membre depuis : "
@@ -157,29 +157,23 @@
 "Médias"
 "Médias"
 
-"Twittos mentionnés"
-"Twittos mentionnés"
+"Mentions envoyées"
+"Mentions envoyées"
 
-"Twittos mentionnant"
-"Twittos mentionnant"
-
-"Utilisateurs mentionnés"
-"Utilisateurs mentionnés"
-
-"Utilisateurs mentionnant"
-"Utilisateurs mentionnant"
+"Mentions reçues"
+"Mentions reçues"
 
 "déblocage dans "
 "déblocage dans "
 
-"Que voulez-vous faire ?"
-"Que voulez-vous faire ?"
+"Que voulez-vous analyser ?"
+"Que voulez-vous analyser ?"
 
 "Options"
 "Options"
 
-"Statistiques"
-"Statistiques"
+"Compte"
+"Compte"
 
 "Comparaison"
 "Comparaison"
@@ -187,20 +181,20 @@
 "Archive"
 "Archive"
 
-"Nombre de lettres par mot minimum : "
-"Nombre de lettres par mot minimum : "
+"Taille minimum des mots à analyser : "
+"Taille minimum des mots à analyser : "
 
-"Nombre de mentions : "
-"Nombre de mentions : "
+"Mentions à analyser : "
+"Mentions à analyser : "
 
-"Nombre de tweets : "
-"Nombre de tweets : "
+"Tweets à analyser : "
+"Tweets à analyser : "
 
 "Taille des listes : "
 "Taille des listes : "
 
-"Statistiques à effectuer :"
-"Statistiques à effectuer :"
+"Statistiques à afficher :"
+"Statistiques à afficher :"
 
 "Applis"
 "Applis"
@@ -241,11 +235,14 @@
 "lettres par mot"
 "lettres par mot"
 
+"Puretweets"
+"Puretweets"
+
 "Mentions"
 "Mentions"
 
-"Retweet"
-"Retweet"
+"Retweets"
+"Retweets"
 
 "Retweetés"
 "Retweetés"
@@ -256,11 +253,11 @@
 " RT | "
 " RT | "
 
-" FAV ("
-" FAV ("
+" FAV"
+" FAV"
 
-"Langue : "
-"Langue : "
+"Langue du programme : "
+"Langue du programme : "
 
 "Une nouvelle mise à jour est disponible"
 "Une nouvelle mise à jour est disponible"
@@ -283,8 +280,8 @@
 "est plus populaire"
 "est plus populaire"
 
-"confond le jour du seigneur et le jour du flood"
-"confond le jour du seigneur et le jour du flood"
+"confond le jour du Seigneur et celui du flood"
+"confond le jour du Seigneur et celui du flood"
 
 "mentionne plus"
 "mentionne plus"
@@ -309,3 +306,9 @@
 
 "Chargement des tweets..."
 "Chargement des tweets..."
+
+"est un vieux du game"
+"est un vieux du game"
+
+"follow beaucoup plus qu'il ne l'est"
+"follow beaucoup plus qu'il ne l'est"
