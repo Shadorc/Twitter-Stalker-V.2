@@ -1,9 +1,18 @@
 V2.1.0 :
+	- Ajout d'une nouvelle catégorie : Archive
+	- Ajout d'une nouvelle statistique sur la première fois que vous avez mentionné quelqu'un dans Archive
 	- Ajout d'une nouvelle statistique sur les langues des tweets
+	- Ajout d'informations plus détaillées sur les comparaisons
 	- Ajout de la traduction anglaise
+	- Ajout de la possibilité de changer de langue dans les options
 	- Ajout de la recherche automatique de mises à jour
-	- Amélioration de la lisibilité des images partagées dans certains cas
+	- Amélioration de la lisibilité des images partagées
+	- Amélioration de la prévisualisation des tweets populaires (ajout des images)
+	- Amélioration de l'affichage des statistiques (exprimées maintenant en pourcentage)
+	- Amélioration globale de l'application pour être plus compréhensible
 	- Correction d'un crash si un utilisateur mentionnant/mentionné n'existait plus
+	- Correction du nombre de tweets / jour
+	- Correction d'un problème empêchant d'analyser son propre compte si il était privé
 	- Corrections de bugs & diverses améliorations
 	
 V2.0.1 :
