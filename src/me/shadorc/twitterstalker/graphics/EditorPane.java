@@ -56,7 +56,7 @@ public class EditorPane extends JEditorPane {
 						ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(type));
 						Collections.reverse(copy);
 						String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date((long) copy.get(i).getNum()));
-						text += "- " + copy.get(i).getWord() + " (" + date + ")";
+						text += "- " + copy.get(i).getUserImage() + " @" + copy.get(i).getWord() + " (" + date + ")";
 
 					} else {
 						text += "- " + stats.get(type, i).getPercenInfo();
@@ -120,7 +120,7 @@ public class EditorPane extends JEditorPane {
 
 		String text = "<font color=#212121>" + user1.getName() + "<font color=#727272><style=\"font-size:23\";><ul>";
 		Collections.shuffle(phrases);
-		for(int i = 0; i < phrases.size() && i < 5; i++) {
+		for(int i = 0; i < phrases.size() && i < OptionsPanel.getMaxListLenght(); i++) {
 			text += "<li>" + phrases.get(i) + "</li>";
 		}
 		text += "</lu>";

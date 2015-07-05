@@ -58,7 +58,11 @@ public class WordInfo {
 	}
 
 	public String getUserInfo() throws TwitterException {
-		return "<img src=" + new TwitterUser(word).getImageUrl() + " border=1 align=middle> " + " @" + this.getPercenInfo();
+		return this.getUserImage() + " " + " @" + this.getPercenInfo();
+	}
+
+	public String getUserImage() throws TwitterException {
+		return "<img src=" + new TwitterUser(word).getImageUrl() + " border=1 align=middle>";
 	}
 
 	public String getStatusInfo() {
