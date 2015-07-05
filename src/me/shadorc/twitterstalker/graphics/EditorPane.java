@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
@@ -143,7 +145,28 @@ public class EditorPane extends JEditorPane {
 
 		JPanel bottom = new JPanel(new BorderLayout());
 
-		saisis.addKeyListener(null);
+		saisis.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					for(WordInfo user : stats.get(Data.FIRST_TALK)) {
+						if(user.getWord().equals(saisis.getText().replaceAll("@", ""))) {
+							String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date(user.getNum()));
+							String text = editorPane.getText().substring(0, editorPane.getText().indexOf(")")+1) + "<br>&nbsp;&nbsp;";
+							try {
+								text += "- " + user.getUserImage() + " @" + user.getWord() + " (" + date + ")";
+							} catch (TwitterException e1) {
+								//User doesn't exist anymore
+								text += "- @" + user.getWord() + " (" + date + ")";
+							}
+							editorPane.setText(text);
+							frame.dispose();
+							return;
+						}
+					}
+				}
+			}
+		});
 		bottom.add(saisis, BorderLayout.CENTER);
 
 		JButton ok = new JButton(Storage.tra("ok"));
