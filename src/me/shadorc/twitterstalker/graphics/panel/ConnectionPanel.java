@@ -6,10 +6,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -160,6 +162,11 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				//Avoid to be able to change username while loading
+				field1.setEditable(false);
+				for(FocusListener li : field1.getFocusListeners())	field1.removeFocusListener(li);
+				for(MouseListener li : field1.getMouseListeners())	field1.removeMouseListener(li);
+
 				while(file == null || !file.exists()) {
 					//Change UIManager look to look like the operating system one, this is for the JFileChooser
 					try {
