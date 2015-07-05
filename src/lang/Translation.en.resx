@@ -280,7 +280,7 @@
     <value>doesn't know that there's something other than Twitter Web</value>
   </data>
   <data name="oldMentionsStats" xml:space="preserve">
-    <value>Oldest mentions</value>
+    <value>First mention</value>
   </data>
   <data name="loadingTweet" xml:space="preserve">
     <value>Loading tweets...</value>
@@ -290,5 +290,14 @@
   </data>
   <data name="followALot" xml:space="preserve">
     <value>follow more than he is</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="userSearch" xml:space="preserve">
+    <value>Enter the @ of the person to find</value>
   </data>
 </root>
