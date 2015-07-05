@@ -191,17 +191,17 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 			statsPanel.add(new EditorPane(stats2, stats1, user2, user1));
 		}
 
-		if(OptionsPanel.isSelected(Data.TWEETS))	EditorPane.get(statsPanel, stats, Storage.tra("Tweets"), Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Data.TIMELINE))	EditorPane.get(statsPanel, stats, Storage.tra("Timeline"), Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE))	EditorPane.get(statsPanel, stats, Storage.tra("Renommée"), Data.FAVORITE, Data.RETWEET);
-		if(OptionsPanel.isSelected(Data.SOURCE))	EditorPane.get(statsPanel, stats, Storage.tra("Sources"), Data.SOURCE);
-		if(OptionsPanel.isSelected(Data.DAYS))		EditorPane.get(statsPanel, stats, Storage.tra("Jours"), Data.DAYS);
-		if(OptionsPanel.isSelected(Data.HOURS))		EditorPane.get(statsPanel, stats, Storage.tra("Heures"), Data.HOURS);
-		if(OptionsPanel.isSelected(Data.WORDS))		EditorPane.get(statsPanel, stats, Storage.tra("Mots"), Data.WORDS);
-		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(statsPanel, stats, Storage.tra("Hashtags"), Data.HASHTAG);
-		if(OptionsPanel.isSelected(Data.POPULARE))	EditorPane.get(statsPanel, stats, Storage.tra("Populaires"), Data.POPULARE);
-		if(OptionsPanel.isSelected(Data.LANG))		EditorPane.get(statsPanel, stats, Storage.tra("Langues"), Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, Storage.tra("Mentions envoyées"), Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.TWEETS))		EditorPane.get(statsPanel, stats, Storage.tra("tweetsStat"), Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
+		if(OptionsPanel.isSelected(Data.TIMELINE))		EditorPane.get(statsPanel, stats, Storage.tra("timelineStat"), Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
+		if(OptionsPanel.isSelected(Data.REPUTE))		EditorPane.get(statsPanel, stats, Storage.tra("reputeStat"), Data.FAVORITE, Data.RETWEET);
+		if(OptionsPanel.isSelected(Data.SOURCE))		EditorPane.get(statsPanel, stats, Storage.tra("sourceStat"), Data.SOURCE);
+		if(OptionsPanel.isSelected(Data.DAYS))			EditorPane.get(statsPanel, stats, Storage.tra("daysStat"), Data.DAYS);
+		if(OptionsPanel.isSelected(Data.HOURS))			EditorPane.get(statsPanel, stats, Storage.tra("hoursStat"), Data.HOURS);
+		if(OptionsPanel.isSelected(Data.WORDS))			EditorPane.get(statsPanel, stats, Storage.tra("wordsStat"), Data.WORDS);
+		if(OptionsPanel.isSelected(Data.HASHTAG))		EditorPane.get(statsPanel, stats, Storage.tra("hashtagStat"), Data.HASHTAG);
+		if(OptionsPanel.isSelected(Data.POPULARE))		EditorPane.get(statsPanel, stats, Storage.tra("popularStat"), Data.POPULARE);
+		if(OptionsPanel.isSelected(Data.LANG))			EditorPane.get(statsPanel, stats, Storage.tra("languageStat"), Data.LANG);
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, Storage.tra("mentionsSent"), Data.MENTIONS_SENT);
 
 		if(statsPanel.getComponents().length == 0) {
 			statsPanel.setLayout(new BorderLayout());
