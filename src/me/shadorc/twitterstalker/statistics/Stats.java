@@ -158,6 +158,7 @@ public class Stats {
 		stats.put(Data.MEDIA, new StatInfo(Storage.tra("Médias"), this.getUnique(Data.MEDIA).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.URL, new StatInfo(Storage.tra("URL"), this.getUnique(Data.URL).getNum(), user.getTweetsAnalyzed()));
 
+		//Set the number by which they will be divided to provide a ratio/percentage
 		stats.get(Data.SOURCE).setTotal(user.getTweetsAnalyzed());
 		stats.get(Data.DAYS).setTotal(user.getTweetsAnalyzed());
 		stats.get(Data.HOURS).setTotal(user.getTweetsAnalyzed());

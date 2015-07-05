@@ -110,30 +110,17 @@ public class EditorPane extends JEditorPane {
 		this.compare(Data.URL, "poste plus d'URL", true);
 		this.compare(Data.MEDIA, "poste plus de médias", true);
 
-		//new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1]) : translate Sunday to user language
-		if(stats1.get(Data.DAYS).get(0).getPercenInfo().toLowerCase().contains(new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1])) {
-			phrases.add("confond le jour du seigneur et le jour du flood");
-		}
-		if(stats1.get(Data.SOURCE).size() == 1 && stats1.get(Data.SOURCE).get(0).getPercenInfo().contains("Twitter Web Client")) {
-			phrases.add("ne sait pas qu'il existe autre chose que Twitter Web");
-		}
-		if(stats1.getUnique(Data.TWEET_PER_DAYS).getNum() >= 200) {
-			phrases.add("tweete énormément");
-		}
-		if(Integer.parseInt(stats1.get(Data.HOURS).get(0).getWord().replaceAll("h", "")) > Integer.parseInt(stats2.get(Data.HOURS).get(0).getWord().replaceAll("h",""))) {
-			phrases.add("tweete plus tard");
-		}
-		if(user1.getAge() > 1825) {
-			phrases.add("est un vieux du game");
-		}
-		if(user1.getFollowingCount()/2 > user1.getFollowersCount()) {
-			phrases.add("follow beaucoup plus qu'il ne l'est");
-		}
+		String sunday = new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1];
+		if(stats1.get(Data.SOURCE).size() == 1 && stats1.get(Data.SOURCE).get(0).getWord().equals("Twitter Web Client"))	phrases.add("ne sait pas qu'il existe autre chose que Twitter Web");
+		if(stats1.get(Data.DAYS).get(0).getWord().equalsIgnoreCase(sunday))	phrases.add("confond le jour du seigneur et le jour du flood");
+		if(stats1.get(Data.HOURS).get(0).getNum() > stats2.get(Data.HOURS).get(0).getNum())	phrases.add("tweete plus tard");
+		if(user1.getFollowingCount()/2 > user1.getFollowersCount())	phrases.add("follow beaucoup plus qu'il ne l'est");
+		if(stats1.getUnique(Data.TWEET_PER_DAYS).getRatio() >= 200)	phrases.add("tweete énormément");
+		if(user1.getAge() > 1825) phrases.add("est un vieux du game");
 
-		String text = "<font color=#212121>" + user1.getName() + "<font color=#727272><style=\"font-size:23\";>";
-		text += "<ul>";
+		String text = "<font color=#212121>" + user1.getName() + "<font color=#727272><style=\"font-size:23\";><ul>";
 		Collections.shuffle(phrases);
-		for(int i = 0; i < phrases.size() && i < 6; i++) {
+		for(int i = 0; i < phrases.size() && i < 5; i++) {
 			text += "<li>" + Storage.tra(phrases.get(i)) + "</li>";
 		}
 		text += "</lu>";

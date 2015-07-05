@@ -77,8 +77,8 @@ public class WordInfo {
 		return num;
 	}
 
-	public String getRatio() {
-		return df.format(num/total);
+	public double getRatio() {
+		return Double.parseDouble(df.format(num/total).replaceAll(",", "."));
 	}
 
 	public String getStatusUrl() {
