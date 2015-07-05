@@ -46,7 +46,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		try {
 			user = new TwitterUser(name);
 		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra("userDoesNotExist"), new Exception(name), 604);
+			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(name), 604);
 		}
 
 		isArchive = (statusList != null);

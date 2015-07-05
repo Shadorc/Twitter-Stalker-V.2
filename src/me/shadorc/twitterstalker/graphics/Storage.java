@@ -122,7 +122,7 @@ public class Storage {
 			jsonObject.put(data.toString(), value);
 
 			writer = new FileWriter(file);
-			writer.write(jsonObject.toString().replaceAll(",", ",\n"));
+			writer.write(jsonObject.toString().replaceAll(",", ",\n").replaceAll("\\{", "\\{\n").replaceAll("\\}", "\n\\}"));
 
 		} catch (IOException | JSONException e) {
 			JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
@@ -157,6 +157,7 @@ public class Storage {
 					String text = node.getTextContent();
 					text = text.replaceAll("\n", ""); 			//Remove line break added by XML
 					text = text.substring(4, text.length()-2); 	//Remove whitespace at the start and at the end added by XML
+					text = text.replaceAll("\\\\n", "\n");
 
 					return text;
 				}

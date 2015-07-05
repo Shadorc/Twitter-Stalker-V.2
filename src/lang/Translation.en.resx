@@ -49,7 +49,7 @@
     <value>Please enter a valid PIN code</value>
   </data>
   <data name="invalidUser" xml:space="preserve">
-    <value>Please enter a valid user</value>
+    <value>The user doesn't exist</value>
   </data>
   <data name="invalidArchive" xml:space="preserve">
     <value>Please select a valid archive</value>
@@ -90,17 +90,11 @@
   <data name="uploadError" xml:space="preserve">
     <value>Error while uploading, </value>
   </data>
-  <data name="userDoesNotExist" xml:space="preserve">
-    <value>The user doesn't exist.</value>
-  </data>
   <data name="interface" xml:space="preserve">
     <value>Interface</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Back</value>
-  </data>
-  <data name="upload" xml:space="preserve">
-    <value>Upload</value>
   </data>
   <data name="follower" xml:space="preserve">
     <value>Followers : </value>
@@ -206,12 +200,6 @@
   </data>
   <data name="nonExistentUser" xml:space="preserve">
     <value>Non-existent user</value>
-  </data>
-  <data name="userNoTweet" xml:space="preserve">
-    <value>The user hasn't tweeted anything</value>
-  </data>
-  <data name="userProtected" xml:space="preserve">
-    <value>The user is protected</value>
   </data>
   <data name="tweetsPerDay" xml:space="preserve">
     <value>tweets per day</value>

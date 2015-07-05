@@ -44,13 +44,13 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		try {
 			user1 = new TwitterUser(name1);
 		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra("userDoesNotExist"), new Exception("User 1"), 604);
+			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception("User 1"), 604);
 		}
 
 		try {
 			user2 = new TwitterUser(name2);
 		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra("userDoesNotExist"), new Exception("User 2"), 604);
+			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception("User 2"), 604);
 		}
 
 		stats1 = new Stats(user1, button, null);

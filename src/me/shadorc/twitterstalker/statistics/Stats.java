@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
+import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.HashtagEntity;
 import twitter4j.Paging;
@@ -32,7 +33,7 @@ public class Stats {
 		stop = false;
 
 		if(user.getTweetsPosted() == 0) {
-			throw new TwitterException(Storage.tra("userNoTweet"), new Exception(user.getName()), 600);
+			throw new TwitterException(Storage.tra(Text.NO_TWEET), new Exception(user.getName()), 600);
 		}
 
 		this.stats = new HashMap <Data, StatInfo> ();
@@ -48,7 +49,7 @@ public class Stats {
 		if(user.isPrivate() && !user.getName().equals(Frame.getTwitter().getScreenName())) {
 			bu.setEnabled(true);
 			bu.setText(null);
-			throw new TwitterException(Storage.tra("userProtected"), new Exception(user.getName()), 401);
+			throw new TwitterException(Storage.tra(Text.PRIVATE), new Exception(user.getName()), 401);
 		}
 
 		bu.setEnabled(false);

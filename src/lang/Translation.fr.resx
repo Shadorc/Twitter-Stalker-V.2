@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <data name="createShortcut" xml:space="preserve">
-    <value>Bonjour et merci d'avoir téléchargé Twitter Stalker !\nPlacez le dossier téléchargé où vous voulez puis relancer le pour créer un raccourci sur le bureau (optionnel).\nVoulez-vous créer un raccourci sur le bureau maintenant ?</value>
+    <value>Bonjour et merci d'avoir téléchargé Twitter Stalker !\nPlacez le dossier téléchargé où vous voulez puis relancez le afin de créer un raccourci sur le bureau (optionnel).\nVoulez-vous créer un raccourci sur le bureau maintenant ?</value>
   </data>
   <data name="installation" xml:space="preserve">
     <value>Installation</value>
@@ -49,7 +49,7 @@
     <value>Merci d'entrer un code PIN valide</value>
   </data>
   <data name="invalidUser" xml:space="preserve">
-    <value>Merci d'entrer un utilisateur valide</value>
+    <value>L'utilisateur n'existe pas</value>
   </data>
   <data name="invalidArchive" xml:space="preserve">
     <value>Merci de choisir une archive valide</value>
@@ -88,19 +88,13 @@
     <value>Terminé</value>
   </data>
   <data name="uploadError" xml:space="preserve">
-    <value>Erreur lors de l'upload, </value>
-  </data>
-  <data name="userDoesNotExist" xml:space="preserve">
-    <value>L'utilisateur n'existe pas.</value>
+    <value>Erreur lors de la mise en ligne, </value>
   </data>
   <data name="interface" xml:space="preserve">
     <value>Interface</value>
   </data>
   <data name="back" xml:space="preserve">
     <value>Retour</value>
-  </data>
-  <data name="upload" xml:space="preserve">
-    <value>Upload</value>
   </data>
   <data name="follower" xml:space="preserve">
     <value>Abonnés : </value>
@@ -206,12 +200,6 @@
   </data>
   <data name="nonExistentUser" xml:space="preserve">
     <value>Utilisateur inexistant</value>
-  </data>
-  <data name="userNoTweet" xml:space="preserve">
-    <value>L'utilisateur n'a posté aucun tweet</value>
-  </data>
-  <data name="userProtected" xml:space="preserve">
-    <value>L'utilisateur est protégé</value>
   </data>
   <data name="tweetsPerDay" xml:space="preserve">
     <value>tweets par jour</value>
