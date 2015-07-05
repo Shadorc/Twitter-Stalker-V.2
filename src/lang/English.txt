@@ -2,7 +2,7 @@
 	- Please download this document and contact @Shad0rc or @Dasporal to send it after translating. Please precise in which language the translation is.
 	- The first line is the original, please translate the second.
 	- Let the quotation marks and spaces at the beginning and end of a sentence if there are any.
-	- Rewrite the '\n' without translating them in the same case.
+	- Rewrite the '\n' and tags '<...>' without changing them in the same case.
 	- Thanks !
 
 "Bonjour et merci d'avoir téléchargé Twitter Stalker !\nPlacez le dossier téléchargé où vous voulez puis relancer le pour créer un raccourci sur le bureau (optionnel).\nVoulez-vous créer un raccourci sur le bureau maintenant ?"
@@ -47,7 +47,7 @@
 "Veuillez entrer l'@ du compte à analyser"
 "Please enter the @ of the account to analyze"
 
-"Veuillez séléctionner l'archive à analyser"
+"Veuillez sélectionner l'archive à analyser"
 "Please select the archive to analyze"
 
 "Merci d'entrer un code PIN valide"
@@ -107,10 +107,10 @@
 "Upload"
 "Upload"
 
-"Followers : "
+"Abonnés : "
 "Followers : "
 
-"Followings : "
+"Abonnements : "
 "Followings : "
 
 "Membre depuis : "
@@ -158,29 +158,23 @@
 "Médias"
 "Medias"
 
-"Twittos mentionnés"
-"Mentionned users"
+"Mentions envoyées"
+"Mentions sent"
 
-"Twittos mentionnant"
-"User mentioning"
-
-"Utilisateurs mentionnés"
-"Users mentioned"
-
-"Utilisateurs mentionnant"
-"User mentioning"
+"Mentions reçues"
+"Mentions received"
 
 "déblocage dans "
 "unblocking in "
 
-"Que voulez-vous faire ?"
-"What do you want to do ?"
+"Que voulez-vous analyser ?"
+"What do you want to analyze ?"
 
 "Options"
 "Options"
 
-"Statistiques"
-"Statistics"
+"Compte"
+"Account"
 
 "Comparaison"
 "Comparison"
@@ -188,20 +182,20 @@
 "Archive"
 "Archive"
 
-"Nombre de lettres par mot minimum : "
-"Minimum number of letters per word : "
+"Taille minimum des mots à analyser : "
+"Minimum word lenght to analyze : "
 
-"Nombre de mentions : "
-"Number of mentions : "
+"Mentions à analyser : "
+"Mentions to analyze : "
 
-"Nombre de tweets : "
-"Number of tweets : "
+"Tweets à analyser : "
+"Tweets to analyze : "
 
 "Taille des listes : "
 "Size of the lists : "
 
-"Statistiques à effectuer :"
-"Statistical surveys :"
+"Statistiques à afficher :"
+"Statistical to display :"
 
 "Applis"
 "Apps"
@@ -242,11 +236,14 @@
 "lettres par mot"
 "letters per word"
 
+"Puretweets"
+"Puretweets"
+
 "Mentions"
 "Mentions"
 
-"Retweet"
-"Retweet"
+"Retweets"
+"Retweets"
 
 "Retweetés"
 "Retweeted"
@@ -257,11 +254,11 @@
 " RT | "
 " RT | "
 
-" FAV ("
-" FAV ("
+" FAV"
+" FAV"
 
-"Langue : "
-"Language : "
+"Langue du programme : "
+"Program language : "
 
 "Une nouvelle mise à jour est disponible"
 "New update available"
@@ -278,13 +275,13 @@
 "tweete plus"
 "tweets more"
 
-"est plus populaire"
-"is more popular"
-
 "retweete plus"
 "retweets more"
 
-"confond le jour du seigneur et le jour du flood"
+"est plus populaire"
+"is more popular"
+
+"confond le jour du Seigneur et celui du flood"
 "confuses the Lord's day and day of the flood"
 
 "mentionne plus"
@@ -310,3 +307,9 @@
 
 "Chargement des tweets..."
 "Loading tweets..."
+
+"est un vieux du game"
+"est un vieux du game"
+
+"follow beaucoup plus qu'il ne l'est"
+"follow beaucoup plus qu'il ne l'est"
