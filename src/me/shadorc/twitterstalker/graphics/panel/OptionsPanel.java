@@ -92,7 +92,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBoxMap.put(Data.HASHTAG, new CheckBoxOption("Hashtags", Data.HASHTAG));
 		checkBoxMap.put(Data.POPULARE, new CheckBoxOption("Populaires", Data.POPULARE));
 		checkBoxMap.put(Data.LANG, new CheckBoxOption("Langues", Data.LANG));
-		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Mention envoyées", Data.MENTIONS_SENT));
+		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Mentions envoyées", Data.MENTIONS_SENT));
 		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption("Mentions reçues", Data.MENTIONS_RECEIVED));
 
 		for(Data data : checkBoxMap.keySet()) {

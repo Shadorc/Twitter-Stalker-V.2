@@ -112,7 +112,7 @@ public class EditorPane extends JEditorPane {
 
 		String sunday = new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1];
 		if(stats1.get(Data.SOURCE).size() == 1 && stats1.get(Data.SOURCE).get(0).getWord().equals("Twitter Web Client"))	phrases.add("ne sait pas qu'il existe autre chose que Twitter Web");
-		if(stats1.get(Data.DAYS).get(0).getWord().equalsIgnoreCase(sunday))	phrases.add("confond le jour du seigneur et le jour du flood");
+		if(stats1.get(Data.DAYS).get(0).getWord().equalsIgnoreCase(sunday))	phrases.add("confond le jour du Seigneur et celui du flood");
 		if(stats1.get(Data.HOURS).get(0).getNum() > stats2.get(Data.HOURS).get(0).getNum())	phrases.add("tweete plus tard");
 		if(user1.getFollowingCount()/2 > user1.getFollowersCount())	phrases.add("follow beaucoup plus qu'il ne l'est");
 		if(stats1.getUnique(Data.TWEET_PER_DAYS).getRatio() >= 200)	phrases.add("tweete énormément");
