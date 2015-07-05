@@ -53,10 +53,10 @@ public class StatInfo {
 
 	//Used by FIRST_TALK
 	public void add(String name, Date date) {
-		if(map.containsKey(name) && new Date((long) wi.getNum()).before(date)) {
-			map.get(name).setNum(date.getTime());
-		} else if(!map.containsKey(name)) {
+		if(!map.containsKey(name)) {
 			this.add(name);
+			map.get(name).setNum(date.getTime());
+		} else if(map.containsKey(name) && new Date(wi.getNum()).after(date)) {
 			map.get(name).setNum(date.getTime());
 		}
 	}
