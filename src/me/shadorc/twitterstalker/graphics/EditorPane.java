@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.statistics.PopularePreview;
+import me.shadorc.twitterstalker.statistics.PopularPreview;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
 import me.shadorc.twitterstalker.statistics.WordInfo;
@@ -81,7 +81,7 @@ public class EditorPane extends JEditorPane {
 		field.setText(text);
 
 		if(Arrays.asList(types).contains(Data.POPULARE)) {
-			field.addHyperlinkListener(new PopularePreview(field, stats));
+			field.addHyperlinkListener(new PopularPreview(field, stats));
 		}
 
 		pane.add(field);
