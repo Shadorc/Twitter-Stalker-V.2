@@ -17,10 +17,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.EditorPane;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
-import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
@@ -71,12 +71,12 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JPanel labelsPane = new JPanel(new GridLayout(2, 0));
 		labelsPane.setOpaque(false);
 
-		JLabel followers = new JLabel(Storage.tra("Followers : ") + user.getFollowersCount());
+		JLabel followers = new JLabel(Storage.tra("Abonnés : ") + user.getFollowersCount());
 		followers.setFont(font);
 		followers.setForeground(Color.WHITE);
 		labelsPane.add(followers);
 
-		JLabel followings = new JLabel(Storage.tra("Followings : ") + user.getFollowingCount());
+		JLabel followings = new JLabel(Storage.tra("Abonnements : ") + user.getFollowingCount());
 		followings.setFont(font);
 		followings.setForeground(Color.WHITE);
 		labelsPane.add(followings);
@@ -145,8 +145,8 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(textPanel, stats, "Hashtags", Data.HASHTAG);
 		if(OptionsPanel.isSelected(Data.POPULARE) && !isArchive)	EditorPane.get(textPanel, stats, "Populaires", Data.POPULARE);
 		if(OptionsPanel.isSelected(Data.LANG) && !isArchive)		EditorPane.get(textPanel, stats, "Langues", Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnés", Data.MENTIONS_SENT);
-		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	EditorPane.get(textPanel, stats, "Utilisateurs mentionnant", Data.MENTIONS_RECEIVED);
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(textPanel, stats, "Mentions envoyées", Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))	EditorPane.get(textPanel, stats, "Mentions reçues", Data.MENTIONS_RECEIVED);
 		if(isArchive) EditorPane.get(textPanel, stats, "Mentions les plus anciennes", Data.FIRST_TALK);
 
 		if(textPanel.getComponents().length == 0) {

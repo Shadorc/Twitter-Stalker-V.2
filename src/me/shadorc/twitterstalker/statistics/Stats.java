@@ -152,7 +152,7 @@ public class Stats {
 		stats.put(Data.LETTERS_PER_WORD, new StatInfo(Storage.tra("lettres par mot"), this.getUnique(Data.LETTERS).getNum(), this.getUnique(Data.WORDS_COUNT).getNum()));
 		stats.put(Data.PURETWEETS_COUNT, new StatInfo("Puretweets", (user.getTweetsAnalyzed() - this.getUnique(Data.MENTIONS_COUNT).getNum() - this.getUnique(Data.RETWEET_BY_ME).getNum()), user.getTweetsAnalyzed()));
 		stats.put(Data.MENTIONS_COUNT, new StatInfo(Storage.tra("Mentions"), this.getUnique(Data.MENTIONS_COUNT).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Data.RETWEET_BY_ME, new StatInfo(Storage.tra("Retweet"), this.getUnique(Data.RETWEET_BY_ME).getNum(), user.getTweetsAnalyzed()));
+		stats.put(Data.RETWEET_BY_ME, new StatInfo(Storage.tra("Retweets"), this.getUnique(Data.RETWEET_BY_ME).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.FAVORITE, new StatInfo(Storage.tra("Favorisés"), this.getUnique(Data.FAVORITE).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.RETWEET, new StatInfo(Storage.tra("Retweetés"), this.getUnique(Data.RETWEET).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.MEDIA, new StatInfo(Storage.tra("Médias"), this.getUnique(Data.MEDIA).getNum(), user.getTweetsAnalyzed()));

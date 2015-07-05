@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -35,7 +35,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 	private static final long serialVersionUID = 1L;
 
 	private static JComboBox <String> list_lenght, letters_word, tweets_number, mentions_number, languages;
-	private static HashMap <Data, JCheckBox> checkBoxMap;
+	private static LinkedHashMap <Data, JCheckBox> checkBoxMap;
 	private JButton back;
 
 	public OptionsPanel() {
@@ -81,19 +81,19 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBox.setBorder(BorderFactory.createEmptyBorder(0, 25, 25, 25));
 		checkBox.setOpaque(false);
 
-		checkBoxMap = new HashMap <> ();
-		checkBoxMap.put(Data.SOURCE, new CheckBoxOption("Applis", Data.SOURCE));
-		checkBoxMap.put(Data.HASHTAG, new CheckBoxOption("Hashtags", Data.HASHTAG));
-		checkBoxMap.put(Data.WORDS, new CheckBoxOption("Mots", Data.WORDS));
+		checkBoxMap = new LinkedHashMap <Data, JCheckBox> ();
+		checkBoxMap.put(Data.TWEETS, new CheckBoxOption("Tweets", Data.TWEETS));
+		checkBoxMap.put(Data.TIMELINE, new CheckBoxOption("Timeline", Data.TIMELINE));
+		checkBoxMap.put(Data.REPUTE, new CheckBoxOption("Renommée", Data.REPUTE));
+		checkBoxMap.put(Data.SOURCE, new CheckBoxOption("Sources", Data.SOURCE));
 		checkBoxMap.put(Data.DAYS, new CheckBoxOption("Jours", Data.DAYS));
 		checkBoxMap.put(Data.HOURS, new CheckBoxOption("Heures", Data.HOURS));
-		checkBoxMap.put(Data.TIMELINE, new CheckBoxOption("Timeline", Data.TIMELINE));
-		checkBoxMap.put(Data.TWEETS, new CheckBoxOption("Tweets", Data.TWEETS));
+		checkBoxMap.put(Data.WORDS, new CheckBoxOption("Mots", Data.WORDS));
+		checkBoxMap.put(Data.HASHTAG, new CheckBoxOption("Hashtags", Data.HASHTAG));
 		checkBoxMap.put(Data.POPULARE, new CheckBoxOption("Populaires", Data.POPULARE));
 		checkBoxMap.put(Data.LANG, new CheckBoxOption("Langues", Data.LANG));
-		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Twittos mentionnés", Data.MENTIONS_SENT));
-		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption("Twittos mentionnant", Data.MENTIONS_RECEIVED));
-		checkBoxMap.put(Data.REPUTE, new CheckBoxOption("Renommée", Data.REPUTE));
+		checkBoxMap.put(Data.MENTIONS_SENT, new CheckBoxOption("Mention envoyées", Data.MENTIONS_SENT));
+		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption("Mentions reçues", Data.MENTIONS_RECEIVED));
 
 		for(Data data : checkBoxMap.keySet()) {
 			checkBox.add(checkBoxMap.get(data));

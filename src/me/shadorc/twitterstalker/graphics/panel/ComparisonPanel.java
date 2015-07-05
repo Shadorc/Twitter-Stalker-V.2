@@ -164,8 +164,8 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 			infosPanel.add(new JLabel());
 		}
 
-		infosPanel.add(this.createInfoLabel(Storage.tra("Followers : ") + user.getFollowersCount()));
-		infosPanel.add(this.createInfoLabel(Storage.tra("Followings : ") + user.getFollowingCount()));
+		infosPanel.add(this.createInfoLabel(Storage.tra("Abonnées : ") + user.getFollowersCount()));
+		infosPanel.add(this.createInfoLabel(Storage.tra("Abonnements : ") + user.getFollowingCount()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Membre depuis : ") + user.getAge() + Storage.tra(" jours")));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Tweets analysés : ") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("Nombre de tweets/jour : ") + user.getTweetsPerDay(stats)));
@@ -201,7 +201,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		if(OptionsPanel.isSelected(Data.HASHTAG))	EditorPane.get(statsPanel, stats, "Hashtags", Data.HASHTAG);
 		if(OptionsPanel.isSelected(Data.POPULARE))	EditorPane.get(statsPanel, stats, "Populaires", Data.POPULARE);
 		if(OptionsPanel.isSelected(Data.LANG))		EditorPane.get(statsPanel, stats, "Langues", Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, "Utilisateurs mentionnés", Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, "Mentions envoyées", Data.MENTIONS_SENT);
 
 		if(statsPanel.getComponents().length == 0) {
 			statsPanel.setLayout(new BorderLayout());
