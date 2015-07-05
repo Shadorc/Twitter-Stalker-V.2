@@ -151,7 +151,7 @@ public class EditorPane extends JEditorPane {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for(WordInfo user : stats.get(Data.FIRST_TALK)) {
-					if(user.getWord().equals(saisis.getText())) {
+					if(user.getWord().equals(saisis.getText().replaceAll("@", ""))) {
 						String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date(user.getNum()));
 						String text = editorPane.getText().substring(0, editorPane.getText().indexOf(")")+1) + "<br>&nbsp;&nbsp;";
 						try {
