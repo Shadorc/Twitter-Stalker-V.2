@@ -106,7 +106,7 @@ public class Stats {
 
 				for(UserMentionEntity mention : status.getUserMentionEntities()) {
 					stats.get(Data.MENTIONS_SENT).add(mention.getScreenName());
-					stats.get(Data.FIRST_TALK).add(mention.getScreenName(), status.getCreatedAt());
+					stats.get(Data.FIRST_TALK).add(mention.getScreenName(), status.getCreatedAt(), status);
 				}
 				for(HashtagEntity hashtag : status.getHashtagEntities()) {
 					stats.get(Data.HASHTAG).add("#" + hashtag.getText().toLowerCase());

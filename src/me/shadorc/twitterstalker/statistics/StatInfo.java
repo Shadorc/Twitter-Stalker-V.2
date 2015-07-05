@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import twitter4j.Status;
+
 public class StatInfo {
 
 	private HashMap <String, WordInfo> map;
@@ -52,12 +54,14 @@ public class StatInfo {
 	}
 
 	//Used by FIRST_TALK
-	public void add(String name, Date date) {
+	public void add(String name, Date date, Status status) {
 		if(!map.containsKey(name)) {
 			this.add(name);
 			map.get(name).setNum(date.getTime());
+			map.get(name).setStatus(status);
 		} else if(map.containsKey(name) && new Date(wi.getNum()).after(date)) {
 			map.get(name).setNum(date.getTime());
+			map.get(name).setStatus(status);
 		}
 	}
 

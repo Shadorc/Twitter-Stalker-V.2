@@ -1,8 +1,11 @@
 package me.shadorc.twitterstalker.statistics;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 import me.shadorc.twitterstalker.graphics.Storage;
+import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -48,6 +51,11 @@ public class WordInfo {
 		this.num = num;
 	}
 
+	//Used by FIRST_TALK to set the first status
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	public String getInfo() {
 		return df.format(num/total) + " " + word;
 	}
@@ -55,6 +63,16 @@ public class WordInfo {
 	public String getPercenInfo() {
 		if(si != null) total = si.getTotal();
 		return  word + " (" + df.format(100*num/total) + "%)";
+	}
+
+	public String getFirstTalkInfo() {
+		String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date(this.getNum()));
+		try {
+			return this.getUserImage() + " <a href=" + this.getStatusUrl() + "> @" + this.getWord() + " (" + date + ")</a>";
+		} catch (TwitterException e) {
+			//User doesn't exist anymore
+			return "<a href=" + this.getStatusUrl() + "> @" + this.getWord() + "</a> (" + date + ")";
+		}
 	}
 
 	public String getUserInfo() throws TwitterException {
