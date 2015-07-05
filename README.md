@@ -2,12 +2,12 @@
 Twitter Stalker is a simple application allowing you to get many statistics and compare any Twitter account.
 
 <b>Download :</b>
-http://shadorc.webnode.fr/twitter-stalker/
+<br>http://shadorc.webnode.fr/twitter-stalker/
 
-<u>Any suggestions ?</u>
+<b>Any suggestions ?</b>
 <br>Twitter : @Shad0rc
 
-<h1>Helping with translation</h1>
+<h2>Helping with translation</h2>
 
 Best way would be to contact us using Twitter (@Shad0rc or @Dasporal) because probably you are going to have a lot of questions to ask when translating.
 
