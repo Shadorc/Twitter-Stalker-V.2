@@ -36,14 +36,14 @@ import twitter4j.MediaEntity;
 import twitter4j.MediaEntity.Size;
 import twitter4j.Status;
 
-public class PopularPreview implements HyperlinkListener {
+public class TweetPreview implements HyperlinkListener {
 
 	private JPopupMenu menu;
 	private JEditorPane editorPane;
 	private Stats stats;
 	private Data data;
 
-	public PopularPreview(JEditorPane editorPane, Stats stats, Data data) {
+	public TweetPreview(JEditorPane editorPane, Stats stats, Data data) {
 		this.editorPane = editorPane;
 		this.stats = stats;
 		this.data = data;
