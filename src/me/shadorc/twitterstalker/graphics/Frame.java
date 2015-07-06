@@ -165,7 +165,7 @@ public class Frame extends JFrame {
 	}
 
 	public static void upload(String message) {
-		new Upload(message, frame.getContentPane());
+		new Share(message, frame.getContentPane());
 	}
 
 	public static Twitter getTwitter() {
