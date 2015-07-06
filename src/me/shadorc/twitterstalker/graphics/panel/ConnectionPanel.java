@@ -323,7 +323,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						} catch (TwitterException e) {
 							e.printStackTrace();
 
-							String message = e.getCause().getMessage();
+							String message = (e.getCause() != null) ? e.getCause().getMessage() : null;
 							String globalEr = null;
 							String error = null;
 
