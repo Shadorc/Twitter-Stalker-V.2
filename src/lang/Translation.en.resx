@@ -277,7 +277,7 @@
     <value>tweets a lot</value>
   </data>
   <data name="onlyTwitterWeb" xml:space="preserve">
-    <value></value>
+    <value>doesn't know there are other things instead of Twitter Web</value>
   </data>
   <data name="oldMentionsStats" xml:space="preserve">
     <value>First mention</value>
@@ -286,7 +286,7 @@
     <value>Loading tweets...</value>
   </data>
   <data name="oldOnTwitter" xml:space="preserve">
-    <value></value>
+    <value>has spent way too much time on Twitter</value>
   </data>
   <data name="followALot" xml:space="preserve">
     <value>follow more than he is</value>
@@ -302,5 +302,8 @@
   </data>
   <data name="reset" xml:space="preserve">
     <value>Reset</value>
+  </data>
+  <data name="showNumber" xml:space="preserve">
+    <value>More details (number)</value>
   </data>
 </root>
