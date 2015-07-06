@@ -24,8 +24,8 @@ public class EditorPane extends JEditorPane {
 	private TwitterUser user1, user2;
 	private ArrayList <String> phrases;
 
-	public static void get(JPanel pane, final Stats stats, String desc, Data... types) throws TwitterException {
-		final JEditorPane editorPane = new JEditorPane();
+	public static void get(JPanel pane, Stats stats, String desc, Data... types) throws TwitterException {
+		JEditorPane editorPane = new JEditorPane();
 		editorPane.setContentType("text/html");
 		editorPane.setOpaque(false);
 		editorPane.setEditable(false);

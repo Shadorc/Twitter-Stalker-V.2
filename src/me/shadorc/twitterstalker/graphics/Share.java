@@ -152,7 +152,7 @@ public class Share {
 			}
 		} );
 
-		final JPanel panel = new JPanel(new BorderLayout());
+		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		panel.setBackground(new Color(179, 229, 252));
 
