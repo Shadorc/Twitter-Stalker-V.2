@@ -32,14 +32,14 @@ import javax.swing.JPanel;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 
-public class Upload {
+public class Share {
 
 	private static double HEIGHT_LIMIT = 2000;
 
 	private String message;
 	private File screen;
 
-	public Upload(String message, Container panel) {
+	public Share(String message, Container panel) {
 
 		this.message = message;
 		this.screen = new File("./screen.png");
