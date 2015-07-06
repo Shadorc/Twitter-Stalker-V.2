@@ -149,7 +149,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 	private JPanel createUserJPanel(TwitterUser user, Stats stats) {
 		JPanel descPanel = new JPanel(new BorderLayout());
 		descPanel.setBackground(new Color(68, 138, 255));
-		descPanel.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(10, 10, 10, 50)));
+		descPanel.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(10, 10, 10, 30)));
 
 		descPanel.add(user.getProfileImage(), BorderLayout.WEST);
 		JLabel name = new JLabel("@" + user.getName());
@@ -160,10 +160,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 		JPanel infosPanel = new JPanel(new GridLayout(7, 0));
 		infosPanel.setOpaque(false);
-		for(int i = 0; i < 2; i++) {
-			infosPanel.add(new JLabel());
-		}
-
+		infosPanel.add(new JLabel());
 		infosPanel.add(this.createInfoLabel(Storage.tra("follower") + user.getFollowersCount()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("following") + user.getFollowingCount()));
 		infosPanel.add(this.createInfoLabel(Storage.tra("memberSince") + user.getAge() + Storage.tra("days")));
@@ -175,8 +172,8 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 	}
 
 	private JLabel createInfoLabel(String infos) {
-		JLabel tweetsPerDay = new JLabel(infos);
-		tweetsPerDay.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 16));
+		JLabel tweetsPerDay = new JLabel(infos, JLabel.RIGHT);
+		tweetsPerDay.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 17));
 		tweetsPerDay.setForeground(Color.WHITE);
 		return tweetsPerDay;
 	}
