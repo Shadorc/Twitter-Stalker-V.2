@@ -6,6 +6,7 @@ V2.1.0 :
 	- Ajout de la traduction anglaise
 	- Ajout de la possibilité de changer de langue dans les options
 	- Ajout de la recherche automatique de mises à jour
+	- Ajout d'une option permettant d'afficher ou non les nombres
 	- Amélioration de la lisibilité des images partagées
 	- Amélioration de la prévisualisation des tweets populaires (ajout des images)
 	- Amélioration de l'affichage des statistiques (exprimées maintenant en pourcentage)

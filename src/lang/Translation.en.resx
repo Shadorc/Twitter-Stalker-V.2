@@ -172,7 +172,7 @@
     <value>Archive</value>
   </data>
   <data name="minWordLenght" xml:space="preserve">
-    <value>Minimum word lenght to analyze : </value>
+    <value>Min. word lenght to analyze : </value>
   </data>
   <data name="mentionsNumber" xml:space="preserve">
     <value>Mentions to analyze : </value>
@@ -277,7 +277,7 @@
     <value>tweets a lot</value>
   </data>
   <data name="onlyTwitterWeb" xml:space="preserve">
-    <value>doesn't know that there's something other than Twitter Web</value>
+    <value></value>
   </data>
   <data name="oldMentionsStats" xml:space="preserve">
     <value>First mention</value>
@@ -286,7 +286,7 @@
     <value>Loading tweets...</value>
   </data>
   <data name="oldOnTwitter" xml:space="preserve">
-    <value>is old in the Twitter Game</value>
+    <value></value>
   </data>
   <data name="followALot" xml:space="preserve">
     <value>follow more than he is</value>

@@ -182,11 +182,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JButton bu = (JButton) e.getSource();
 
 		if(bu == back) {
-			if(isArchive) {
-				Frame.setPanel(new MenuPanel());
-			} else {
-				Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
-			}
+			Frame.setPanel(isArchive ? new MenuPanel() : new ConnectionPanel(Storage.tra(Text.USERNAME)));
 		} else if(bu == upload) {
 			Frame.upload("@" + user.getName() + "'s stats");
 		}

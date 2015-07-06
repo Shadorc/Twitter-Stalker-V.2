@@ -34,8 +34,8 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 
 	private static final long serialVersionUID = 1L;
 
+	private static LinkedHashMap <Data, JCheckBox> checkBoxMap = new LinkedHashMap <Data, JCheckBox> ();
 	private static JComboBox <String> list_lenght, letters_word, tweets_number, mentions_number, languages;
-	private static LinkedHashMap <Data, JCheckBox> checkBoxMap;
 	private JButton back;
 
 	public OptionsPanel() {
@@ -64,16 +64,25 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setOpaque(false);
 
-		JPanel options = new JPanel(new GridLayout(6, 0));
+		JPanel options = new JPanel(new GridLayout(6, 2));
 		options.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
 		options.setOpaque(false);
 
 		options.add(this.createOption(Storage.tra("minWordLenght"), letters_word));
+
+		checkBoxMap.put(Data.SHOW_NUMBER, new CheckBoxOption(Storage.tra("showNumber"), Data.SHOW_NUMBER));
+		options.add(checkBoxMap.get(Data.SHOW_NUMBER));
+
 		options.add(this.createOption(Storage.tra("progLanguage"), languages));
+		options.add(new JLabel());
 		options.add(this.createOption(Storage.tra("mentionsNumber"), mentions_number));
+		options.add(new JLabel());
 		options.add(this.createOption(Storage.tra("tweetsNumber"), tweets_number));
+		options.add(new JLabel());
 		options.add(this.createOption(Storage.tra("listLenght"), list_lenght));
+		options.add(new JLabel());
 		options.add(this.createOption(Storage.tra("statsToShow"), null));
+		options.add(new JLabel());
 
 		centerPanel.add(options, BorderLayout.PAGE_START);
 
@@ -81,7 +90,6 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBox.setBorder(BorderFactory.createEmptyBorder(0, 25, 25, 25));
 		checkBox.setOpaque(false);
 
-		checkBoxMap = new LinkedHashMap <Data, JCheckBox> ();
 		checkBoxMap.put(Data.TWEETS, new CheckBoxOption(Storage.tra("tweetsStat"), Data.TWEETS));
 		checkBoxMap.put(Data.TIMELINE, new CheckBoxOption(Storage.tra("timelineStat"), Data.TIMELINE));
 		checkBoxMap.put(Data.REPUTE, new CheckBoxOption(Storage.tra("reputeStat"), Data.REPUTE));
@@ -96,7 +104,9 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBoxMap.put(Data.MENTIONS_RECEIVED, new CheckBoxOption(Storage.tra("mentionsReceived"), Data.MENTIONS_RECEIVED));
 
 		for(Data data : checkBoxMap.keySet()) {
-			checkBox.add(checkBoxMap.get(data));
+			if(data != Data.SHOW_NUMBER) {
+				checkBox.add(checkBoxMap.get(data));
+			}
 		}
 
 		centerPanel.add(checkBox, BorderLayout.CENTER);

@@ -38,6 +38,7 @@ public class Storage {
 		MENTIONS_TO_ANALYZE,
 		TWEETS_TO_ANALYZE,
 		LIST_LENGHT,
+		SHOW_NUMBER,
 
 		/*Stats*/
 		TWEETS,

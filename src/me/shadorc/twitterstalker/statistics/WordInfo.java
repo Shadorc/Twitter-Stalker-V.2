@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 
 import me.shadorc.twitterstalker.graphics.Storage;
+import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -59,9 +60,17 @@ public class WordInfo {
 		return df.format(num/total) + " " + word;
 	}
 
+	public String getPercenInfo(boolean user) {
+		String info = "";
+		if(si != null) 									total = si.getTotal();
+		if(OptionsPanel.isSelected(Data.SHOW_NUMBER)) 	info += num + " ";
+		if(user) 										info += "@";
+		info += word + " (" + df.format(100*num/total) + "%)";
+		return  info;
+	}
+
 	public String getPercenInfo() {
-		if(si != null) total = si.getTotal();
-		return  word + " (" + df.format(100*num/total) + "%)";
+		return this.getPercenInfo(false);
 	}
 
 	public String getFirstTalkInfo() {
@@ -76,7 +85,7 @@ public class WordInfo {
 	}
 
 	public String getUserInfo() throws TwitterException {
-		return this.getUserImage() + " " + " @" + this.getPercenInfo();
+		return this.getUserImage() + " " + this.getPercenInfo(true);
 	}
 
 	public String getUserImage() throws TwitterException {

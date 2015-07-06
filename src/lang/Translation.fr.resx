@@ -172,7 +172,7 @@
     <value>Archive</value>
   </data>
   <data name="minWordLenght" xml:space="preserve">
-    <value>Taille minimum des mots à analyser : </value>
+    <value>Taille min. des mots à analyser : </value>
   </data>
   <data name="mentionsNumber" xml:space="preserve">
     <value>Mentions à analyser : </value>
@@ -302,5 +302,8 @@
   </data>
   <data name="reset" xml:space="preserve">
     <value>Réinitialiser</value>
+  </data>
+  <data name="showNumber" xml:space="preserve">
+    <value>Afficher plus de détails (nombre)</value>
   </data>
 </root>
