@@ -17,12 +17,13 @@ I'm using ResX Resource Manager Visual Studio standalone when translating to oth
 ![ResX Resource Manager](http://i.imgur.com/V4hoX9x.png "Screenshot")
 
 Download the project as a ZIP [here](https://github.com/Shadorc/Twitter-Stalker-V.2/archive/master.zip).
-<br>Extract it and open ResX Resource Manager. At the top left, click on "Directory" and select the folder previously extracted.
+<br>Extract it and open ResX Resource Manager. 
+<br>At the top left, click on "Directory" and select the folder previously extracted.
 
 You just need to use this software/extension and set columns to your language.
 <br>Once finished, create a pull request or contact us on Twitter.
 
-<b>Translations available:</b> 
+<b>Available translations:</b> 
 <ul>
 	<li>French</li>
 	<li>English</li>
