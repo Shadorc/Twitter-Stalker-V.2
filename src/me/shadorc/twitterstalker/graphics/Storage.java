@@ -163,7 +163,7 @@ public class Storage {
 			}
 		} catch (Exception ignore) { }
 
-		System.err.println("Translation not found : " + lang + " : " + key);
+		System.err.println("Translation not found, language : " + lang + ", key : " + key);
 		return (lang.equals("fr")) ? key : tra(key, "fr");
 	}
 }

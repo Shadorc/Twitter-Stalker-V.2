@@ -20,11 +20,11 @@ public class Initialization {
 			if((Storage.getData(Data.INSTALLED) == null) && System.getProperty("os.name").startsWith("Windows")) {
 				int reply = JOptionPane.showOptionDialog(null,
 						Storage.tra("createShortcut"),
-								Storage.tra("installation"),
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE,
-								new ImageIcon(Frame.class.getResource("/res/IconeAppli.png")),
-								new String[] {Storage.tra("yes"), Storage.tra("notNow"), Storage.tra("never")},
+						Storage.tra("installation"),
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE,
+						new ImageIcon(Frame.class.getResource("/res/IconeAppli.png")),
+						new String[] {Storage.tra("yes"), Storage.tra("notNow"), Storage.tra("never")},
 						"default");
 
 				//"Yes"
@@ -76,7 +76,7 @@ public class Initialization {
 				}
 			}
 		} catch (IOException e) {
-			System.err.println("Les nouvelles mises à jour n'ont pas pu être vérifiées : " + e.getMessage());
+			System.err.println("New updates haven't been verified : " + e.getMessage());
 		}
 	}
 }
