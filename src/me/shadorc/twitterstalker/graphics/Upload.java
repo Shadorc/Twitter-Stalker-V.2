@@ -50,6 +50,15 @@ public class Upload {
 				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/HEIGHT_LIMIT));
 			}
 			image = this.addBorder(image);
+
+			/*Resize Image for better Twitter's viewing*/
+			Image tmp = image.getScaledInstance(-1, 570, Image.SCALE_SMOOTH);
+			image = new BufferedImage(tmp.getWidth(null), tmp.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+			Graphics2D g2d = image.createGraphics();
+			g2d.drawImage(tmp, 0, 0, null);
+			g2d.dispose();
+
 			ImageIO.write(image, "png", screen);
 			this.showPreview();
 
@@ -133,9 +142,6 @@ public class Upload {
 		final StatusUpdate status = new StatusUpdate("Twitter Stalker [http://lc.cx/TSDL] : " +  message + ".");
 		status.setMedia(screen);
 
-		ImageIcon preview = new ImageIcon(screen.getPath());
-		//-1 : conserv aspect ratio
-		preview = new ImageIcon(preview.getImage().getScaledInstance(preview.getIconWidth()/3, -1, Image.SCALE_SMOOTH));
 		JFrame frame = new JFrame(Storage.tra("share"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -150,7 +156,7 @@ public class Upload {
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		panel.setBackground(new Color(179, 229, 252));
 
-		panel.add(new JLabel(preview), BorderLayout.PAGE_START);
+		panel.add(new JLabel(new ImageIcon(screen.getPath())), BorderLayout.PAGE_START);
 
 		JLabel text = new JLabel(status.getStatus(), JLabel.CENTER);
 		text.setFont(Frame.getFont("SEGOEUI.TTF", 25));
