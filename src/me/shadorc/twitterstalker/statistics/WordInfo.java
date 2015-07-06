@@ -26,6 +26,7 @@ public class WordInfo {
 		this.total = total;
 	}
 
+	//StatInfo is used to get the total
 	WordInfo(String word, StatInfo si) {
 		this.word = word;
 		this.si = si;
@@ -33,9 +34,17 @@ public class WordInfo {
 		this.total = 1;
 	}
 
+	//Used by Data.POPULARE
 	WordInfo(Status status) {
 		this.status = status;
 		this.num = status.getRetweetCount() + status.getFavoriteCount();
+	}
+
+	//Used by Data.FIRST_TALK
+	WordInfo(String word, long num, Status status) {
+		this.word = word;
+		this.num = num;
+		this.status = status;
 	}
 
 	public void increment() {
@@ -44,16 +53,6 @@ public class WordInfo {
 
 	public void increment(int num) {
 		this.num += num;
-	}
-
-	//Used by FIRST_TALK to set the first talking date
-	public void setNum(long num) {
-		this.num = num;
-	}
-
-	//Used by FIRST_TALK to set the first status
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 	public String getInfo() {
@@ -66,13 +65,14 @@ public class WordInfo {
 	}
 
 	public String getFirstTalkInfo() {
-		String date = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang()).format(new Date(this.getNum()));
+		String date = DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(new Date(this.getNum()));
+		String image = "";
 		try {
-			return this.getUserImage() + " <a href=" + this.getStatusUrl() + "> @" + this.getWord() + " (" + date + ")</a>";
-		} catch (TwitterException e) {
+			image = this.getUserImage();
+		} catch(TwitterException ignore) {
 			//User doesn't exist anymore
-			return "<a href=" + this.getStatusUrl() + "> @" + this.getWord() + "</a> (" + date + ")";
 		}
+		return image + " <a href=" + this.getStatusUrl() + "> @" + this.getWord() + "</a> (" + date + ")";
 	}
 
 	public String getUserInfo() throws TwitterException {

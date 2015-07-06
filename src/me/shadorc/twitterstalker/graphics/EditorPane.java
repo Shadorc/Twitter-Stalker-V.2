@@ -77,13 +77,8 @@ public class EditorPane extends JEditorPane {
 		}
 		editorPane.setText(text);
 
-		if(Arrays.asList(types).contains(Data.POPULARE)) {
-			editorPane.addHyperlinkListener(new PopularPreview(editorPane, stats, Data.POPULARE));
-		}
-
-		if(Arrays.asList(types).contains(Data.FIRST_TALK)) {
-			editorPane.addHyperlinkListener(new PopularPreview(editorPane, stats, Data.FIRST_TALK));
-		}
+		if(types[0].equals(Data.POPULARE)) 		editorPane.addHyperlinkListener(new PopularPreview(editorPane, stats, Data.POPULARE));
+		if(types[0].equals(Data.FIRST_TALK))	editorPane.addHyperlinkListener(new PopularPreview(editorPane, stats, Data.FIRST_TALK));
 
 		pane.add(editorPane);
 	}

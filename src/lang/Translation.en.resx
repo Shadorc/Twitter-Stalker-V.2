@@ -300,4 +300,7 @@
   <data name="userSearch" xml:space="preserve">
     <value>Enter the @ of the person to find</value>
   </data>
+  <data name="reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
 </root>
