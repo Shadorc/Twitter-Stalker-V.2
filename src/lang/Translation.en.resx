@@ -22,7 +22,7 @@
     <value>Error. Check your Internet connection.</value>
   </data>
   <data name="urlError" xml:space="preserve">
-    <value>Error while opening, the URL has been paster in theclipboard.</value>
+    <value>Error while opening, the URL has been pasted in the clipboard.</value>
   </data>
   <data name="archiveError" xml:space="preserve">
     <value>Error while loading the archive</value>
@@ -181,10 +181,10 @@
     <value>Tweets to analyze : </value>
   </data>
   <data name="listLenght" xml:space="preserve">
-    <value>Size of the lists : </value>
+    <value>Length of the lists : </value>
   </data>
   <data name="statsToShow" xml:space="preserve">
-    <value>Statistical to display :</value>
+    <value>Statistical to show :</value>
   </data>
   <data name="numTweetsPerDay" xml:space="preserve">
     <value>Number of tweets/day : </value>
