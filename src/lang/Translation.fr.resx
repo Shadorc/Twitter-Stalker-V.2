@@ -306,4 +306,17 @@
   <data name="showNumber" xml:space="preserve">
     <value>Afficher plus de détails (nombre)</value>
   </data>
+  <data name="archiveHelp" xml:space="preserve">
+    <value>Qu'est ce qu'une Archive Twitter ?</value>
+  </data>
+  <data name="archiveHelpText" xml:space="preserve">
+    <value>[html]Une Archive Twitter est un fichier regroupant tous vos tweets depuis la création de votre compte.
+    [br]Twitter Stalker s'en sert pour élaborer des statistiques sur l'ensemble de vos tweets et non plus sur un nombre limité.
+    [br]Ceci permet aussi d'obtenir une nouvelle statistique : "Première mention" qui vous montre la première fois que vous avez
+    [br]parlé à quelqu'un et avec quel tweet.
+    [br]
+    [br][b]Comment obtenir son Archive ?[/b]
+    [br]Rendez-vous sur [a href="https://twitter.com/settings/account"]cette page[/a]. En bas de la page, cliquez sur 'Demander votre archive', vous la recevrez plus tard par mail.
+    [br]Il ne vous restera plus qu'à l'extraire ![/html]</value>
+  </data>
 </root>
