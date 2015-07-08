@@ -23,6 +23,8 @@ Download the project as a ZIP [here](https://github.com/Shadorc/Twitter-Stalker-
 You just need to use this software/extension and set columns to your language.
 <br>Once finished, create a pull request or contact us on Twitter.
 
+<br>Do not translate text in brackets ("[" and "]"), line breaks ("\n") or the name of the software ("Twitter Stalker")
+
 <b>Available translations:</b> 
 <ul>
 	<li>French</li>
