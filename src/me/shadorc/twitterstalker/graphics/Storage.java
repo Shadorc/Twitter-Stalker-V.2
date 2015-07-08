@@ -157,6 +157,8 @@ public class Storage {
 					text = text.replaceAll("\n", ""); 			//Remove line break added by XML
 					text = text.substring(4, text.length()-2); 	//Remove whitespace at the start and at the end added by XML
 					text = text.replaceAll("\\\\n", "\n");
+					text = text.replaceAll("\\[", "\\<");
+					text = text.replaceAll("\\]", "\\>");
 
 					return text;
 				}

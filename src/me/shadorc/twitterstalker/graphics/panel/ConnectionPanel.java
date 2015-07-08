@@ -22,16 +22,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.plaf.ColorUIResource;
 
+import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.Frame;
@@ -176,6 +172,31 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					}
 
 					JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home"), "Desktop"));
+					JButton help = new JButton(Storage.tra("archiveHelp"));
+					help.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							JEditorPane ep = new JEditorPane("text/html", Storage.tra("archiveHelpText"));
+							ep.setEditable(false);
+							ep.setOpaque(false);
+							ep.addHyperlinkListener(new HyperlinkListener() {
+								@Override
+								public void hyperlinkUpdate(HyperlinkEvent he) {
+									if(he.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+										Infonet.open(he.getURL().toString(), true);
+									}
+								}
+							});
+
+							JOptionPane.showMessageDialog(
+									null, 
+									ep,
+									Storage.tra("archiveHelp"), 
+									JOptionPane.QUESTION_MESSAGE, 
+									new ImageIcon(Frame.class.getResource("/res/IconeAppli.png")));
+						}
+					});
+					chooser.add(help, BorderLayout.SOUTH);
 					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 					int choice = chooser.showOpenDialog(null);
