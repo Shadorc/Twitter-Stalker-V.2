@@ -205,7 +205,7 @@ public class TweetPreview implements HyperlinkListener {
 
 	private void search(JFormattedTextField userInput, JFrame frame) {
 		for(WordInfo user : stats.get(Data.FIRST_TALK)) {
-			if(user.getWord().equals(userInput.getText().replaceAll("@", ""))) {
+			if(user.getWord().equalsIgnoreCase(userInput.getText().replaceAll("@", ""))) {
 				String text = editorPane.getText();
 				editorPane.setText(text.substring(0, text.indexOf(")")+1) + "<br>&nbsp;&nbsp;- " + user.getFirstTalkInfo());
 				frame.dispose();
