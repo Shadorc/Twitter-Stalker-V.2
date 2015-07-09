@@ -216,7 +216,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					}
 
 					if(!file.exists()) {
-						field1.error(Text.INVALID_ARCHIVE);
+						field1.error(Storage.tra(Text.INVALID_ARCHIVE));
 					}
 				}
 
@@ -244,12 +244,12 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							try {
 								statusList.add(TwitterObjectFactory.createStatus(json.getJSONObject(i).toString()));
 							} catch (TwitterException | JSONException e) {
-								field1.error(Text.ARCHIVE_ERROR);
+								field1.error(Storage.tra(Text.ARCHIVE_ERROR));
 								e.printStackTrace();
 							}
 						}
 					} catch (IOException | JSONException e) {
-						field1.error(Text.ARCHIVE_ERROR);
+						field1.error(Storage.tra(Text.ARCHIVE_ERROR));
 						search.setText(null);
 						e.printStackTrace();
 					}
