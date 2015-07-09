@@ -63,7 +63,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		top.setBackground(new Color(68,138,255));
 		top.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
-		JPanel userInfos = new JPanel(new GridLayout(0, 3));
+		JPanel userInfos = new JPanel(new BorderLayout());
 		userInfos.setOpaque(false);
 
 		Font font = Frame.getFont("RobotoCondensed-Regular.ttf", 40);
@@ -81,18 +81,20 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		followings.setForeground(Color.WHITE);
 		labelsPane.add(followings);
 
-		userInfos.add(labelsPane);
+		userInfos.add(labelsPane, BorderLayout.WEST);
 
 		JLabel image = user.getProfileImage();
 		image.setHorizontalAlignment(JLabel.CENTER);
-		userInfos.add(image);
+		userInfos.add(image, BorderLayout.CENTER);
 
 		font = font.deriveFont(72f);
 
-		JLabel username = new JLabel("@" + user.getName(), JLabel.LEFT);
+		JLabel username = new JLabel("@" + user.getName(), JLabel.RIGHT);
 		username.setForeground(Color.WHITE);
 		username.setFont(font);
-		userInfos.add(username);
+		userInfos.add(username, BorderLayout.EAST);
+		
+		labelsPane.setPreferredSize(username.getPreferredSize());
 
 		top.add(userInfos, BorderLayout.CENTER);
 
