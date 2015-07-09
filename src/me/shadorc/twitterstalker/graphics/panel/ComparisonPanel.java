@@ -156,6 +156,12 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		name.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		name.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 40));
 		name.setForeground(Color.WHITE);
+
+		//Reduce name's size according to the difference in width
+		if(name.getPreferredSize().getWidth() > 200) {
+			name.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", (int) (40-(name.getPreferredSize().getWidth()-200)/10)));
+		}
+
 		descPanel.add(name, BorderLayout.CENTER);
 
 		JPanel infosPanel = new JPanel(new GridLayout(7, 0));
