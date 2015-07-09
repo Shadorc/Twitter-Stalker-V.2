@@ -1,3 +1,10 @@
+V2.1.1 :
+	- Amélioration de la recherche d'un utilisateur (ne prend plus en compte la casse)
+	- Amélioration de l'affichage des grands noms 
+	- Ajout des utilisateurs qui n'existent plus dans 'Première mention'
+	- Correction d'un crash possible pendant l'analyse d'une Archive
+	- Correction de certains textes qui n'étaient pas traduits correctement
+
 V2.1.0 :
 	- Amélioration de la lisibilité des images partagées
 	- Amélioration de la prévisualisation des tweets populaires (ajout des images)
