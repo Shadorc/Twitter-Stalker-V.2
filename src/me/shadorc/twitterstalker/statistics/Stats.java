@@ -97,12 +97,11 @@ public class Stats {
 
 				if(stop) return;
 
+				user.incremenAnalyzedTweets();
+
 				//Number of days since this tweet was posted
 				timeTweet = (new Date().getTime() - status.getCreatedAt().getTime()) / 86400000;
 				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
-
-				user.incremenAnalyzedTweets();
-				this.setStats(status);
 
 				for(UserMentionEntity mention : status.getUserMentionEntities()) {
 					stats.get(Data.MENTIONS_SENT).add(mention.getScreenName());
@@ -112,6 +111,8 @@ public class Stats {
 					stats.get(Data.HASHTAG).add("#" + hashtag.getText().toLowerCase());
 					this.getUnique(Data.HASHTAG_COUNT).increment();
 				}
+
+				this.setStats(status);
 			}
 
 			double progress = (100.0 * user.getTweetsAnalyzed()) / tweetsToAnalyze;
@@ -206,6 +207,15 @@ public class Stats {
 			//Split spaces and line breaks ("|\\" equals "and")
 			for(String word : status.getText().split(" |\\\n")) {
 
+				//If the word is a mention but the user doesn't exist anymore, add it to mentions anyway
+				if(word.startsWith("@") && word.length() > 1) {
+					String name = word.replaceAll("@", "");
+					if(!containsCaseInsensitive(name, this.get(Data.MENTIONS_SENT))) {
+						stats.get(Data.MENTIONS_SENT).add(name);
+						stats.get(Data.FIRST_TALK).add(name, status.getCreatedAt(), status);
+					}
+				}
+
 				//Delete all letters except a-z/A-Z/0-9/@/# and accents and lowercase
 				word = word.replaceAll("[^a-zA-ZÀ-ÿ0-9^@#]", "").toLowerCase();
 
@@ -217,6 +227,15 @@ public class Stats {
 				}
 			}
 		}
+	}
+
+	private boolean containsCaseInsensitive(String str, List <WordInfo> list){
+		for(WordInfo wi : list){
+			if(wi.getWord().equalsIgnoreCase(str)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public WordInfo get(Data type, int i) {
