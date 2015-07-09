@@ -234,7 +234,9 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						//Read all file
 						String file = new String(Files.readAllBytes(Paths.get(f.getPath())), StandardCharsets.UTF_8);
 						//Remove useless first line to get only JSON
-						file = file.substring(file.indexOf("["));
+						if(file.indexOf("[") != -1) {
+							file = file.substring(file.indexOf("["));
+						}
 
 						//Create an array with all SJON object in the file
 						JSONArray json = new JSONArray(file);
