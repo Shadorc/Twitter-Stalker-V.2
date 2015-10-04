@@ -108,7 +108,7 @@ public class TextField extends JTextField {
 	}
 
 	public boolean isValidPin() {
-		return this.getText().matches("[0-9]+") && this.getText().length() >= 7;
+		return this.getText().trim().matches("[0-9]+") && this.getText().trim().length() >= 7;
 	}
 
 	public void error(String error) {
