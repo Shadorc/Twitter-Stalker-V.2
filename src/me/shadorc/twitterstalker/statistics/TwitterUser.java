@@ -11,7 +11,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
+import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -22,8 +24,20 @@ public class TwitterUser {
 	private int tweetsAnalyzed;
 	private int mentionsAnalyzed;
 
-	public TwitterUser(String user) throws TwitterException {
-		this.user = Frame.getTwitter().showUser(user);
+	public TwitterUser(String userName) throws TwitterException {
+		try {
+			this.user = Frame.getTwitter().showUser(userName);
+		} catch (TwitterException e) {
+			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(userName), 604);
+		}
+
+		if(this.getTweetsPosted() == 0) {
+			throw new TwitterException(Storage.tra(Text.NO_TWEET), new Exception(userName), 600);
+		}
+
+		if(this.isPrivate() && !this.getName().equals(Frame.getTwitter().getScreenName())) {
+			throw new TwitterException(Storage.tra(Text.PRIVATE), new Exception(userName), 401);
+		}
 	}
 
 	public boolean isPrivate() {

@@ -41,17 +41,8 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 	ComparisonPanel(String name1, String name2, JButton button) throws TwitterException {
 		super(new BorderLayout());
 
-		try {
-			user1 = new TwitterUser(name1);
-		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception("User 1"), 604);
-		}
-
-		try {
-			user2 = new TwitterUser(name2);
-		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception("User 2"), 604);
-		}
+		user1 = new TwitterUser(name1);
+		user2 = new TwitterUser(name2);
 
 		stats1 = new Stats(user1, button, null);
 		stats2 = new Stats(user2, button, null);
@@ -184,7 +175,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		return tweetsPerDay;
 	}
 
-	private JPanel createStatsJPanel(TwitterUser user, Stats stats) throws TwitterException {
+	private JPanel createStatsJPanel(TwitterUser user, Stats stats) {
 		statsPanel = new JPanel();
 		statsPanel.setOpaque(false);
 

@@ -43,11 +43,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 	StatisticsPanel(String name, JButton button, List <Status> statusList) throws TwitterException {
 		super(new BorderLayout());
 
-		try {
-			user = new TwitterUser(name);
-		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(name), 604);
-		}
+		user = new TwitterUser(name);
 
 		isArchive = (statusList != null);
 

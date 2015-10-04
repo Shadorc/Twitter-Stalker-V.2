@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Storage;
 import me.shadorc.twitterstalker.graphics.Storage.Data;
-import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.HashtagEntity;
 import twitter4j.Paging;
@@ -32,10 +31,6 @@ public class Stats {
 	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
 		stop = false;
 
-		if(user.getTweetsPosted() == 0) {
-			throw new TwitterException(Storage.tra(Text.NO_TWEET), new Exception(user.getName()), 600);
-		}
-
 		this.stats = new HashMap <Data, StatInfo> ();
 		this.df = new DecimalFormat("#.#");
 		this.isArchive = (statusList != null);
@@ -44,12 +39,6 @@ public class Stats {
 
 		if(tweetsToAnalyze > OptionsPanel.getMaxTweetsNumber()) {
 			tweetsToAnalyze = OptionsPanel.getMaxTweetsNumber();
-		}
-
-		if(user.isPrivate() && !user.getName().equals(Frame.getTwitter().getScreenName())) {
-			bu.setEnabled(true);
-			bu.setText(null);
-			throw new TwitterException(Storage.tra(Text.PRIVATE), new Exception(user.getName()), 401);
 		}
 
 		bu.setEnabled(false);

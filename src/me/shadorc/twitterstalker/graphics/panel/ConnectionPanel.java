@@ -331,7 +331,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 								}
 							}
 							field1.error(error);
-							
+
 							search.setText(null);
 							search.setEnabled(true);
 						}
@@ -375,10 +375,9 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							if(globalEr != null) {
 								field1.error(globalEr);
 								field2.error(globalEr);
-							} else if(field1.getText().equals(message) || message.contains("1")) { //If the error is caused by the first field
-								field1.error(error);
 							} else {
-								field2.error(error);
+								if(field1.getText().equals(message))	field1.error(error);
+								if(field2.getText().equals(message))	field2.error(error);
 							}
 
 							search.setText(null);

@@ -24,7 +24,7 @@ public class EditorPane extends JEditorPane {
 	private TwitterUser user1, user2;
 	private ArrayList <String> phrases;
 
-	public static void get(JPanel pane, Stats stats, String desc, Data... types) throws TwitterException {
+	public static void get(JPanel pane, Stats stats, String desc, Data... types) {
 		JEditorPane editorPane = new JEditorPane();
 		editorPane.setContentType("text/html");
 		editorPane.setOpaque(false);
@@ -83,7 +83,7 @@ public class EditorPane extends JEditorPane {
 		pane.add(editorPane);
 	}
 
-	public EditorPane(Stats stats1, Stats stats2, TwitterUser user1, TwitterUser user2) throws TwitterException {
+	public EditorPane(Stats stats1, Stats stats2, TwitterUser user1, TwitterUser user2) {
 		super();
 		this.setContentType("text/html");
 		this.setOpaque(false);
