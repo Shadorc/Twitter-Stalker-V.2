@@ -295,7 +295,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 			if(text.equals(Storage.tra(Text.PIN))) {
 				//If field contains only numbers and the pin is more than 6 characters
 				if(field1.isValidPin()) {
-					Frame.connect(field1.getText());
+					Frame.connect(field1.getText().trim());
 				} else {
 					field1.error(Storage.tra(Text.INVALID_PIN));
 				}
@@ -305,7 +305,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					@Override
 					public void run() {
 						try {
-							statsPanel = new StatisticsPanel(field1.getUserName(), search, statusList);
+							statsPanel = new StatisticsPanel(field1.getUserName().trim(), search, statusList);
 							if(Stats.stop == true) return;
 							Frame.setPanel(statsPanel);
 						} catch (TwitterException e) {
@@ -340,7 +340,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					@Override
 					public void run() {
 						try {
-							comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
+							comparePanel = new ComparisonPanel(field1.getUserName().trim(), field2.getUserName().trim(), search);
 							if(Stats.stop == true) return;
 							Frame.setPanel(comparePanel);
 						} catch (TwitterException e) {
