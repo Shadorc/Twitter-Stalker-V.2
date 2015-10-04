@@ -331,6 +331,9 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 								}
 							}
 							field1.error(error);
+							
+							search.setText(null);
+							search.setEnabled(true);
 						}
 					}
 				}).start();
@@ -377,6 +380,9 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							} else {
 								field2.error(error);
 							}
+
+							search.setText(null);
+							search.setEnabled(true);
 						}
 					}
 				}).start();
