@@ -93,8 +93,13 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		username.setForeground(Color.WHITE);
 		username.setFont(font);
 		userInfos.add(username, BorderLayout.EAST);
-		
-		labelsPane.setPreferredSize(username.getPreferredSize());
+
+		//Set the same width to the two panel to have the user image centered. Condition is to avoid to have truncated text
+		if(labelsPane.getPreferredSize().getWidth() > username.getPreferredSize().getWidth()) {
+			username.setPreferredSize(labelsPane.getPreferredSize());
+		} else {
+			labelsPane.setPreferredSize(username.getPreferredSize());
+		}
 
 		top.add(userInfos, BorderLayout.CENTER);
 
