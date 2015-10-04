@@ -31,7 +31,7 @@
     <value>Erreur</value>
   </data>
   <data name="saveError" xml:space="preserve">
-    <value>Erreur lors de la sauvegarde, </value>
+    <value>Erreur lors de la sauvegarde des données. Essayez de lancer Twitter Stalker en tant qu'administrateur pour corriger le problème.</value>
   </data>
   <data name="enterPin" xml:space="preserve">
     <value>Veuillez entrer le code PIN</value>

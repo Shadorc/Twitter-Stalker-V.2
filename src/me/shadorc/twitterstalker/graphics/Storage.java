@@ -88,14 +88,14 @@ public class Storage {
 				writer.write(new JSONObject().toString());
 
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 
 			} finally {
 				try {
 					if(writer != null)	writer.close();
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
 			}
@@ -126,14 +126,14 @@ public class Storage {
 			writer.write(jsonObject.toString().replaceAll(",", ",\n").replaceAll("\\{", "\\{\n").replaceAll("\\}", "\n\\}"));
 
 		} catch (IOException | JSONException e) {
-			JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 
 		} finally {
 			try {
 				if(writer != null)	writer.close();
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, Storage.tra("saveError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}

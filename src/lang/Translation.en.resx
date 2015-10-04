@@ -31,7 +31,7 @@
     <value>Error</value>
   </data>
   <data name="saveError" xml:space="preserve">
-    <value>Error while saving, </value>
+    <value>Error while saving data. Try to run Twitter Stalker as an administrator to fix the problem.</value>
   </data>
   <data name="enterPin" xml:space="preserve">
     <value>Please enter the PIN code</value>
