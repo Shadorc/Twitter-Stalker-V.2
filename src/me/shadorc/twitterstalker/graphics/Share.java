@@ -148,7 +148,9 @@ public class Share {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent we) {
-				screen.delete();
+				if(screen.exists()) {
+					screen.delete();
+				}
 			}
 		} );
 
@@ -209,7 +211,9 @@ public class Share {
 							info.setText(Storage.tra("error") + " ! " + e.getMessage());
 							e.printStackTrace();
 						} finally {
-							screen.delete();
+							if(screen.exists()) {
+								screen.delete();
+							}
 						}
 					}
 				}).start();
