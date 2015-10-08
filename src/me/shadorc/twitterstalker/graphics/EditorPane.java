@@ -139,6 +139,10 @@ public class EditorPane extends JEditorPane {
 			stat1 = stats1.getUnique(Data.TWEETS_PER_DAY).getRatio();
 			stat2 = stats2.getUnique(Data.TWEETS_PER_DAY).getRatio();
 
+		}else if(data == Data.POPULARE) {
+			stat1 = user1.getTwitterMoney(stats1);
+			stat2 = user2.getTwitterMoney(stats2);
+
 		} else {
 			try {
 				stat1 = stats1.get(data).get(0).getNum();

@@ -40,6 +40,15 @@ public class TwitterUser {
 		}
 	}
 
+	public double getTwitterMoney(Stats stats) {
+		double money = stats.getUnique(Data.TWEETS_PER_DAY).getRatio(); //Get tweets per day
+		money *= (double) this.getFollowersCount(); 					//Potential views on tweet per day
+		money = (double) ((money * 25) / 100);							//Estimated views per day
+		money *= 9.12;													//9.12 = Twitter Value / Tweets per day on Twitter (centimes)
+		money /= 100;													//Euro conversion
+		return money;
+	}
+
 	public boolean isPrivate() {
 		return user.isProtected();
 	}
