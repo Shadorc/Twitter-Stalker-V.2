@@ -126,18 +126,26 @@ public class EditorPane extends JEditorPane {
 
 	private void compare(Data data, String line, boolean proportional) {
 		double stat1, stat2;
-		try {
-			stat1 = stats1.get(data).get(0).getNum();
-			stat2 = stats2.get(data).get(0).getNum();
-		} catch(NullPointerException e) {
-			stat1 = stats1.getUnique(data).getNum();
-			stat2 = stats2.getUnique(data).getNum();
+
+		if(data == Data.TWEETS_PER_DAY) {
+			stat1 = stats1.getUnique(Data.TWEETS_PER_DAY).getRatio();
+			stat2 = stats2.getUnique(Data.TWEETS_PER_DAY).getRatio();
+
+		} else {
+			try {
+				stat1 = stats1.get(data).get(0).getNum();
+				stat2 = stats2.get(data).get(0).getNum();
+			} catch(NullPointerException e) {
+				stat1 = stats1.getUnique(data).getNum();
+				stat2 = stats2.getUnique(data).getNum();
+			}
 		}
 
 		if(proportional) {
 			stat1 /= user1.getTweetsAnalyzed();
 			stat2 /= user2.getTweetsAnalyzed();
 		}
+
 		if(stat1 > stat2) {
 			phrases.add(line);
 		}
