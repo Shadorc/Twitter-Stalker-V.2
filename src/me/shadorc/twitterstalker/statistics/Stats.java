@@ -69,7 +69,7 @@ public class Stats {
 		stats.put(Data.LETTERS, new StatInfo());
 		stats.put(Data.MEDIA, new StatInfo());
 		stats.put(Data.URL, new StatInfo());
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo());
+		stats.put(Data.TWEETS_PER_DAY, new StatInfo());
 		stats.put(Data.FIRST_TALK, new StatInfo());
 
 		double timeTweet = 1;
@@ -137,7 +137,7 @@ public class Stats {
 			}
 		}
 
-		stats.put(Data.TWEET_PER_DAYS, new StatInfo(Storage.tra("numTweetsPerDay"), user.getTweetsAnalyzed(), timeFirstTweet));
+		stats.put(Data.TWEETS_PER_DAY, new StatInfo(Storage.tra("numTweetsPerDay"), user.getTweetsAnalyzed(), timeFirstTweet));
 		stats.put(Data.WORDS_PER_TWEET, new StatInfo(Storage.tra("wordsPerTweet"), this.getUnique(Data.WORDS_COUNT).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.LETTERS_PER_TWEET, new StatInfo(Storage.tra("lettersPerTweet"), this.getUnique(Data.LETTERS).getNum(), user.getTweetsAnalyzed()));
 		stats.put(Data.LETTERS_PER_WORD, new StatInfo(Storage.tra("lettersPerWord"), this.getUnique(Data.LETTERS).getNum(), this.getUnique(Data.WORDS_COUNT).getNum()));

@@ -65,7 +65,7 @@ public class TwitterUser {
 	}
 
 	public String getTweetsPerDay(Stats stats) {
-		return stats.getUnique(Data.TWEET_PER_DAYS).getWord() + stats.getUnique(Data.TWEET_PER_DAYS).getRatio();
+		return stats.getUnique(Data.TWEETS_PER_DAY).getWord() + stats.getUnique(Data.TWEETS_PER_DAY).getRatio();
 	}
 
 	public int getTweetsAnalyzed() {

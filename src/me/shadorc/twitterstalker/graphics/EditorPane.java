@@ -99,7 +99,7 @@ public class EditorPane extends JEditorPane {
 
 		phrases = new ArrayList <String> ();
 
-		this.compare(Data.TWEET_PER_DAYS, Storage.tra("tweetMore"), false);
+		this.compare(Data.TWEETS_PER_DAY, Storage.tra("tweetMore"), false);
 		this.compare(Data.RETWEET_BY_ME, Storage.tra("retweetMore"), true);
 		this.compare(Data.MENTIONS_COUNT, Storage.tra("moreMentions"), true);
 		this.compare(Data.POPULARE, Storage.tra("morePopular"), false);
@@ -111,7 +111,7 @@ public class EditorPane extends JEditorPane {
 		if(stats1.get(Data.HOURS).get(0).getNum() > stats2.get(Data.HOURS).get(0).getNum())									Storage.tra("tweetLater");
 		if(stats1.get(Data.DAYS).get(0).getWord().equalsIgnoreCase(sunday))													Storage.tra("sundayTweet");
 		if(user1.getFollowingCount()/2 > user1.getFollowersCount())															Storage.tra("followALot");
-		if(stats1.getUnique(Data.TWEET_PER_DAYS).getRatio() >= 200)															Storage.tra("tweetALot");
+		if(stats1.getUnique(Data.TWEETS_PER_DAY).getRatio() >= 200)															Storage.tra("tweetALot");
 		if(user1.getAge() > 1825) 																							Storage.tra("oldOnTwitter");
 
 		String text = "<font color=#212121>" + user1.getName() + "<font color=#727272><style=\"font-size:23\";><ul>";

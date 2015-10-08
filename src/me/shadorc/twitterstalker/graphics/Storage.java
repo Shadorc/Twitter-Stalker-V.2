@@ -73,7 +73,7 @@ public class Storage {
 		MEDIA,
 		URL,
 
-		TWEET_PER_DAYS,
+		TWEETS_PER_DAY,
 		FIRST_TALK
 	}
 
