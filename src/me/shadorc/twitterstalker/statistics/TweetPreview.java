@@ -132,7 +132,7 @@ public class TweetPreview implements HyperlinkListener {
 						text += "- " + copy.get(i).getFirstTalkInfo();
 					} catch (IndexOutOfBoundsException e) {
 						if(i == 0) {
-							System.err.println("Info : " + Data.FIRST_TALK + " ignored.");
+							System.out.println(Data.FIRST_TALK + " ignored.");
 							return;
 						}
 						text += "<br>";

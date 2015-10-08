@@ -76,7 +76,8 @@ public class Initialization {
 				}
 			}
 		} catch (IOException e) {
-			System.err.println("New updates haven't been verified : " + e.getMessage());
+			System.err.println("New updates haven't been verified : ");
+			e.printStackTrace();
 		}
 	}
 }

@@ -60,7 +60,7 @@ public class EditorPane extends JEditorPane {
 					}
 				} catch (IndexOutOfBoundsException e) {
 					if(i == 0) {
-						System.err.println("Info : " + Arrays.asList(types) + " ignored.");
+						System.out.println(Arrays.asList(types) + " ignored.");
 						return;
 					}
 					text += "<br>";
