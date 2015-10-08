@@ -38,7 +38,7 @@ public class Stats {
 		int tweetsToAnalyze = (statusList != null) ? statusList.size() : user.getTweetsPosted();
 
 		if(tweetsToAnalyze > OptionsPanel.getMaxTweetsNumber()) {
-			tweetsToAnalyze = OptionsPanel.getMaxTweetsNumber();
+			tweetsToAnalyze = OptionsPanel.getMaxTweetsNumber() - 200; //-200 : avoid going beyond 3000
 		}
 
 		bu.setEnabled(false);
@@ -75,7 +75,7 @@ public class Stats {
 		long timeTweet = 1;
 		long timeFirstTweet = 1;
 
-		for(int i = 1; user.getTweetsAnalyzed() < tweetsToAnalyze; i++) {
+		for(int i = 1; user.getTweetsAnalyzed() <= tweetsToAnalyze; i++) {
 
 			RateLimitStatus rls = Frame.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
 			System.out.println("[User timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
