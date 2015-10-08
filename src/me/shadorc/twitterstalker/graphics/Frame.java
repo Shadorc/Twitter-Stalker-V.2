@@ -35,7 +35,7 @@ public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private static String version = "2.1.1";
+	private static String version = "2.1.2";
 
 	private static Frame frame;
 	private static JPanel currentPanel;
