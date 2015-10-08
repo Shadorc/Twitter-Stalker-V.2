@@ -72,8 +72,8 @@ public class Stats {
 		stats.put(Data.TWEETS_PER_DAY, new StatInfo());
 		stats.put(Data.FIRST_TALK, new StatInfo());
 
-		double timeTweet = 1;
-		double timeFirstTweet = 1;
+		long timeTweet = 1;
+		long timeFirstTweet = 1;
 
 		for(int i = 1; user.getTweetsAnalyzed() < tweetsToAnalyze; i++) {
 
@@ -88,8 +88,8 @@ public class Stats {
 
 				user.incremenAnalyzedTweets();
 
-				//Number of days since this tweet was posted
-				timeTweet = (new Date().getTime() - status.getCreatedAt().getTime()) / 86400000;
+				//Number of milliseconds since this tweet was posted
+				timeTweet = new Date().getTime() - status.getCreatedAt().getTime();
 				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
 
 				for(UserMentionEntity mention : status.getUserMentionEntities()) {

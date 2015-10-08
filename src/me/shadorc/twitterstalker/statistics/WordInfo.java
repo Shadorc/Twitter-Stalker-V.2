@@ -108,8 +108,10 @@ public class WordInfo {
 		return num;
 	}
 
+	//Only used by TWEET_PER_DAYS
 	public double getRatio() {
-		return Double.parseDouble(df.format(num/total).replaceAll(",", "."));
+		//'total' is the time in millisecond since the last tweet. The result is tweets/ms, 8.64*Math.pow(10,7) converts it to tweets/day
+		return Double.parseDouble(df.format(num/total*(8.64*Math.pow(10,7))).replaceAll(",", "."));
 	}
 
 	public String getStatusUrl() {
