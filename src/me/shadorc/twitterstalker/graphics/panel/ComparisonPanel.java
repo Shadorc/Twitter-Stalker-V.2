@@ -37,6 +37,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 	private JPanel statsPanel;
 	private TwitterUser user1, user2;
 	private Stats stats1, stats2;
+	private ArrayList <String> ignored;
 
 	ComparisonPanel(String name1, String name2, JButton button) throws TwitterException {
 		super(new BorderLayout());
@@ -64,48 +65,26 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		JPanel center = new JPanel(new GridLayout(0, 2));
 		center.setOpaque(false);
 
+		ignored = new ArrayList <String> ();
+
 		JPanel statsPanel1 = this.createStatsJPanel(user1, stats1);
 		JPanel statsPanel2 = this.createStatsJPanel(user2, stats2);
 
-		//All components names in first panel
-		ArrayList <String> comp1 = new ArrayList <String> ();
 		for(Component comp : statsPanel1.getComponents()) {
-			comp1.add(comp.getName());
+			if(ignored.contains(comp.getName())) {
+				statsPanel1.remove(comp);
+				((GridLayout) statsPanel1.getLayout()).setRows(((GridLayout) statsPanel1.getLayout()).getRows()-1);
+				System.out.println("'" + comp.getName() + "' ignored in panel 1");
+			}
 		}
 
-		//All components names in second panel
-		ArrayList <String> comp2 = new ArrayList <String> ();
 		for(Component comp : statsPanel2.getComponents()) {
-			comp2.add(comp.getName());
-		}
-
-		//Check all elements that aren't in the first list but are in the second and remove them
-		ArrayList <String> diffComp1 = new ArrayList <String> (comp1);
-		diffComp1.removeAll(new ArrayList <String> (comp2));
-		for(String name : diffComp1) {
-			for(Component comp : statsPanel1.getComponents()) {
-				if(comp.getName().equals(name)) {
-					statsPanel1.remove(comp);
-					System.err.println("Info : " + comp.getName() + " deleted in panel 1.");
-				}
+			if(ignored.contains(comp.getName())) {
+				statsPanel2.remove(comp);
+				((GridLayout) statsPanel2.getLayout()).setRows(((GridLayout) statsPanel2.getLayout()).getRows()-1);
+				System.out.println(comp.getName() + " ignored in panel 2.");
 			}
 		}
-		//Decrease rows by the numbers of deleted elements
-		((GridLayout) statsPanel1.getLayout()).setRows(((GridLayout) statsPanel1.getLayout()).getRows()-diffComp1.size());
-
-		//Check all elements that aren't in the second list but are in the first and remove them
-		ArrayList <String> diffComp2 = new ArrayList <String> (comp2);
-		diffComp2.removeAll(new ArrayList <String> (comp1));
-		for(String name : diffComp2) {
-			for(Component comp : statsPanel2.getComponents()) {
-				if(comp.getName().equals(name)) {
-					statsPanel2.remove(comp);
-					System.err.println("Info : " + comp.getName() + " deleted in panel 2.");
-				}
-			}
-		}
-		//Decrease rows by the numbers of deleted elements
-		((GridLayout) statsPanel2.getLayout()).setRows(((GridLayout) statsPanel2.getLayout()).getRows()-diffComp2.size());
 
 		center.add(statsPanel1);
 		center.add(statsPanel2);
@@ -185,17 +164,49 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 			statsPanel.add(new EditorPane(stats2, stats1, user2, user1));
 		}
 
-		if(OptionsPanel.isSelected(Data.TWEETS))		EditorPane.get(statsPanel, stats, Storage.tra("tweetsStat"), Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Data.TIMELINE))		EditorPane.get(statsPanel, stats, Storage.tra("timelineStat"), Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE))		EditorPane.get(statsPanel, stats, Storage.tra("reputeStat"), Data.FAVORITE, Data.RETWEET);
-		if(OptionsPanel.isSelected(Data.SOURCE))		EditorPane.get(statsPanel, stats, Storage.tra("sourceStat"), Data.SOURCE);
-		if(OptionsPanel.isSelected(Data.DAYS))			EditorPane.get(statsPanel, stats, Storage.tra("daysStat"), Data.DAYS);
-		if(OptionsPanel.isSelected(Data.HOURS))			EditorPane.get(statsPanel, stats, Storage.tra("hoursStat"), Data.HOURS);
-		if(OptionsPanel.isSelected(Data.WORDS))			EditorPane.get(statsPanel, stats, Storage.tra("wordsStat"), Data.WORDS);
-		if(OptionsPanel.isSelected(Data.HASHTAG))		EditorPane.get(statsPanel, stats, Storage.tra("hashtagStat"), Data.HASHTAG);
-		if(OptionsPanel.isSelected(Data.POPULARE))		EditorPane.get(statsPanel, stats, Storage.tra("popularStat"), Data.POPULARE);
-		if(OptionsPanel.isSelected(Data.LANG))			EditorPane.get(statsPanel, stats, Storage.tra("languageStat"), Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))	EditorPane.get(statsPanel, stats, Storage.tra("mentionsSent"), Data.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Data.TWEETS)   
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("tweetsStat"), Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD)) 
+			ignored.add(Storage.tra("tweetsStat"));
+
+		if(OptionsPanel.isSelected(Data.TIMELINE) 
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("timelineStat"), Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME)) 
+			ignored.add(Storage.tra("timelineStat"));
+
+		if(OptionsPanel.isSelected(Data.REPUTE)   
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("reputeStat"), Data.FAVORITE, Data.RETWEET)) 
+			ignored.add(Storage.tra("reputeStat"));
+
+		if(OptionsPanel.isSelected(Data.SOURCE)   
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("sourceStat"), Data.SOURCE)) 
+			ignored.add(Storage.tra("sourceStat"));
+
+		if(OptionsPanel.isSelected(Data.DAYS)     
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("daysStat"), Data.DAYS))
+			ignored.add(Storage.tra("daysStat"));
+
+		if(OptionsPanel.isSelected(Data.HOURS)    
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("hoursStat"), Data.HOURS)) 
+			ignored.add(Storage.tra("hoursStat"));
+
+		if(OptionsPanel.isSelected(Data.WORDS)    
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("wordsStat"), Data.WORDS))
+			ignored.add(Storage.tra("wordsStat"));
+
+		if(OptionsPanel.isSelected(Data.HASHTAG)  
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("hashtagStat"), Data.HASHTAG))
+			ignored.add(Storage.tra("hashtagStat"));
+
+		if(OptionsPanel.isSelected(Data.POPULARE) 
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("popularStat"), Data.POPULARE)) 
+			ignored.add(Storage.tra("popularStat"));
+
+		if(OptionsPanel.isSelected(Data.LANG)     
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("languageStat"), Data.LANG))
+			ignored.add(Storage.tra("languageStat"));
+
+		if(OptionsPanel.isSelected(Data.MENTIONS_SENT) 
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("mentionsSent"), Data.MENTIONS_SENT)) 
+			ignored.add(Storage.tra("mentionsSent"));
 
 		if(statsPanel.getComponents().length == 0) {
 			statsPanel.setLayout(new BorderLayout());

@@ -123,20 +123,24 @@ public class TweetPreview implements HyperlinkListener {
 		reset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+
+				if(stats.get(Data.FIRST_TALK).isEmpty()) {
+					System.out.println(Data.FIRST_TALK + " ignored.");
+					return;
+				}
+
 				String text = "<font color=#212121>" + Storage.tra("oldMentionsStats") + " (<a href=search>" + Storage.tra("search") + "</a>)" + "<font color=#727272><style=\"font-size:23\";>";
 				for(int i = 0; i < OptionsPanel.getMaxListLenght(); i++) {
-					try {
-						text += "<br>&nbsp;&nbsp;";
-						ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(Data.FIRST_TALK));
-						Collections.reverse(copy);
-						text += "- " + copy.get(i).getFirstTalkInfo();
-					} catch (IndexOutOfBoundsException e) {
-						if(i == 0) {
-							System.out.println(Data.FIRST_TALK + " ignored.");
-							return;
-						}
+
+					if(stats.get(Data.FIRST_TALK).size() <= i) {
 						text += "<br>";
+						continue;
 					}
+
+					text += "<br>&nbsp;&nbsp;";
+					ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(Data.FIRST_TALK));
+					Collections.reverse(copy);
+					text += "- " + copy.get(i).getFirstTalkInfo();
 				}
 				editorPane.setText(text);
 			}

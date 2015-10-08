@@ -2,7 +2,6 @@ package me.shadorc.twitterstalker.graphics;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.JEditorPane;
@@ -24,8 +23,9 @@ public class EditorPane extends JEditorPane {
 	private TwitterUser user1, user2;
 	private ArrayList <String> phrases;
 
-	public static void get(JPanel pane, Stats stats, String desc, Data... types) {
+	public static boolean get(JPanel pane, Stats stats, String desc, Data... types) {
 		JEditorPane editorPane = new JEditorPane();
+		editorPane.setName(desc);
 		editorPane.setContentType("text/html");
 		editorPane.setOpaque(false);
 		editorPane.setEditable(false);
@@ -37,41 +37,47 @@ public class EditorPane extends JEditorPane {
 		//If it's stats contains in array
 		if(types.length == 1) {
 			Data type = types[0];
+
+			//No stat to show
+			if(stats.get(type).isEmpty()) {
+				return false;
+			}
+
 			for(int i = 0; i < OptionsPanel.getMaxListLenght(); i++) {
-				try {
-					text += "<br>&nbsp;&nbsp;";
-					if(type.equals(Data.MENTIONS_RECEIVED) || type.equals(Data.MENTIONS_SENT)) {
-						try {
-							text += "- " + stats.get(type, i).getUserInfo();
-						} catch(TwitterException e) {
-							text += "- " + Storage.tra("nonExistentUser");
-						}
 
-					} else if(type.equals(Data.POPULARE)) {
-						text += "- " + "<a href=" + stats.get(type, i).getStatusUrl() + ">" + stats.get(type, i).getStatusInfo() + "</a>";
-
-					} else if(type.equals(Data.FIRST_TALK)) {
-						ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(type));
-						Collections.reverse(copy);
-						text += "- " + copy.get(i).getFirstTalkInfo();
-
-					} else {
-						text += "- " + stats.get(type, i).getPercenInfo();
-					}
-				} catch (IndexOutOfBoundsException e) {
-					if(i == 0) {
-						System.out.println(Arrays.asList(types) + " ignored.");
-						return;
-					}
+				//Index out of bound
+				if(stats.get(type).size() <= i) {
 					text += "<br>";
+					continue;
+				}
+
+				text += "<br>&nbsp;&nbsp;- ";
+				if(type.equals(Data.MENTIONS_RECEIVED) || type.equals(Data.MENTIONS_SENT)) {
+					try {
+						text += stats.get(type, i).getUserInfo();
+					} catch(TwitterException e) {
+						text += Storage.tra("nonExistentUser");
+					}
+
+				} else if(type.equals(Data.POPULARE)) {
+					text += "<a href=" + stats.get(type, i).getStatusUrl() + ">" + stats.get(type, i).getStatusInfo() + "</a>";
+
+				} else if(type.equals(Data.FIRST_TALK)) {
+					ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(type));
+					Collections.reverse(copy);
+					text += copy.get(i).getFirstTalkInfo();
+
+				} else {
+					text += stats.get(type, i).getPercenInfo();
 				}
 			}
 		} else {
 			for(Data type : types) {
+				text += "<br>&nbsp;&nbsp;- ";
 				if(type == Data.WORDS_PER_TWEET || type == Data.LETTERS_PER_TWEET || type ==  Data.LETTERS_PER_WORD) {
-					text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getInfo();
+					text += stats.getUnique(type).getInfo();
 				} else {
-					text += "<br>&nbsp;&nbsp;- " + stats.getUnique(type).getPercenInfo();
+					text += stats.getUnique(type).getPercenInfo();
 				}
 			}
 		}
@@ -81,6 +87,8 @@ public class EditorPane extends JEditorPane {
 		if(types[0].equals(Data.FIRST_TALK))	editorPane.addHyperlinkListener(new TweetPreview(editorPane, stats, Data.FIRST_TALK));
 
 		pane.add(editorPane);
+
+		return true;
 	}
 
 	public EditorPane(Stats stats1, Stats stats2, TwitterUser user1, TwitterUser user2) {
