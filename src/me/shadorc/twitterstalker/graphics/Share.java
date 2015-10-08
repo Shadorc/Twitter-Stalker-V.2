@@ -35,6 +35,7 @@ import twitter4j.TwitterException;
 public class Share {
 
 	private static double HEIGHT_LIMIT = 2000;
+	private static int screenCount = 0;
 
 	private String message;
 	private File screen;
@@ -42,7 +43,9 @@ public class Share {
 	public Share(String message, Container panel) {
 
 		this.message = message;
-		this.screen = new File("./screen.png");
+		this.screen = new File("./screen-" + screenCount + ".png");
+
+		screenCount++;
 
 		try {
 			BufferedImage image = this.getScreenshot(panel);
