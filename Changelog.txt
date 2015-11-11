@@ -1,3 +1,6 @@
+V2.1.2 :
+	- Correction de tous les bugs connus (c'est-à-dire beaucoup)
+
 V2.1.1 :
 	- Amélioration de la recherche d'un utilisateur (ne prend plus en compte la casse)
 	- Amélioration de l'affichage des grands noms 
