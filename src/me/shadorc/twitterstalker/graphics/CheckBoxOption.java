@@ -5,7 +5,8 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
-import me.shadorc.twitterstalker.graphics.Storage.Data;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 
 public class CheckBoxOption extends JCheckBox implements ItemListener {
 

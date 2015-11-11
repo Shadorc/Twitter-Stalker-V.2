@@ -17,6 +17,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultEditorKit;
 
+import me.shadorc.twitterstalker.storage.Storage;
+
 public class TextField extends JTextField {
 
 	private static final long serialVersionUID = 1L;

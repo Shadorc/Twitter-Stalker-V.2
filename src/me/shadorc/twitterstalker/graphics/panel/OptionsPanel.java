@@ -27,8 +27,8 @@ import me.shadorc.twitterstalker.graphics.CheckBoxOption;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
-import me.shadorc.twitterstalker.graphics.Storage;
-import me.shadorc.twitterstalker.graphics.Storage.Data;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 
 public class OptionsPanel extends JPanel implements ActionListener, ItemListener {
 

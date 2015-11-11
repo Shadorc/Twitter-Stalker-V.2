@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 

@@ -7,12 +7,13 @@ import java.util.Collections;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 
-import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TweetPreview;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
 import me.shadorc.twitterstalker.statistics.WordInfo;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;
 
 public class EditorPane extends JEditorPane {

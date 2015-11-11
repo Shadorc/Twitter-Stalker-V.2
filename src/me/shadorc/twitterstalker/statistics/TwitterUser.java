@@ -11,10 +11,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.Storage;
-import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;
 import twitter4j.User;
 

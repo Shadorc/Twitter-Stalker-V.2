@@ -20,11 +20,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import me.shadorc.infonet.Infonet;
-import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.ConnectionPanel;
 import me.shadorc.twitterstalker.graphics.panel.MenuPanel;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.initialization.Shortcut;
+import me.shadorc.twitterstalker.initialization.UpdateChecker;
+import me.shadorc.twitterstalker.initialization.Version;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -35,7 +39,8 @@ public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private static String version = "2.1.2";
+	public static boolean isBeta = true;
+	public static Version version = new Version("2.1.3", isBeta);
 
 	private static Frame frame;
 	private static JPanel currentPanel;
@@ -55,7 +60,7 @@ public class Frame extends JFrame {
 		//Load options
 		new OptionsPanel();
 
-		Initialization.createShortcut();
+		Shortcut.create();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -85,7 +90,7 @@ public class Frame extends JFrame {
 
 		frame.setVisible(true);
 
-		Initialization.checkForUpdate(version);
+		UpdateChecker.check(version);
 	}
 
 	Frame() {

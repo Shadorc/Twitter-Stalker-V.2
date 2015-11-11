@@ -10,9 +10,9 @@ import java.util.Locale;
 import javax.swing.JButton;
 
 import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.Storage;
-import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.HashtagEntity;
 import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
@@ -196,15 +196,6 @@ public class Stats {
 			//Split spaces and line breaks ("|\\" equals "and")
 			for(String word : status.getText().split(" |\\\n")) {
 
-				//If the word is a mention but the user doesn't exist anymore, add it to mentions anyway
-				if(word.startsWith("@") && word.length() > 1) {
-					String name = word.replaceAll("@", "");
-					if(!containsCaseInsensitive(name, this.get(Data.MENTIONS_SENT))) {
-						stats.get(Data.MENTIONS_SENT).add(name);
-						stats.get(Data.FIRST_TALK).add(name, status.getCreatedAt(), status);
-					}
-				}
-
 				//Delete all letters except a-z/A-Z/0-9/@/# and accents and lowercase
 				word = word.replaceAll("[^a-zA-ZÀ-ÿ0-9^@#]", "").toLowerCase();
 
@@ -216,15 +207,6 @@ public class Stats {
 				}
 			}
 		}
-	}
-
-	private boolean containsCaseInsensitive(String str, List <WordInfo> list){
-		for(WordInfo wi : list){
-			if(wi.getWord().equalsIgnoreCase(str)){
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public WordInfo get(Data type, int i) {

@@ -1,4 +1,4 @@
-package me.shadorc.twitterstalker.graphics;
+package me.shadorc.twitterstalker.storage;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,60 +22,6 @@ import twitter4j.JSONObject;
 public class Storage {
 
 	private static File file = new File("./data.json");
-
-	public enum Data {
-		/*Installation*/
-		INSTALLED,
-		UPDATE,
-
-		/*Connection*/
-		TOKEN,
-		TOKEN_SECRET,
-
-		/*Options*/
-		LETTERS_PER_WORD_MIN,
-		INTERFACE_LANG,
-		MENTIONS_TO_ANALYZE,
-		TWEETS_TO_ANALYZE,
-		LIST_LENGHT,
-		SHOW_NUMBER,
-
-		/*Stats*/
-		TWEETS,
-		WORDS_PER_TWEET,
-		LETTERS_PER_TWEET,
-		LETTERS_PER_WORD,
-
-		TIMELINE,
-		PURETWEETS_COUNT,
-		MENTIONS_COUNT,
-		RETWEET_BY_ME,
-
-		REPUTE,
-		FAVORITE,
-		RETWEET,
-
-		SOURCE,
-		DAYS,
-		HOURS,
-		WORDS,
-		HASHTAG,
-		LANG,
-
-		POPULARE,
-
-		MENTIONS_SENT,
-		MENTIONS_RECEIVED,
-
-		WORDS_COUNT,
-		HASHTAG_COUNT,
-		LETTERS,
-		MEDIA,
-		URL,
-
-		TWEETS_PER_DAY,
-		FIRST_TALK
-	}
 
 	public static void init() {
 		if(!file.exists() || file.length() == 0) {

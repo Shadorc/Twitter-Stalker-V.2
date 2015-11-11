@@ -22,11 +22,11 @@ import me.shadorc.twitterstalker.graphics.EditorPane;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
-import me.shadorc.twitterstalker.graphics.Storage;
-import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;
 
 public class ComparisonPanel extends JPanel implements ActionListener {

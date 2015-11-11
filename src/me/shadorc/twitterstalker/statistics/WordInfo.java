@@ -4,9 +4,9 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Date;
 
-import me.shadorc.twitterstalker.graphics.Storage;
-import me.shadorc.twitterstalker.graphics.Storage.Data;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
