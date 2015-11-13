@@ -22,7 +22,7 @@ public class CheckBoxOption extends JCheckBox implements ItemListener {
 		this.setOpaque(false);
 		this.setFocusable(false);
 		this.addItemListener(this);
-		this.setFont(Frame.getFont("RobotoCondensed-Light.ttf", 30));
+		this.setFont(Ressources.getFont("RobotoCondensed-Light.ttf", 30));
 	}
 
 	@Override

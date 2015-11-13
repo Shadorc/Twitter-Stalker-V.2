@@ -55,7 +55,7 @@ public class TextField extends JTextField {
 					JMenuItem paste = new JMenuItem(new DefaultEditorKit.PasteAction());
 					paste.setText(Storage.tra("paste"));
 					paste.setBackground(Color.WHITE);
-					paste.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 15));
+					paste.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 15));
 					menu.add(paste);
 
 					JMenuItem delete = new JMenuItem(new AbstractAction(Storage.tra("delete")) {
@@ -67,7 +67,7 @@ public class TextField extends JTextField {
 						}
 					});
 					delete.setBackground(Color.WHITE);
-					delete.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 15));
+					delete.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 15));
 					menu.add(delete);
 
 					menu.show(event.getComponent(), event.getX(), event.getY());

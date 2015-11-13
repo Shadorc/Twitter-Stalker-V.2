@@ -31,6 +31,7 @@ import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.TextField;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.Stats;
@@ -76,7 +77,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 
 		this.add(new JLabel(new ImageIcon(this.getClass().getResource("/res/Icone.png"))));
 
-		Font font = Frame.getFont("RobotoCondensed-LightItalic.ttf", 48);
+		Font font = Ressources.getFont("RobotoCondensed-LightItalic.ttf", 48);
 
 		JPanel fieldPane = new JPanel();
 		fieldPane.setOpaque(false);
@@ -107,7 +108,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		search = new Button("Valider", new int[] {30, 0, 0, 0}, Size.NORMAL, this);
 		search.setDisabledIcon(new ImageIcon(this.getClass().getResource("/res/loading.gif")));
 		search.setForeground(Color.WHITE);
-		search.setFont(Frame.getFont("RobotoCondensed-LightItalic.ttf", 20));
+		search.setFont(Ressources.getFont("RobotoCondensed-LightItalic.ttf", 20));
 		search.setHorizontalTextPosition(JButton.CENTER);
 		search.setVerticalTextPosition(JButton.CENTER);
 		searchPanel.add(search);
@@ -128,7 +129,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		JPanel labelsPanel = new JPanel(new GridLayout(6, 0));
 		labelsPanel.setOpaque(false);
 
-		font = Frame.getFont("RobotoCondensed-Light.ttf", 22).deriveFont(Font.BOLD);
+		font = Ressources.getFont("RobotoCondensed-Light.ttf", 22).deriveFont(Font.BOLD);
 
 		JLabel design = new JLabel("Design : @Dasporal", JLabel.RIGHT);
 		design.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));		
@@ -176,10 +177,10 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 					help.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							JEditorPane ep = new JEditorPane("text/html", Storage.tra("archiveHelpText"));
-							ep.setEditable(false);
-							ep.setOpaque(false);
-							ep.addHyperlinkListener(new HyperlinkListener() {
+							JEditorPane textPane = new JEditorPane("text/html", Storage.tra("archiveHelpText"));
+							textPane.setEditable(false);
+							textPane.setOpaque(false);
+							textPane.addHyperlinkListener(new HyperlinkListener() {
 								@Override
 								public void hyperlinkUpdate(HyperlinkEvent he) {
 									if(he.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
@@ -188,12 +189,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 								}
 							});
 
-							JOptionPane.showMessageDialog(
-									null, 
-									ep,
-									Storage.tra("archiveHelp"), 
-									JOptionPane.QUESTION_MESSAGE, 
-									new ImageIcon(Frame.class.getResource("/res/IconeAppli.png")));
+							JOptionPane.showMessageDialog(null, textPane, Storage.tra("archiveHelp"), JOptionPane.QUESTION_MESSAGE, Ressources.getBigIcon());
 						}
 					});
 					chooser.add(help, BorderLayout.SOUTH);

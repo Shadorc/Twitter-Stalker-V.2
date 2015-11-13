@@ -35,6 +35,8 @@ import twitter4j.TwitterException;
 
 public class Share {
 
+	private static String downloadUrl = "http://lc.cx/TSDL";
+
 	private static double HEIGHT_LIMIT = 2000;
 	private static int screenCount = 0;
 
@@ -64,7 +66,7 @@ public class Share {
 			g2d.dispose();
 
 			ImageIO.write(image, "png", screen);
-			this.showPreview();
+			this.showPreviewFrame();
 
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, Storage.tra("screenshotError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
@@ -142,8 +144,8 @@ public class Share {
 		return bi;
 	}
 
-	private void showPreview() {
-		final StatusUpdate status = new StatusUpdate("Twitter Stalker [http://lc.cx/TSDL] : " +  message + ".");
+	private void showPreviewFrame() {
+		final StatusUpdate status = new StatusUpdate(Ressources.getName() + " [" + downloadUrl + "] : " +  message + ".");
 		status.setMedia(screen);
 
 		JFrame frame = new JFrame(Storage.tra("share"));
@@ -165,7 +167,7 @@ public class Share {
 		panel.add(new JLabel(new ImageIcon(screen.getPath())), BorderLayout.PAGE_START);
 
 		JLabel text = new JLabel(status.getStatus(), JLabel.CENTER);
-		text.setFont(Frame.getFont("SEGOEUI.TTF", 25));
+		text.setFont(Ressources.getFont("SEGOEUI.TTF", 25));
 		panel.add(text, BorderLayout.CENTER);
 
 		final JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
@@ -173,14 +175,14 @@ public class Share {
 
 		final JButton tweet = new JButton(Storage.tra("tweet"));
 		tweet.setFocusable(false);
-		tweet.setFont(Frame.getFont("SEGOEUI.TTF", 25));
+		tweet.setFont(Ressources.getFont("SEGOEUI.TTF", 25));
 		tweet.setBackground(new Color(85,172,238));
 		tweet.setBorder(BorderFactory.createLineBorder(new Color(59, 148, 217), 1, true));
 		tweet.setForeground(Color.WHITE);
 
 		final JLabel info = new JLabel();
 		info.setHorizontalAlignment(JLabel.CENTER);
-		info.setFont(Frame.getFont("SEGOEUI.TTF", 25));
+		info.setFont(Ressources.getFont("SEGOEUI.TTF", 25));
 		info.setBorder(BorderFactory.createLineBorder(new Color(59, 148, 217), 1, true));
 
 		tweet.addMouseListener(new MouseAdapter() {
@@ -230,7 +232,7 @@ public class Share {
 
 		frame.setContentPane(panel);
 		frame.pack();
-		frame.setIconImage(new ImageIcon(this.getClass().getResource("/res/IconeAppli.png")).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+		frame.setIconImage(Ressources.getSmallIcon().getImage());
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);

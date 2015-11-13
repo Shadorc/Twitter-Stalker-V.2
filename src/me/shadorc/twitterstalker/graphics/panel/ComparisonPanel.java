@@ -20,6 +20,7 @@ import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.EditorPane;
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
@@ -124,12 +125,12 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		descPanel.add(user.getProfileImage(), BorderLayout.WEST);
 		JLabel name = new JLabel("@" + user.getName());
 		name.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-		name.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 40));
+		name.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 40));
 		name.setForeground(Color.WHITE);
 
 		//Reduce name's size according to the difference in width
 		if(name.getPreferredSize().getWidth() > 200) {
-			name.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", (int) (40-(name.getPreferredSize().getWidth()-200)/10)));
+			name.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", (int) (40-(name.getPreferredSize().getWidth()-200)/10)));
 		}
 
 		descPanel.add(name, BorderLayout.CENTER);
@@ -149,7 +150,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 
 	private JLabel createInfoLabel(String infos) {
 		JLabel tweetsPerDay = new JLabel(infos, JLabel.RIGHT);
-		tweetsPerDay.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 18));
+		tweetsPerDay.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 18));
 		tweetsPerDay.setForeground(Color.WHITE);
 		return tweetsPerDay;
 	}
@@ -211,7 +212,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		if(statsPanel.getComponents().length == 0) {
 			statsPanel.setLayout(new BorderLayout());
 			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
-			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
+			error.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 30));
 			statsPanel.add(error, JLabel.CENTER);
 		} else {
 			statsPanel.setLayout(new GridLayout(statsPanel.getComponents().length, 0, 15, 15));

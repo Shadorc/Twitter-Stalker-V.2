@@ -114,4 +114,8 @@ public class Storage {
 		System.err.println("Translation not found, language : " + lang + ", key : " + key);
 		return (lang.equals("fr")) ? key : tra(key, "fr");
 	}
+
+	public static File getFile() {
+		return file;
+	}
 }

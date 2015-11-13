@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -26,8 +25,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.DefaultEditorKit;
 
 import me.shadorc.infonet.Infonet;
-import me.shadorc.twitterstalker.graphics.EditorPane;
-import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import me.shadorc.twitterstalker.storage.Data;
@@ -102,7 +100,7 @@ public class TweetPreview implements HyperlinkListener {
 	}
 
 	private void openSearchFrame(final JEditorPane editorPane, final Stats stats) {
-		Font font = Frame.getFont("RobotoCondensed-LightItalic.ttf", 20);
+		Font font = Ressources.getFont("RobotoCondensed-LightItalic.ttf", 20);
 
 		final JFrame frame = new JFrame(Storage.tra("search"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -200,7 +198,7 @@ public class TweetPreview implements HyperlinkListener {
 
 		frame.setContentPane(pane);
 		frame.pack();
-		frame.setIconImage(new ImageIcon(EditorPane.class.getResource("/res/IconeAppli.png")).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+		frame.setIconImage(Ressources.getSmallIcon().getImage()	);
 		frame.setSize(500, 80);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);

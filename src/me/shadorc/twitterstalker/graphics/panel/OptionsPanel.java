@@ -25,6 +25,7 @@ import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.CheckBoxOption;
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.storage.Data;
@@ -55,7 +56,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		top.setBackground(new Color(3,169,244));
 
 		JLabel title = new JLabel(Storage.tra("options"), JLabel.CENTER);
-		title.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 72));
+		title.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 72));
 		title.setForeground(new Color(33,33,33));
 		top.add(title, BorderLayout.PAGE_START);
 
@@ -136,7 +137,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		pane.setOpaque(false);
 
 		JLabel label = new JLabel(desc);
-		label.setFont(Frame.getFont("SEGOEUI.TTF", 30));
+		label.setFont(Ressources.getFont("SEGOEUI.TTF", 30));
 		pane.add(label);
 		if(jcb != null) pane.add(jcb);
 

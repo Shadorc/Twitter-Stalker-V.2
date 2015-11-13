@@ -32,7 +32,7 @@ public class EditorPane extends JEditorPane {
 		editorPane.setEditable(false);
 		/*Allow to set font with HTML content*/
 		editorPane.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-		editorPane.setFont(Frame.getFont("SEGOEUI.TTF", 26));
+		editorPane.setFont(Ressources.getFont("SEGOEUI.TTF", 26));
 
 		String text = "<font color=#212121>" + desc + "<font color=#727272><style=\"font-size:23\";>";
 		//If it's stats contains in array
@@ -99,7 +99,7 @@ public class EditorPane extends JEditorPane {
 		this.setEditable(false);
 		/*Allow to set font with HTML content*/
 		this.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-		this.setFont(Frame.getFont("SEGOEUI.TTF", 26));
+		this.setFont(Ressources.getFont("SEGOEUI.TTF", 26));
 
 		this.stats1 = stats1;
 		this.stats2 = stats2;

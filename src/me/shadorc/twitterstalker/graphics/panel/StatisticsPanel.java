@@ -20,6 +20,7 @@ import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.EditorPane;
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
@@ -62,7 +63,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JPanel userInfos = new JPanel(new BorderLayout());
 		userInfos.setOpaque(false);
 
-		Font font = Frame.getFont("RobotoCondensed-Regular.ttf", 40);
+		Font font = Ressources.getFont("RobotoCondensed-Regular.ttf", 40);
 
 		JPanel labelsPane = new JPanel(new GridLayout(2, 0));
 		labelsPane.setOpaque(false);
@@ -155,7 +156,7 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		if(textPanel.getComponents().length == 0) {
 			textPanel.setLayout(new BorderLayout());
 			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
-			error.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 30));
+			error.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 30));
 			textPanel.add(error, JLabel.CENTER);
 		} else {
 			textPanel.setLayout(new GridLayout((int) Math.ceil(textPanel.getComponents().length/3.0), 3, 15, 15));

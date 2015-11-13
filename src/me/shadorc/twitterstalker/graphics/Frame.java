@@ -3,16 +3,11 @@ package me.shadorc.twitterstalker.graphics;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,7 +21,6 @@ import me.shadorc.twitterstalker.graphics.panel.MenuPanel;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import me.shadorc.twitterstalker.initialization.Shortcut;
 import me.shadorc.twitterstalker.initialization.UpdateChecker;
-import me.shadorc.twitterstalker.initialization.Version;
 import me.shadorc.twitterstalker.storage.Data;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.Twitter;
@@ -38,9 +32,6 @@ import twitter4j.auth.RequestToken;
 public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
-	public static boolean isBeta = true;
-	public static Version version = new Version("2.1.3", isBeta);
 
 	private static Frame frame;
 	private static JPanel currentPanel;
@@ -75,13 +66,13 @@ public class Frame extends JFrame {
 			JPanel error = new JPanel(new BorderLayout());
 			error.setBackground(new Color(2, 136, 209));
 
-			JLabel icon = new JLabel(new ImageIcon(Frame.class.getResource("/res/IconeAppli.png")));
+			JLabel icon = new JLabel(Ressources.getBigIcon());
 			icon.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
 			error.add(icon, BorderLayout.PAGE_START);
 
 			JLabel info = new JLabel(Storage.tra("internetError"), JLabel.CENTER);
 			info.setBorder(BorderFactory.createEmptyBorder(0, 0, 250, 0));
-			info.setFont(Frame.getFont("RobotoCondensed-Regular.ttf", 50));
+			info.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 50));
 			info.setForeground(Color.WHITE);
 			error.add(info, BorderLayout.CENTER);
 
@@ -90,16 +81,16 @@ public class Frame extends JFrame {
 
 		frame.setVisible(true);
 
-		UpdateChecker.check(version);
+		UpdateChecker.check();
 	}
 
 	Frame() {
-		super("Twitter Stalker " + version);
+		super(Ressources.getName() + " " + Ressources.getVersion());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new MyDispatcher());
 
-		this.setIconImage(new ImageIcon(this.getClass().getResource("/res/IconeAppli.png")).getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+		this.setIconImage(Ressources.getSmallIcon().getImage());
 		this.setContentPane(new JPanel());
 		this.pack();
 		this.setMinimumSize(new Dimension(1024, 768));
@@ -135,7 +126,6 @@ public class Frame extends JFrame {
 		twitter.setOAuthConsumer("", "");
 
 		requestToken = twitter.getOAuthRequestToken();
-
 		if(Storage.getData(Data.TOKEN) == null) {
 			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.PIN)));
 			new Thread() {
@@ -175,14 +165,6 @@ public class Frame extends JFrame {
 
 	public static Twitter getTwitter() {
 		return twitter;
-	}
-
-	public static Font getFont(String name, int size) {
-		try {
-			return Font.createFont(Font.TRUETYPE_FONT, Frame.class.getResourceAsStream("/res/" + name)).deriveFont(Font.PLAIN, size);
-		} catch (FontFormatException | IOException e) {
-			return new Font("Consolas", Font.PLAIN, size);
-		}
 	}
 
 	public static void setPanel(JPanel panel) {

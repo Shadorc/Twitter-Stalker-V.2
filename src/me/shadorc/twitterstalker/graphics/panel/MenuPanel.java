@@ -19,6 +19,7 @@ import javax.swing.border.CompoundBorder;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.Frame;
+import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.storage.Storage;
 
@@ -35,7 +36,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		JLabel title = new JLabel(Storage.tra("menuQuestion"), JLabel.CENTER);
 
 		title.setForeground(new Color(33,33,33));
-		title.setFont(Frame.getFont("RobotoCondensed-LightItalic.ttf", 72));
+		title.setFont(Ressources.getFont("RobotoCondensed-LightItalic.ttf", 72));
 		title.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(25, 0, 25, 0)));
 		this.add(title, BorderLayout.PAGE_START);
 
@@ -78,7 +79,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	}
 
 	private JButton createJButton(String name) {
-		Font font = Frame.getFont("RobotoCondensed-Regular.ttf", 72);
+		Font font = Ressources.getFont("RobotoCondensed-Regular.ttf", 72);
 
 		JButton bu = new JButton(name);
 		bu.setFont(font);
