@@ -92,15 +92,6 @@ public class Stats {
 				timeTweet = new Date().getTime() - status.getCreatedAt().getTime();
 				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
 
-				for(UserMentionEntity mention : status.getUserMentionEntities()) {
-					stats.get(Data.MENTIONS_SENT).add(mention.getScreenName());
-					stats.get(Data.FIRST_TALK).add(mention.getScreenName(), status.getCreatedAt(), status);
-				}
-				for(HashtagEntity hashtag : status.getHashtagEntities()) {
-					stats.get(Data.HASHTAG).add("#" + hashtag.getText().toLowerCase());
-					this.getUnique(Data.HASHTAG_COUNT).increment();
-				}
-
 				this.setStats(status);
 			}
 
@@ -166,6 +157,15 @@ public class Stats {
 			this.getUnique(Data.RETWEET_BY_ME).increment();
 
 		} else {
+			
+			for(UserMentionEntity mention : status.getUserMentionEntities()) {
+				stats.get(Data.MENTIONS_SENT).add(mention.getScreenName());
+				stats.get(Data.FIRST_TALK).add(mention.getScreenName(), status.getCreatedAt(), status);
+			}
+			for(HashtagEntity hashtag : status.getHashtagEntities()) {
+				stats.get(Data.HASHTAG).add("#" + hashtag.getText().toLowerCase());
+				this.getUnique(Data.HASHTAG_COUNT).increment();
+			}
 
 			if(status.getRetweetCount() + status.getFavoriteCount() > 0)	stats.get(Data.POPULARE).add(new WordInfo(status));
 			if(status.getRetweetCount() > 0)								this.getUnique(Data.RETWEET).increment();
