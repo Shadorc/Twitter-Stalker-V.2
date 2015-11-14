@@ -12,40 +12,45 @@ import javax.swing.JButton;
 public class Button extends JButton {
 
 	private static final long serialVersionUID = 1L;
-	
-	private String name;
+
+	private ButtonType buttonTy;
 	private Size size;
 
 	public enum Size {
 		SMALL, MEDIUM, NORMAL;
 	}
 
-	public Button(String name, int[] border, Size size, ActionListener al) {
+	public enum ButtonType {
+		BACK, OPTIONS, UPLOAD, VALIDATE;
+	}
+
+	public Button(ButtonType buttonTy, int[] border, Size size, ActionListener listener) {
 		super();
-		
-		this.name = name;
+
+		this.buttonTy = buttonTy;
 		this.size = size;
 
-		final ImageIcon icon1 = this.getIcon("1");
-		final ImageIcon icon2 = this.getIcon("2");
-		final ImageIcon icon3 = this.getIcon("3");
+		ImageIcon defaultIcon = this.getIcon("default");
+		ImageIcon pressedIcon = this.getIcon("pressed");
+		ImageIcon mouseOverIcon = this.getIcon("mouseOver");
 
-		this.setIcon(icon1);
-		this.addActionListener(al);
+		this.setIcon(defaultIcon);
+		this.setPressedIcon(pressedIcon);
+		this.addActionListener(listener);
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				JButton bu = (JButton) e.getSource();
-				bu.setIcon(icon3);
+				bu.setIcon(mouseOverIcon);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				JButton bu = (JButton) e.getSource();
-				bu.setIcon(icon1);
+				bu.setIcon(defaultIcon);
 			}
 		});
-		this.setPressedIcon(icon2);
+
 		this.setBorder(BorderFactory.createEmptyBorder(border[0], border[1], border[2], border[3]));
 		this.setFocusable(false);
 		this.setContentAreaFilled(false);
@@ -53,8 +58,8 @@ public class Button extends JButton {
 		this.setBackground(null);
 	}
 
-	private ImageIcon getIcon(String number) {
-		ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/Bouton " + name + number + ".png"));
+	private ImageIcon getIcon(String state) {
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/button_" + buttonTy.toString().toLowerCase() + "_" + state + ".png"));
 		if(size == Size.MEDIUM) {
 			return new ImageIcon(icon.getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
 		} else if(size == Size.SMALL) {

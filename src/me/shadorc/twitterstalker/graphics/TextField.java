@@ -41,7 +41,7 @@ public class TextField extends JTextField {
 				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, INVALID_ARCHIVE, API_LIMIT, NO_TWEET, PRIVATE, ARCHIVE_ERROR, ERROR}));
 	}
 
-	public TextField(final String text, Font font) {
+	public TextField(String text, Font font) {
 		super(text);
 
 		this.addMouseListener(new MouseAdapter() {
@@ -106,7 +106,7 @@ public class TextField extends JTextField {
 	}
 
 	public String getUserName() {
-		return this.getText().replaceAll("@", "");
+		return this.getText().replaceAll("@", "").trim();
 	}
 
 	public boolean isValidPin() {

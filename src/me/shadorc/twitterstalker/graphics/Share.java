@@ -145,7 +145,7 @@ public class Share {
 	}
 
 	private void showPreviewFrame() {
-		final StatusUpdate status = new StatusUpdate(Ressources.getName() + " [" + downloadUrl + "] : " +  message + ".");
+		StatusUpdate status = new StatusUpdate(Ressources.getName() + " [" + downloadUrl + "] : " +  message + ".");
 		status.setMedia(screen);
 
 		JFrame frame = new JFrame(Storage.tra("share"));
@@ -170,17 +170,17 @@ public class Share {
 		text.setFont(Ressources.getFont("SEGOEUI.TTF", 25));
 		panel.add(text, BorderLayout.CENTER);
 
-		final JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
+		JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
 		buttonsPanel.setOpaque(false);
 
-		final JButton tweet = new JButton(Storage.tra("tweet"));
+		JButton tweet = new JButton(Storage.tra("tweet"));
 		tweet.setFocusable(false);
 		tweet.setFont(Ressources.getFont("SEGOEUI.TTF", 25));
 		tweet.setBackground(new Color(85,172,238));
 		tweet.setBorder(BorderFactory.createLineBorder(new Color(59, 148, 217), 1, true));
 		tweet.setForeground(Color.WHITE);
 
-		final JLabel info = new JLabel();
+		JLabel info = new JLabel();
 		info.setHorizontalAlignment(JLabel.CENTER);
 		info.setFont(Ressources.getFont("SEGOEUI.TTF", 25));
 		info.setBorder(BorderFactory.createLineBorder(new Color(59, 148, 217), 1, true));
@@ -217,9 +217,7 @@ public class Share {
 							info.setText(Storage.tra("error") + " ! " + e.getMessage());
 							e.printStackTrace();
 						} finally {
-							if(screen.exists()) {
-								screen.delete();
-							}
+							if(screen.exists())	screen.delete();
 						}
 					}
 				}).start();

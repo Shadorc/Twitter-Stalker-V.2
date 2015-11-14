@@ -16,6 +16,7 @@ public class Shortcut {
 		//If this wasn't done before and if he's using Windows, ask the user to create a shortcut on desktop
 		try {
 			if((Storage.getData(Data.INSTALLED) == null) && System.getProperty("os.name").startsWith("Windows")) {
+
 				int reply = JOptionPane.showOptionDialog(null,
 						Storage.tra("createShortcut"),
 						Storage.tra("installation"),
@@ -30,8 +31,11 @@ public class Shortcut {
 					JShellLink link = new JShellLink();
 					link.setFolder(JShellLink.getDirectory("desktop"));
 					link.setName(Ressources.getName());
-					link.setIconLocation(new File(Shortcut.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent() + "\\IconeAppli.ico");
-					link.setPath(Shortcut.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replaceFirst("/", ""));
+
+					String currentDir = Shortcut.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+
+					link.setIconLocation(new File(currentDir).getParent() + "/TS_icon.ico");
+					link.setPath(currentDir.replaceFirst("/", ""));
 					link.save();
 
 					Storage.saveData(Data.INSTALLED, "true");

@@ -11,7 +11,7 @@ import me.shadorc.twitterstalker.initialization.Version;
 
 public class Ressources {
 
-	private static ImageIcon bigIcon = new ImageIcon(Ressources.class.getResource("/res/IconeAppli.png"));
+	private static ImageIcon bigIcon = new ImageIcon(Ressources.class.getResource("/res/TS_icon.png"));
 	private static ImageIcon smallIcon = new ImageIcon(bigIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 
 	private static String name = "Twitter Stalker";

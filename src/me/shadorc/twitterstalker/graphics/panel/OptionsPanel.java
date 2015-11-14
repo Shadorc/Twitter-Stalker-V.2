@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.CheckBoxOption;
 import me.shadorc.twitterstalker.graphics.Frame;
@@ -116,7 +117,7 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 
 		JPanel button = new JPanel(new BorderLayout());
 		button.setOpaque(false);
-		back = new Button("Retour", new int[] {0, 10, 10, 0}, Size.MEDIUM, this);
+		back = new Button(ButtonType.BACK, new int[] {0, 10, 10, 0}, Size.MEDIUM, this);
 		button.add(back, BorderLayout.WEST);
 		this.add(button, BorderLayout.PAGE_END);
 	}

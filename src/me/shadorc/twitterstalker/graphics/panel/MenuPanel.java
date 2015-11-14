@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 
 import me.shadorc.twitterstalker.graphics.Button;
+import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.Ressources;
@@ -48,7 +49,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		for(int i = 0; i < 5; i++) {
 			optionButtonPane.add(new JLabel());
 		}
-		options = new Button("Options", new int[] {15, 10, 0, 0}, Size.MEDIUM, this);
+		options = new Button(ButtonType.OPTIONS, new int[] {15, 10, 0, 0}, Size.MEDIUM, this);
 		optionButtonPane.add(options);
 
 		center.add(optionButtonPane, BorderLayout.WEST);
