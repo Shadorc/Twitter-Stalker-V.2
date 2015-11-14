@@ -121,7 +121,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		bottomPanel.setOpaque(false);
 
 		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.COMPARISON)) || text.equals(Storage.tra(Text.ARCHIVE))) {
-			back = new Button(ButtonType.VALIDATE, new int[] {95, 10, 0, 0}, Size.MEDIUM, this);
+			back = new Button(ButtonType.BACK, new int[] {95, 10, 0, 0}, Size.MEDIUM, this);
 			bottomPanel.add(back, BorderLayout.WEST);
 		} else {
 			bottomPanel.add(new JLabel(), BorderLayout.WEST);

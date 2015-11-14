@@ -24,7 +24,7 @@ public class ScrollbarUI extends MetalScrollBarUI {
 
 	public ScrollbarUI(Position pos) {
 		this.pos = pos;
-		this.imageThumb = new ImageIcon(this.getClass().getResource("/res/" + pos.toString().toLowerCase() + "_bar.png")).getImage();
+		this.imageThumb = new ImageIcon(this.getClass().getResource("/res/BAR_" + pos.toString().toLowerCase() + ".png")).getImage();
 	}
 
 	//Bar painting

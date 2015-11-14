@@ -59,7 +59,7 @@ public class Button extends JButton {
 	}
 
 	private ImageIcon getIcon(String state) {
-		ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/button_" + buttonTy.toString().toLowerCase() + "_" + state + ".png"));
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/Buttons/" + buttonTy.toString() + "_" + state + ".png"));
 		if(size == Size.MEDIUM) {
 			return new ImageIcon(icon.getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
 		} else if(size == Size.SMALL) {

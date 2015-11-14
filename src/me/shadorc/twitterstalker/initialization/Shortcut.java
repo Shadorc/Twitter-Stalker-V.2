@@ -1,7 +1,9 @@
 package me.shadorc.twitterstalker.initialization;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 
 import javax.swing.JOptionPane;
 
@@ -31,11 +33,11 @@ public class Shortcut {
 					JShellLink link = new JShellLink();
 					link.setFolder(JShellLink.getDirectory("desktop"));
 					link.setName(Ressources.getName());
+					link.setPath(Shortcut.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replaceFirst("/", ""));
 
-					String currentDir = Shortcut.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+					Files.copy(new File("./TS_icon.ico").toPath(), new File(link.getPath()).toPath());
 
-					link.setIconLocation(new File(currentDir).getParent() + "/TS_icon.ico");
-					link.setPath(currentDir.replaceFirst("/", ""));
+					link.setIconLocation(new File(link.getPath() + "/TS_icon.ico").getPath());
 					link.save();
 
 					Storage.saveData(Data.INSTALLED, "true");
@@ -45,7 +47,7 @@ public class Shortcut {
 					Storage.saveData(Data.INSTALLED, "true");
 				}
 			}
-		} catch(URISyntaxException e) {
+		} catch(URISyntaxException | IOException e) {
 			e.printStackTrace();
 		}
 	}
