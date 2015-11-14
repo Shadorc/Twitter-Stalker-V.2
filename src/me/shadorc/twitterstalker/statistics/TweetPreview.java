@@ -28,7 +28,7 @@ import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Statistics;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.MediaEntity;
 import twitter4j.MediaEntity.Size;
@@ -39,9 +39,9 @@ public class TweetPreview implements HyperlinkListener {
 	private JPopupMenu menu;
 	private JEditorPane editorPane;
 	private Stats stats;
-	private Data data;
+	private Statistics data;
 
-	public TweetPreview(JEditorPane editorPane, Stats stats, Data data) {
+	public TweetPreview(JEditorPane editorPane, Stats stats, Statistics data) {
 		this.editorPane = editorPane;
 		this.stats = stats;
 		this.data = data;
@@ -122,21 +122,21 @@ public class TweetPreview implements HyperlinkListener {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 
-				if(stats.get(Data.FIRST_TALK).isEmpty()) {
-					System.out.println(Data.FIRST_TALK + " ignored.");
+				if(stats.get(Statistics.FIRST_TALK).isEmpty()) {
+					System.out.println(Statistics.FIRST_TALK + " ignored.");
 					return;
 				}
 
 				String text = "<font color=#212121>" + Storage.tra("oldMentionsStats") + " (<a href=search>" + Storage.tra("search") + "</a>)" + "<font color=#727272><style=\"font-size:23\";>";
 				for(int i = 0; i < OptionsPanel.getMaxListLenght(); i++) {
 
-					if(stats.get(Data.FIRST_TALK).size() <= i) {
+					if(stats.get(Statistics.FIRST_TALK).size() <= i) {
 						text += "<br>";
 						continue;
 					}
 
 					text += "<br>&nbsp;&nbsp;";
-					ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(Data.FIRST_TALK));
+					ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(Statistics.FIRST_TALK));
 					Collections.reverse(copy);
 					text += "- " + copy.get(i).getFirstTalkInfo();
 				}
@@ -206,7 +206,7 @@ public class TweetPreview implements HyperlinkListener {
 	}
 
 	private void search(JFormattedTextField userInput, JFrame frame) {
-		for(WordInfo user : stats.get(Data.FIRST_TALK)) {
+		for(WordInfo user : stats.get(Statistics.FIRST_TALK)) {
 			if(user.getWord().equalsIgnoreCase(userInput.getText().replaceAll("@", ""))) {
 				String text = editorPane.getText();
 				editorPane.setText(text.substring(0, text.indexOf(")")+1) + "<br>&nbsp;&nbsp;- " + user.getFirstTalkInfo());

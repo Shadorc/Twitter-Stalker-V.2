@@ -47,7 +47,7 @@ public class Storage {
 			}
 		}
 	}
-	public static String getData(Data data) {
+	public static String getData(Enum<?> data) {
 		try {
 			String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
 			JSONObject obj = new JSONObject(text);
@@ -60,7 +60,7 @@ public class Storage {
 		return null;
 	}
 
-	public static void saveData(Data data, String value) {
+	public static void saveData(Enum<?> data, String value) {
 		FileWriter writer = null;
 		try {
 			String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);

@@ -21,7 +21,7 @@ import me.shadorc.twitterstalker.graphics.panel.MenuPanel;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import me.shadorc.twitterstalker.initialization.Shortcut;
 import me.shadorc.twitterstalker.initialization.UpdateChecker;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Connection;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -126,7 +126,7 @@ public class Frame extends JFrame {
 		twitter.setOAuthConsumer("", "");
 
 		requestToken = twitter.getOAuthRequestToken();
-		if(Storage.getData(Data.TOKEN) == null) {
+		if(Storage.getData(Connection.TOKEN) == null) {
 			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.PIN)));
 			new Thread() {
 				@Override
@@ -138,7 +138,7 @@ public class Frame extends JFrame {
 			}.start();
 
 		} else {
-			accessToken = new AccessToken(Storage.getData(Data.TOKEN), Storage.getData(Data.TOKEN_SECRET));
+			accessToken = new AccessToken(Storage.getData(Connection.TOKEN), Storage.getData(Connection.TOKEN_SECRET));
 			Frame.connect(null);
 		}
 	}
@@ -148,8 +148,8 @@ public class Frame extends JFrame {
 			//True when pin has never been configured
 			if(accessToken == null && pin != null) {
 				accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-				Storage.saveData(Data.TOKEN_SECRET, accessToken.getTokenSecret());
-				Storage.saveData(Data.TOKEN, accessToken.getToken());
+				Storage.saveData(Connection.TOKEN_SECRET, accessToken.getTokenSecret());
+				Storage.saveData(Connection.TOKEN, accessToken.getToken());
 			}
 			twitter.setOAuthAccessToken(accessToken);
 

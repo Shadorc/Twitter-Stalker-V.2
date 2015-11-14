@@ -27,7 +27,7 @@ import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Statistics;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;
 
@@ -166,48 +166,48 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 			statsPanel.add(new EditorPane(stats2, stats1, user2, user1));
 		}
 
-		if(OptionsPanel.isSelected(Data.TWEETS)   
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("tweetsStat"), Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD)) 
+		if(OptionsPanel.isSelected(Statistics.TWEETS)   
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("tweetsStat"), Statistics.WORDS_PER_TWEET, Statistics.LETTERS_PER_TWEET, Statistics.LETTERS_PER_WORD)) 
 			ignored.add(Storage.tra("tweetsStat"));
 
-		if(OptionsPanel.isSelected(Data.TIMELINE) 
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("timelineStat"), Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME)) 
+		if(OptionsPanel.isSelected(Statistics.TIMELINE) 
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("timelineStat"), Statistics.PURETWEETS_COUNT, Statistics.MENTIONS_COUNT, Statistics.RETWEET_BY_ME)) 
 			ignored.add(Storage.tra("timelineStat"));
 
-		if(OptionsPanel.isSelected(Data.REPUTE)   
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("reputeStat"), Data.FAVORITE, Data.RETWEET)) 
+		if(OptionsPanel.isSelected(Statistics.REPUTE)   
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("reputeStat"), Statistics.FAVORITE, Statistics.RETWEET)) 
 			ignored.add(Storage.tra("reputeStat"));
 
-		if(OptionsPanel.isSelected(Data.SOURCE)   
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("sourceStat"), Data.SOURCE)) 
+		if(OptionsPanel.isSelected(Statistics.SOURCE)   
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("sourceStat"), Statistics.SOURCE)) 
 			ignored.add(Storage.tra("sourceStat"));
 
-		if(OptionsPanel.isSelected(Data.DAYS)     
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("daysStat"), Data.DAYS))
+		if(OptionsPanel.isSelected(Statistics.DAYS)     
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("daysStat"), Statistics.DAYS))
 			ignored.add(Storage.tra("daysStat"));
 
-		if(OptionsPanel.isSelected(Data.HOURS)    
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("hoursStat"), Data.HOURS)) 
+		if(OptionsPanel.isSelected(Statistics.HOURS)    
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("hoursStat"), Statistics.HOURS)) 
 			ignored.add(Storage.tra("hoursStat"));
 
-		if(OptionsPanel.isSelected(Data.WORDS)    
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("wordsStat"), Data.WORDS))
+		if(OptionsPanel.isSelected(Statistics.WORDS)    
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("wordsStat"), Statistics.WORDS))
 			ignored.add(Storage.tra("wordsStat"));
 
-		if(OptionsPanel.isSelected(Data.HASHTAG)  
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("hashtagStat"), Data.HASHTAG))
+		if(OptionsPanel.isSelected(Statistics.HASHTAG)  
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("hashtagStat"), Statistics.HASHTAG))
 			ignored.add(Storage.tra("hashtagStat"));
 
-		if(OptionsPanel.isSelected(Data.POPULARE) 
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("popularStat"), Data.POPULARE)) 
+		if(OptionsPanel.isSelected(Statistics.POPULARE) 
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("popularStat"), Statistics.POPULARE)) 
 			ignored.add(Storage.tra("popularStat"));
 
-		if(OptionsPanel.isSelected(Data.LANG)     
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("languageStat"), Data.LANG))
+		if(OptionsPanel.isSelected(Statistics.LANG)     
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("languageStat"), Statistics.LANG))
 			ignored.add(Storage.tra("languageStat"));
 
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT) 
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("mentionsSent"), Data.MENTIONS_SENT)) 
+		if(OptionsPanel.isSelected(Statistics.MENTIONS_SENT) 
+				&& !EditorPane.get(statsPanel, stats, Storage.tra("mentionsSent"), Statistics.MENTIONS_SENT)) 
 			ignored.add(Storage.tra("mentionsSent"));
 
 		if(statsPanel.getComponents().length == 0) {

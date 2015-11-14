@@ -5,15 +5,14 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
-import me.shadorc.twitterstalker.storage.Data;
 import me.shadorc.twitterstalker.storage.Storage;
 
 public class CheckBoxOption extends JCheckBox implements ItemListener {
 
 	private static final long serialVersionUID = 1L;
-	private Data data;
+	private Enum<?> data;
 
-	public CheckBoxOption(String name, Data data) {
+	public CheckBoxOption(String name, Enum<?> data) {
 		//If user has never changed this option, set true by default
 		super(name, Storage.getData(data) == null ? true : Boolean.valueOf(Storage.getData(data)));
 

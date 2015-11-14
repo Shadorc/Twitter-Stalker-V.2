@@ -8,7 +8,7 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 
 import me.shadorc.twitterstalker.graphics.Ressources;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Installation;
 import me.shadorc.twitterstalker.storage.Storage;
 import net.jimmc.jshortcut.JShellLink;
 
@@ -19,7 +19,7 @@ public class Shortcut {
 	public static void create() {
 		//If this wasn't done before and if he's using Windows, ask the user to create a shortcut on desktop
 		try {
-			if((Storage.getData(Data.INSTALLED) == null) && System.getProperty("os.name").startsWith("Windows")) {
+			if((Storage.getData(Installation.INSTALLED) == null) && System.getProperty("os.name").startsWith("Windows")) {
 
 				int reply = JOptionPane.showOptionDialog(null,
 						Storage.tra("createShortcut"),
@@ -48,11 +48,11 @@ public class Shortcut {
 					link.setIconLocation(dest.getPath());
 					link.save();
 
-					Storage.saveData(Data.INSTALLED, "true");
+					Storage.saveData(Installation.INSTALLED, "true");
 				}
 				//"Never"
 				else if (reply == JOptionPane.CANCEL_OPTION) {
-					Storage.saveData(Data.INSTALLED, "true");
+					Storage.saveData(Installation.INSTALLED, "true");
 				}
 			}
 		} catch(URISyntaxException | IOException e) {

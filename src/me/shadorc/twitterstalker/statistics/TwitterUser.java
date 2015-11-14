@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import me.shadorc.twitterstalker.graphics.Frame;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Statistics;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -41,7 +41,7 @@ public class TwitterUser {
 	}
 
 	public double getTwitterMoney(Stats stats) {
-		double money = stats.getUnique(Data.TWEETS_PER_DAY).getRatio(); //Get tweets per day
+		double money = stats.getUnique(Statistics.TWEETS_PER_DAY).getRatio(); //Get tweets per day
 		money *= (double) this.getFollowersCount(); 					//Potential views on tweet per day
 		money = (double) ((money * 25) / 100);							//Estimated views per day
 		money *= 9.12;													//9.12 = Twitter Value / Tweets per day on Twitter (centimes)
@@ -74,7 +74,7 @@ public class TwitterUser {
 	}
 
 	public String getTweetsPerDay(Stats stats) {
-		return stats.getUnique(Data.TWEETS_PER_DAY).getWord() + stats.getUnique(Data.TWEETS_PER_DAY).getRatio();
+		return stats.getUnique(Statistics.TWEETS_PER_DAY).getWord() + stats.getUnique(Statistics.TWEETS_PER_DAY).getRatio();
 	}
 
 	public int getTweetsAnalyzed() {

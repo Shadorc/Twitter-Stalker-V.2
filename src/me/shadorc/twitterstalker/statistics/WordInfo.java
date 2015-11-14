@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Options;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -63,7 +63,7 @@ public class WordInfo {
 	public String getPercenInfo(boolean user) {
 		String info = "";
 		if(si != null) 									total = si.getTotal();
-		if(OptionsPanel.isSelected(Data.SHOW_NUMBER)) 	info += num + " ";
+		if(OptionsPanel.isSelected(Options.SHOW_NUMBER)) 	info += num + " ";
 		if(user) 										info += "@";
 		info += word + " (" + df.format(100*num/total) + "%)";
 		return  info;

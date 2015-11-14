@@ -27,7 +27,7 @@ import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
 import me.shadorc.twitterstalker.graphics.TextField.Text;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Statistics;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -140,19 +140,19 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		jsp.getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
 		jsp.getHorizontalScrollBar().setUI(new ScrollbarUI(Position.HORIZONTAL));
 
-		if(OptionsPanel.isSelected(Data.TWEETS))					EditorPane.get(textPanel, stats, Storage.tra("tweetsStat"), Data.WORDS_PER_TWEET, Data.LETTERS_PER_TWEET, Data.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Data.TIMELINE))					EditorPane.get(textPanel, stats, Storage.tra("timelineStat"), Data.PURETWEETS_COUNT, Data.MENTIONS_COUNT, Data.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Data.REPUTE) && !isArchive)		EditorPane.get(textPanel, stats, Storage.tra("reputeStat"), Data.FAVORITE, Data.RETWEET);
-		if(OptionsPanel.isSelected(Data.SOURCE))					EditorPane.get(textPanel, stats, Storage.tra("sourceStat"), Data.SOURCE);
-		if(OptionsPanel.isSelected(Data.DAYS))						EditorPane.get(textPanel, stats, Storage.tra("daysStat"), Data.DAYS);
-		if(OptionsPanel.isSelected(Data.HOURS))						EditorPane.get(textPanel, stats, Storage.tra("hoursStat"), Data.HOURS);
-		if(OptionsPanel.isSelected(Data.WORDS))						EditorPane.get(textPanel, stats, Storage.tra("wordsStat"), Data.WORDS);
-		if(OptionsPanel.isSelected(Data.HASHTAG))					EditorPane.get(textPanel, stats, Storage.tra("hashtagStat"), Data.HASHTAG);
-		if(OptionsPanel.isSelected(Data.POPULARE) && !isArchive)	EditorPane.get(textPanel, stats, Storage.tra("popularStat"), Data.POPULARE);
-		if(OptionsPanel.isSelected(Data.LANG) && !isArchive)		EditorPane.get(textPanel, stats, Storage.tra("languageStat"), Data.LANG);
-		if(OptionsPanel.isSelected(Data.MENTIONS_SENT))				EditorPane.get(textPanel, stats, Storage.tra("mentionsSent"), Data.MENTIONS_SENT);
-		if(OptionsPanel.isSelected(Data.MENTIONS_RECEIVED))			EditorPane.get(textPanel, stats, Storage.tra("mentionsReceived"), Data.MENTIONS_RECEIVED);
-		if(isArchive) 												EditorPane.get(textPanel, stats, Storage.tra("oldMentionsStats") + " (<a href=search>" + Storage.tra("search") + "</a>)", Data.FIRST_TALK);
+		if(OptionsPanel.isSelected(Statistics.TWEETS))					EditorPane.get(textPanel, stats, Storage.tra("tweetsStat"), Statistics.WORDS_PER_TWEET, Statistics.LETTERS_PER_TWEET, Statistics.LETTERS_PER_WORD);
+		if(OptionsPanel.isSelected(Statistics.TIMELINE))					EditorPane.get(textPanel, stats, Storage.tra("timelineStat"), Statistics.PURETWEETS_COUNT, Statistics.MENTIONS_COUNT, Statistics.RETWEET_BY_ME);
+		if(OptionsPanel.isSelected(Statistics.REPUTE) && !isArchive)		EditorPane.get(textPanel, stats, Storage.tra("reputeStat"), Statistics.FAVORITE, Statistics.RETWEET);
+		if(OptionsPanel.isSelected(Statistics.SOURCE))					EditorPane.get(textPanel, stats, Storage.tra("sourceStat"), Statistics.SOURCE);
+		if(OptionsPanel.isSelected(Statistics.DAYS))						EditorPane.get(textPanel, stats, Storage.tra("daysStat"), Statistics.DAYS);
+		if(OptionsPanel.isSelected(Statistics.HOURS))						EditorPane.get(textPanel, stats, Storage.tra("hoursStat"), Statistics.HOURS);
+		if(OptionsPanel.isSelected(Statistics.WORDS))						EditorPane.get(textPanel, stats, Storage.tra("wordsStat"), Statistics.WORDS);
+		if(OptionsPanel.isSelected(Statistics.HASHTAG))					EditorPane.get(textPanel, stats, Storage.tra("hashtagStat"), Statistics.HASHTAG);
+		if(OptionsPanel.isSelected(Statistics.POPULARE) && !isArchive)	EditorPane.get(textPanel, stats, Storage.tra("popularStat"), Statistics.POPULARE);
+		if(OptionsPanel.isSelected(Statistics.LANG) && !isArchive)		EditorPane.get(textPanel, stats, Storage.tra("languageStat"), Statistics.LANG);
+		if(OptionsPanel.isSelected(Statistics.MENTIONS_SENT))				EditorPane.get(textPanel, stats, Storage.tra("mentionsSent"), Statistics.MENTIONS_SENT);
+		if(OptionsPanel.isSelected(Statistics.MENTIONS_RECEIVED))			EditorPane.get(textPanel, stats, Storage.tra("mentionsReceived"), Statistics.MENTIONS_RECEIVED);
+		if(isArchive) 												EditorPane.get(textPanel, stats, Storage.tra("oldMentionsStats") + " (<a href=search>" + Storage.tra("search") + "</a>)", Statistics.FIRST_TALK);
 
 		if(textPanel.getComponents().length == 0) {
 			textPanel.setLayout(new BorderLayout());

@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import me.shadorc.twitterstalker.graphics.Ressources;
-import me.shadorc.twitterstalker.storage.Data;
+import me.shadorc.twitterstalker.storage.Data.Installation;
 import me.shadorc.twitterstalker.storage.Storage;
 
 import org.apache.commons.io.FileUtils;
@@ -39,7 +39,7 @@ public class UpdateChecker {
 
 			Version lastVersion = new Version(lastRelease.getString("tag_name"));
 
-			if(lastVersion.isNewerThan(Ressources.getVersion()) && Storage.getData(Data.UPDATE) == null) {
+			if(lastVersion.isNewerThan(Ressources.getVersion()) && Storage.getData(Installation.UPDATE) == null) {
 
 				int reply = JOptionPane.showOptionDialog(null,
 						Storage.tra("updateAvailable") + " (" + lastVersion + ") !",
@@ -83,7 +83,7 @@ public class UpdateChecker {
 				} 
 
 				else if(reply == JOptionPane.CANCEL_OPTION) {
-					Storage.saveData(Data.UPDATE, "false");
+					Storage.saveData(Installation.UPDATE, "false");
 				}
 			}
 		} catch (Exception e) {
