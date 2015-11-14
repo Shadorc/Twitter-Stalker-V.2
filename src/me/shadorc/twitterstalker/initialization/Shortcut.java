@@ -3,7 +3,7 @@ package me.shadorc.twitterstalker.initialization;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
+import java.net.URL;
 
 import javax.swing.JOptionPane;
 
@@ -11,6 +11,8 @@ import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.storage.Data;
 import me.shadorc.twitterstalker.storage.Storage;
 import net.jimmc.jshortcut.JShellLink;
+
+import org.apache.commons.io.FileUtils;
 
 public class Shortcut {
 
@@ -30,14 +32,20 @@ public class Shortcut {
 
 				//"Yes"
 				if(reply == JOptionPane.YES_OPTION) {
+
+					File jar = new File(Shortcut.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replaceFirst("/", ""));
+
 					JShellLink link = new JShellLink();
 					link.setFolder(JShellLink.getDirectory("desktop"));
 					link.setName(Ressources.getName());
-					link.setPath(Shortcut.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replaceFirst("/", ""));
+					link.setPath(jar.getPath());
 
-					Files.copy(new File("./TS_icon.ico").toPath(), new File(link.getPath()).toPath());
+					//Copy icon outside the jar to be able to use it
+					URL inputUrl = Shortcut.class.getResource("/res/TS_icon.ico");
+					File dest = new File(jar.getParent() + "/TS_icon.ico");
+					FileUtils.copyURLToFile(inputUrl, dest);
 
-					link.setIconLocation(new File(link.getPath() + "/TS_icon.ico").getPath());
+					link.setIconLocation(dest.getPath());
 					link.save();
 
 					Storage.saveData(Data.INSTALLED, "true");
