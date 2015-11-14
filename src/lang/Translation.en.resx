@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <data name="createShortcut" xml:space="preserve">
-    <value>Welcome and thanks for downloading Twitter Stalker !\nPlace the downloaded folder where you want to create a shortcut on the desktop(optional).\nWould you like to create a shortcut now?</value>
+    <value>Welcome and thanks for downloading Twitter Stalker !
+    Place the downloaded folder where you want to create a shortcut on the desktop(optional).
+    Would you like to create a shortcut now?</value>
   </data>
   <data name="installation" xml:space="preserve">
     <value>Installation</value>
@@ -310,13 +312,13 @@
     <value>What is a Twitter Archive?</value>
   </data>
   <data name="archiveHelpText" xml:space="preserve">
-    <value>[html]A Twitter Archive is a file containing all your tweets from the account creation.
-	[br]Twitter Stalker used them to do statistics on all your tweets and no longer on a limited number of them.
-	[br]This also provides a new statistic: "First mention" that shows you the first time you
-	[br]talked to someone and with what tweet.
-	[br]
-	[br][b]How to get Archive?[/b]
-	[br]Visit [a href="https://twitter.com/settings/account"]this page[/a]. At the bottom, click on 'Request your archive', you will receive it later by email.
-	[br]You will only have to extract it![/html]</value>
+    <value><![CDATA[<html>A Twitter Archive is a file containing all your tweets from the account creation.
+	<br>Twitter Stalker used them to do statistics on all your tweets and no longer on a limited number of them.
+	<br>This also provides a new statistic: "First mention" that shows you the first time you
+	<br>talked to someone and with what tweet.
+	<br>
+	<br><b>How to get Archive?</b>
+	<br>Visit <a href="https://twitter.com/settings/account">this page</a>. At the bottom, click on 'Request your archive', you will receive it later by email.
+	<br>You will only have to extract it!</html>]]></value>
   </data>
 </root>

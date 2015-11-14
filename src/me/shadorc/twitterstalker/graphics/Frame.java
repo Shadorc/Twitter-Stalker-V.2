@@ -45,9 +45,6 @@ public class Frame extends JFrame {
 
 	public static void main(String[] args) {
 
-		//Create json file if it doesn't exist
-		Storage.init();
-
 		//Load options
 		new OptionsPanel();
 

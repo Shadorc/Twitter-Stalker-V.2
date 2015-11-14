@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <data name="createShortcut" xml:space="preserve">
-    <value>Bonjour et merci d'avoir téléchargé Twitter Stalker !\nPlacez le dossier téléchargé où vous voulez puis relancez le afin de créer un raccourci sur le bureau (optionnel).\nVoulez-vous créer un raccourci sur le bureau maintenant ?</value>
+    <value>Bonjour et merci d'avoir téléchargé Twitter Stalker !
+	Placez le dossier téléchargé où vous voulez puis relancez le afin de créer un raccourci sur le bureau (optionnel).
+	Voulez-vous créer un raccourci sur le bureau maintenant ?</value>
   </data>
   <data name="installation" xml:space="preserve">
     <value>Installation</value>
@@ -310,13 +312,13 @@
     <value>Qu'est ce qu'une Archive Twitter ?</value>
   </data>
   <data name="archiveHelpText" xml:space="preserve">
-    <value>[html]Une Archive Twitter est un fichier regroupant tous vos tweets depuis la création de votre compte.
-    [br]Twitter Stalker s'en sert pour élaborer des statistiques sur l'ensemble de vos tweets et non plus sur un nombre limité.
-    [br]Ceci permet aussi d'obtenir une nouvelle statistique : "Première mention" qui vous montre la première fois que vous avez
-    [br]parlé à quelqu'un et avec quel tweet.
-    [br]
-    [br][b]Comment obtenir son Archive ?[/b]
-    [br]Rendez-vous sur [a href="https://twitter.com/settings/account"]cette page[/a]. En bas de la page, cliquez sur 'Demander votre archive', vous la recevrez plus tard par mail.
-    [br]Il ne vous restera plus qu'à l'extraire ![/html]</value>
+    <value><![CDATA[<html>Une Archive Twitter est un fichier regroupant tous vos tweets depuis la création de votre compte.
+    <br>Twitter Stalker s'en sert pour élaborer des statistiques sur l'ensemble de vos tweets et non plus sur un nombre limité.
+    <br>Ceci permet aussi d'obtenir une nouvelle statistique : "Première mention" qui vous montre la première fois que vous avez
+    <br>parlé à quelqu'un et avec quel tweet.
+    <br>
+    <br><b>Comment obtenir son Archive ?</b>
+    <br>Rendez-vous sur <a href="https://twitter.com/settings/account">cette page</a>. En bas de la page, cliquez sur 'Demander votre archive', vous la recevrez plus tard par mail.
+    <br>Il ne vous restera plus qu'à l'extraire !</html>]]></value>
   </data>
 </root>

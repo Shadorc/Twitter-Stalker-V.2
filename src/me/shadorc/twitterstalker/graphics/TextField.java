@@ -7,8 +7,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.lang.reflect.Field;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -36,9 +35,6 @@ public class TextField extends JTextField {
 		String PRIVATE = "privateAccount";
 		String ARCHIVE_ERROR = "archiveError";
 		String ERROR = "unexpectedError";
-
-		ArrayList <String> MESSAGES = new ArrayList <String> (Arrays.asList(
-				new String[] {PIN, USERNAME, COMPARISON, ARCHIVE, INVALID_PIN, INVALID_USER, INVALID_ARCHIVE, API_LIMIT, NO_TWEET, PRIVATE, ARCHIVE_ERROR, ERROR}));
 	}
 
 	public TextField(String text, Font font) {
@@ -88,12 +84,16 @@ public class TextField extends JTextField {
 			public void focusGained(FocusEvent event) {
 				JTextField jtf = (JTextField) event.getSource();
 				String text = jtf.getText();
-				//If the text is a default message, delete it.
-				for(String s : Text.MESSAGES) {
-					if(Storage.tra(s).equals(text)) {
-						jtf.setForeground(Color.WHITE);
-						jtf.setText("");
-					}
+
+				//field are String from Text interface, error is throw when the object isn't accessible so don't care about it
+				for(Field field : Text.class.getFields()) {
+					try {
+						String defaultText = field.get(field.getName()).toString();
+						if(Storage.tra(defaultText).equals(text)) {
+							jtf.setForeground(Color.WHITE);
+							jtf.setText("");
+						}
+					} catch (IllegalArgumentException | IllegalAccessException ignored) {	}
 				}
 			}
 		});

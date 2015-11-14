@@ -84,7 +84,8 @@ public class EditorPane extends JEditorPane {
 		}
 		editorPane.setText(text);
 
-		if(types[0].equals(Statistics.POPULARE)) 		editorPane.addHyperlinkListener(new TweetPreview(editorPane, stats, Statistics.POPULARE));
+		//Add Hyperlink listener to pane if needed
+		if(types[0].equals(Statistics.POPULARE)) 	editorPane.addHyperlinkListener(new TweetPreview(editorPane, stats, Statistics.POPULARE));
 		if(types[0].equals(Statistics.FIRST_TALK))	editorPane.addHyperlinkListener(new TweetPreview(editorPane, stats, Statistics.FIRST_TALK));
 
 		pane.add(editorPane);

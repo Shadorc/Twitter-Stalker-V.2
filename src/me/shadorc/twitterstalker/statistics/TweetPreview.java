@@ -60,7 +60,7 @@ public class TweetPreview implements HyperlinkListener {
 	}
 
 	@Override
-	public void hyperlinkUpdate(final HyperlinkEvent he) {
+	public void hyperlinkUpdate(HyperlinkEvent he) {
 		if(he.getEventType() == EventType.ACTIVATED) {
 			if(he.getDescription().equals("search")) {
 				this.openSearchFrame(editorPane, stats);

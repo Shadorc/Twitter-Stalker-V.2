@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -21,35 +22,38 @@ import twitter4j.JSONObject;
 
 public class Storage {
 
-	private static File file = new File("./data.json");
+	private static File saveFile = new File("./data.json");
 
-	public static void init() {
-		if(!file.exists() || file.length() == 0) {
-			FileWriter writer = null;
+	private static void createFile() {
+		FileWriter writer = null;
 
+		try {
+			saveFile.createNewFile();
+
+			writer = new FileWriter(saveFile);
+			writer.write(new JSONObject().toString());
+
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+
+		} finally {
 			try {
-				file.createNewFile();
-
-				writer = new FileWriter(file);
-				writer.write(new JSONObject().toString());
-
+				if(writer != null)	writer.close();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
-
-			} finally {
-				try {
-					if(writer != null)	writer.close();
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
-					e.printStackTrace();
-				}
 			}
 		}
 	}
 	public static String getData(Enum<?> data) {
+
+		if(!saveFile.exists() || saveFile.length() == 0) {
+			createFile();
+		}
+
 		try {
-			String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
+			String text = new String(Files.readAllBytes(Paths.get(saveFile.getPath())), StandardCharsets.UTF_8);
 			JSONObject obj = new JSONObject(text);
 			if(obj.has(data.toString())) {
 				return obj.getString(data.toString());
@@ -57,19 +61,20 @@ public class Storage {
 		} catch (IOException | JSONException e) {
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 
 	public static void saveData(Enum<?> data, String value) {
 		FileWriter writer = null;
 		try {
-			String text = new String(Files.readAllBytes(Paths.get(file.getPath())), StandardCharsets.UTF_8);
+			String text = new String(Files.readAllBytes(Paths.get(saveFile.getPath())), StandardCharsets.UTF_8);
 
 			JSONObject jsonObject = new JSONObject(text);
 			jsonObject.put(data.toString(), value);
 
-			writer = new FileWriter(file);
-			writer.write(jsonObject.toString().replaceAll(",", ",\n").replaceAll("\\{", "\\{\n").replaceAll("\\}", "\n\\}"));
+			writer = new FileWriter(saveFile);
+			writer.write(jsonObject.toString(2));
 
 		} catch (IOException | JSONException e) {
 			JOptionPane.showMessageDialog(null, Storage.tra("saveError"), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
@@ -92,21 +97,14 @@ public class Storage {
 	private static String tra(String key, String lang) {
 		try {
 			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Storage.class.getResourceAsStream("/lang/Translation." + lang + ".resx"));
+			document.getDocumentElement().normalize();
 
-			NodeList nodeList = document.getElementsByTagName("data");
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				Node node = nodeList.item(i);
+			NodeList dataList = document.getElementsByTagName("data");
+			for (int i = 0; i < dataList.getLength(); i++) {
+				Node node = dataList.item(i);
 
 				if(node.getAttributes().getNamedItem("name").getTextContent().equals(key)) {
-
-					String text = node.getTextContent();
-					text = text.replaceAll("\n", ""); 			//Remove line break added by XML
-					text = text.substring(4, text.length()-2); 	//Remove whitespace at the start and at the end added by XML
-					text = text.replaceAll("\\\\n", "\n");
-					text = text.replaceAll("\\[", "\\<");
-					text = text.replaceAll("\\]", "\\>");
-
-					return text;
+					return ((Element) node).getElementsByTagName("value").item(0).getTextContent();
 				}
 			}
 		} catch (Exception ignore) { }
@@ -115,7 +113,7 @@ public class Storage {
 		return (lang.equals("fr")) ? key : tra(key, "fr");
 	}
 
-	public static File getFile() {
-		return file;
+	public static File getSaveFile() {
+		return saveFile;
 	}
 }

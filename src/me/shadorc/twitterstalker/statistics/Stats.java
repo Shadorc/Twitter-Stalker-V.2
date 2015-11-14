@@ -44,33 +44,9 @@ public class Stats {
 		bu.setEnabled(false);
 		bu.setText("0%");
 
-		stats.put(Statistics.TWEETS, new StatInfo());
-		stats.put(Statistics.WORDS_PER_TWEET, new StatInfo());
-		stats.put(Statistics.LETTERS_PER_TWEET, new StatInfo());
-		stats.put(Statistics.LETTERS_PER_WORD, new StatInfo());
-		stats.put(Statistics.TIMELINE, new StatInfo());
-		stats.put(Statistics.PURETWEETS_COUNT, new StatInfo());
-		stats.put(Statistics.MENTIONS_COUNT, new StatInfo());
-		stats.put(Statistics.RETWEET_BY_ME, new StatInfo());
-		stats.put(Statistics.REPUTE, new StatInfo());
-		stats.put(Statistics.FAVORITE, new StatInfo());
-		stats.put(Statistics.RETWEET, new StatInfo());
-		stats.put(Statistics.SOURCE, new StatInfo());
-		stats.put(Statistics.DAYS, new StatInfo());
-		stats.put(Statistics.HOURS, new StatInfo());
-		stats.put(Statistics.WORDS, new StatInfo());
-		stats.put(Statistics.HASHTAG, new StatInfo());
-		stats.put(Statistics.LANG, new StatInfo());
-		stats.put(Statistics.POPULARE, new StatInfo());
-		stats.put(Statistics.MENTIONS_SENT, new StatInfo());
-		stats.put(Statistics.MENTIONS_RECEIVED, new StatInfo());
-		stats.put(Statistics.WORDS_COUNT, new StatInfo());
-		stats.put(Statistics.HASHTAG_COUNT, new StatInfo());
-		stats.put(Statistics.LETTERS, new StatInfo());
-		stats.put(Statistics.MEDIA, new StatInfo());
-		stats.put(Statistics.URL, new StatInfo());
-		stats.put(Statistics.TWEETS_PER_DAY, new StatInfo());
-		stats.put(Statistics.FIRST_TALK, new StatInfo());
+		for(Statistics stat : Statistics.values()) {
+			stats.put(stat, new StatInfo());
+		}
 
 		long timeTweet = 1;
 		long timeFirstTweet = 1;
@@ -100,6 +76,7 @@ public class Stats {
 			bu.setText(df.format(progress) + "%");
 		}
 
+		/*Analyze user's mentions received*/
 		if(user.getName().equals(Frame.getTwitter().getScreenName())) {
 			for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.getMaxMentionsNumber(); i++) {
 

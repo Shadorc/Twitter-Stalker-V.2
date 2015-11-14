@@ -73,7 +73,7 @@ public class UpdateChecker {
 
 					zipFile.delete();
 
-					File data = Storage.getFile();
+					File data = Storage.getSaveFile();
 					//Copy-Paste data to the new directory
 					File copyData = new File(extractingDir + "/" + lastRelease.getString("name") +"/" + data.getName());
 
