@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -23,6 +25,9 @@ import me.shadorc.twitterstalker.initialization.Shortcut;
 import me.shadorc.twitterstalker.initialization.UpdateChecker;
 import me.shadorc.twitterstalker.storage.Data.Connection;
 import me.shadorc.twitterstalker.storage.Storage;
+
+import org.apache.commons.io.FileUtils;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -44,6 +49,16 @@ public class Frame extends JFrame {
 	private static int keyTyped = 0;
 
 	public static void main(String[] args) {
+
+		//If this is a recent update, delete the old folder
+		if(args.length > 0) {
+			try {
+				FileUtils.deleteDirectory(new File(args[0]));
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, Storage.tra("updataDeletingError") + " : " + e, Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}		
+		}
 
 		//Load options
 		new OptionsPanel();

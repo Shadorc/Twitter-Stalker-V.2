@@ -65,7 +65,7 @@ public class Storage {
 		return null;
 	}
 
-	public static void saveData(Enum<?> data, String value) {
+	public static void saveData(Enum<?> data, Object value) {
 		FileWriter writer = null;
 		try {
 			String text = new String(Files.readAllBytes(Paths.get(saveFile.getPath())), StandardCharsets.UTF_8);

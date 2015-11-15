@@ -16,7 +16,7 @@ public class Ressources {
 
 	private static String name = "Twitter Stalker";
 
-	private static boolean forceUpdate = false;
+	private static boolean forceUpdate = true;
 	private static boolean isBeta = true;
 	private static Version version = new Version("2.1.3", isBeta);
 

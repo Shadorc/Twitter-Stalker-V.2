@@ -48,11 +48,11 @@ public class Shortcut {
 					link.setIconLocation(dest.getPath());
 					link.save();
 
-					Storage.saveData(Installation.INSTALLED, "true");
+					Storage.saveData(Installation.INSTALLED, true);
 				}
 				//"Never"
 				else if (reply == JOptionPane.CANCEL_OPTION) {
-					Storage.saveData(Installation.INSTALLED, "true");
+					Storage.saveData(Installation.INSTALLED, true);
 				}
 			}
 		} catch(URISyntaxException | IOException e) {
