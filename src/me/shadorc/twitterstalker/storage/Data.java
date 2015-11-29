@@ -8,53 +8,55 @@ public class Data {
 	}
 
 	public enum Connection {
-		TOKEN,
-		TOKEN_SECRET
+		TOKEN_SECRET,
+		TOKEN
 	}
 
 	public enum Options {
 		LETTERS_PER_WORD_MIN,
-		INTERFACE_LANG,
 		MENTIONS_TO_ANALYZE,
 		TWEETS_TO_ANALYZE,
-		LIST_LENGHT,
-		SHOW_NUMBER
+		INTERFACE_LANG,
+		LIST_LENGHT
 	}
 
-	public enum Statistics {
-		TWEETS, 			//Category
-		WORDS_PER_TWEET,
-		LETTERS_PER_TWEET,
-		LETTERS_PER_WORD,
+	public enum Category {
+		SUMMARY,
+		TWEETS,
+		TIMELINE,
+		REPUTE
+	}
 
-		TIMELINE,			//Category
-		PURETWEETS_COUNT,
-		MENTIONS_COUNT,
-		RETWEET_BY_ME,
+	public enum UsersEnum {
+		MENTIONS_RECEIVED,
+		MENTIONS_SENT,
+		FIRST_TALK
+	}
 
-		REPUTE,				//Category
-		FAVORITE,
-		RETWEET,
-
+	public enum WordsEnum {
 		SOURCE,
 		DAYS,
 		HOURS,
 		WORDS,
 		HASHTAG,
 		LANG,
+		POPULAR
+	}
 
-		POPULARE,
-
-		MENTIONS_SENT,
-		MENTIONS_RECEIVED,
-
-		WORDS_COUNT,
-		HASHTAG_COUNT,
-		LETTERS,
-		MEDIA,
-		URL,
-
+	public enum NumbersEnum {
+		LETTERS_PER_TWEET,
+		LETTERS_PER_WORD,
+		PURETWEETS_COUNT,
+		WORDS_PER_TWEET,
+		MENTIONS_COUNT,
 		TWEETS_PER_DAY,
-		FIRST_TALK
+		RETWEET_BY_ME,
+		HASHTAG_COUNT,
+		WORDS_COUNT,
+		FAVORITE,
+		LETTERS,
+		RETWEET,
+		MEDIA,
+		URL
 	}
 }

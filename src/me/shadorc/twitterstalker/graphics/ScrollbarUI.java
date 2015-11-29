@@ -52,12 +52,12 @@ public class ScrollbarUI extends MetalScrollBarUI {
 	/*Delete top and bottom buttons*/
 	@Override
 	protected JButton createDecreaseButton(int orientation) {
-		return createInvisibleButton();
+		return this.createInvisibleButton();
 	}
 
 	@Override    
 	protected JButton createIncreaseButton(int orientation) {
-		return createInvisibleButton();
+		return this.createInvisibleButton();
 	}
 
 	private JButton createInvisibleButton() {

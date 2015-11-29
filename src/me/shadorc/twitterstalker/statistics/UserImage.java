@@ -15,17 +15,17 @@ public class UserImage extends JLabel {
 
 	private static final long serialVersionUID = 1L;
 
-	public UserImage(Image image_u) {
-		ImageIcon icon =  new ImageIcon(image_u.getScaledInstance(140, 140, Image.SCALE_SMOOTH));
+	public UserImage(Image image) {
+		ImageIcon icon =  new ImageIcon(image.getScaledInstance(140, 140, Image.SCALE_SMOOTH));
 
 		/* Make Rounded Icon*/
 		int cornerRadius = icon.getIconHeight();
 		int w = icon.getIconWidth();
 		int h = icon.getIconHeight();
 
-		BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage rounded = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
-		Graphics2D g2 = output.createGraphics();
+		Graphics2D g2 = rounded.createGraphics();
 		g2.setComposite(AlphaComposite.Src);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.fill(new RoundRectangle2D.Float(0, 0, w, h, cornerRadius, cornerRadius));
@@ -33,7 +33,7 @@ public class UserImage extends JLabel {
 		g2.drawImage(icon.getImage(), 0, 0, null);
 		g2.dispose();
 
-		this.setIcon(new ImageIcon(output));
+		this.setIcon(new ImageIcon(rounded));
 		this.setHorizontalAlignment(SwingConstants.RIGHT);
 	}
 }

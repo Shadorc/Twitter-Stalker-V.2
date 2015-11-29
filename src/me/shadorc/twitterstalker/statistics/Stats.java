@@ -1,7 +1,7 @@
 package me.shadorc.twitterstalker.statistics;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,10 +9,16 @@ import java.util.Locale;
 
 import javax.swing.JButton;
 
-import me.shadorc.twitterstalker.graphics.Frame;
+import com.sun.xml.internal.ws.util.StringUtils;
+
+import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Data.Statistics;
+import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
+import me.shadorc.twitterstalker.storage.Data.Options;
+import me.shadorc.twitterstalker.storage.Data.UsersEnum;
+import me.shadorc.twitterstalker.storage.Data.WordsEnum;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.HashtagEntity;
 import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
@@ -22,50 +28,45 @@ import twitter4j.UserMentionEntity;
 
 public class Stats {
 
-	public static boolean stop;
-
-	private HashMap <Statistics, StatInfo> stats;
-	private DecimalFormat df;
 	private boolean isArchive;
 
-	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
-		stop = false;
+	private HashMap <WordsEnum, WordsMap> wordStatsMap;
+	private HashMap <NumbersEnum, NumberStat> numStatsMap;
+	private HashMap <UsersEnum, UsersMap> userStatsMap;
 
-		this.stats = new HashMap <Statistics, StatInfo> ();
-		this.df = new DecimalFormat("#.#");
+	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
+		if(Ressources.stop) return;
+
 		this.isArchive = (statusList != null);
 
-		int tweetsToAnalyze = (statusList != null) ? statusList.size() : user.getTweetsPosted();
+		int tweetsToAnalyze = isArchive ? statusList.size() : user.getTweetsPosted();
 
-		if(tweetsToAnalyze > OptionsPanel.getMaxTweetsNumber()) {
-			tweetsToAnalyze = OptionsPanel.getMaxTweetsNumber() - 200; //-200 : avoid going beyond 3000
+		if(tweetsToAnalyze > OptionsPanel.get(Options.TWEETS_TO_ANALYZE)) {
+			tweetsToAnalyze = OptionsPanel.get(Options.TWEETS_TO_ANALYZE);
 		}
 
-		bu.setEnabled(false);
 		bu.setText("0%");
 
-		for(Statistics stat : Statistics.values()) {
-			stats.put(stat, new StatInfo());
-		}
+		wordStatsMap = WordsMap.init();
+		numStatsMap = NumberStat.init();
+		userStatsMap = UsersMap.init();
 
-		long timeTweet = 1;
 		long timeFirstTweet = 1;
 
-		for(int i = 1; user.getTweetsAnalyzed() <= tweetsToAnalyze; i++) {
+		for(int i = 1; user.getTweetsAnalyzed() < tweetsToAnalyze; i++) {
 
-			RateLimitStatus rls = Frame.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
+			RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
 			System.out.println("[User timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
 
-			List <Status> timeline = (statusList == null) ? Frame.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200)) : statusList;
-
+			List <Status> timeline = isArchive ? statusList : Main.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200));
 			for(Status status : timeline) {
 
-				if(stop) return;
+				if(Ressources.stop) return;
 
 				user.incremenAnalyzedTweets();
 
 				//Number of milliseconds since this tweet was posted
-				timeTweet = new Date().getTime() - status.getCreatedAt().getTime();
+				long timeTweet = new Date().getTime() - status.getCreatedAt().getTime();
 				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
 
 				this.setStats(status);
@@ -73,25 +74,26 @@ public class Stats {
 
 			double progress = (100.0 * user.getTweetsAnalyzed()) / tweetsToAnalyze;
 			if(progress > 100) progress = 100;
-			bu.setText(df.format(progress) + "%");
+			bu.setText(Ressources.format(progress) + "%");
 		}
 
+		bu.setText(Storage.tra("loadingMentions"));
+
 		/*Analyze user's mentions received*/
-		if(user.getName().equals(Frame.getTwitter().getScreenName())) {
-			for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.getMaxMentionsNumber(); i++) {
+		if(user.getName().equals(Main.getTwitter().getScreenName())) {
+			for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.get(Options.MENTIONS_TO_ANALYZE); i++) {
 
 				int secure = user.getMentionsAnalyzed();
 
-				RateLimitStatus rls = Frame.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
+				RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
 				System.out.println("[Mentions timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
 
 				try {
-					for(Status status : Frame.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
-
-						if(stop) return;
+					for(Status status : Main.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
+						if(Ressources.stop) return;
 
 						user.incremenAnalyzedMentions();
-						stats.get(Statistics.MENTIONS_RECEIVED).add(status.getUser().getScreenName());
+						userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).add(status.getUser().getId());
 					}
 				} catch(TwitterException e) {
 					//API mentions limit reachs, ignore it.
@@ -105,70 +107,70 @@ public class Stats {
 			}
 		}
 
-		stats.put(Statistics.TWEETS_PER_DAY, new StatInfo(Storage.tra("numTweetsPerDay"), user.getTweetsAnalyzed(), timeFirstTweet));
-		stats.put(Statistics.WORDS_PER_TWEET, new StatInfo(Storage.tra("wordsPerTweet"), this.getUnique(Statistics.WORDS_COUNT).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Statistics.LETTERS_PER_TWEET, new StatInfo(Storage.tra("lettersPerTweet"), this.getUnique(Statistics.LETTERS).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Statistics.LETTERS_PER_WORD, new StatInfo(Storage.tra("lettersPerWord"), this.getUnique(Statistics.LETTERS).getNum(), this.getUnique(Statistics.WORDS_COUNT).getNum()));
-		stats.put(Statistics.PURETWEETS_COUNT, new StatInfo(Storage.tra("puretweet"), (user.getTweetsAnalyzed() - this.getUnique(Statistics.MENTIONS_COUNT).getNum() - this.getUnique(Statistics.RETWEET_BY_ME).getNum()), user.getTweetsAnalyzed()));
-		stats.put(Statistics.MENTIONS_COUNT, new StatInfo(Storage.tra("mentions"), this.getUnique(Statistics.MENTIONS_COUNT).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Statistics.RETWEET_BY_ME, new StatInfo(Storage.tra("retweets"), this.getUnique(Statistics.RETWEET_BY_ME).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Statistics.FAVORITE, new StatInfo(Storage.tra("favored"), this.getUnique(Statistics.FAVORITE).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Statistics.RETWEET, new StatInfo(Storage.tra("retweeted"), this.getUnique(Statistics.RETWEET).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Statistics.MEDIA, new StatInfo(Storage.tra("medias"), this.getUnique(Statistics.MEDIA).getNum(), user.getTweetsAnalyzed()));
-		stats.put(Statistics.URL, new StatInfo(Storage.tra("url"), this.getUnique(Statistics.URL).getNum(), user.getTweetsAnalyzed()));
+		//'total' is the time in millisecond since the last tweet. The result is tweets/ms, 8.64*Math.pow(10,7) converts it to tweets/day
+		numStatsMap.get(NumbersEnum.TWEETS_PER_DAY).setNum((float) user.getTweetsAnalyzed()/timeFirstTweet*(8.64*Math.pow(10,7)));
+		numStatsMap.get(NumbersEnum.WORDS_PER_TWEET).setNum(numStatsMap.get(NumbersEnum.WORDS_COUNT).getNum()/user.getTweetsAnalyzed());
+		numStatsMap.get(NumbersEnum.LETTERS_PER_TWEET).setNum(numStatsMap.get(NumbersEnum.LETTERS).getNum()/user.getTweetsAnalyzed());
+		numStatsMap.get(NumbersEnum.LETTERS_PER_WORD).setNum(numStatsMap.get(NumbersEnum.LETTERS).getNum()/numStatsMap.get(NumbersEnum.WORDS_COUNT).getNum());
+		numStatsMap.get(NumbersEnum.PURETWEETS_COUNT).setNum(user.getTweetsAnalyzed() - numStatsMap.get(NumbersEnum.MENTIONS_COUNT).getNum() - numStatsMap.get(NumbersEnum.RETWEET_BY_ME).getNum());
 
-		//Set the number by which they will be divided to provide a ratio/percentage
-		stats.get(Statistics.SOURCE).setTotal(user.getTweetsAnalyzed());
-		stats.get(Statistics.DAYS).setTotal(user.getTweetsAnalyzed());
-		stats.get(Statistics.HOURS).setTotal(user.getTweetsAnalyzed());
-		stats.get(Statistics.LANG).setTotal(user.getTweetsAnalyzed());
-		stats.get(Statistics.MENTIONS_RECEIVED).setTotal(user.getMentionsAnalyzed());
-		stats.get(Statistics.MENTIONS_SENT).setTotal((int) this.getUnique(Statistics.MENTIONS_COUNT).getNum());
-		stats.get(Statistics.WORDS).setTotal((int) this.getUnique(Statistics.WORDS_COUNT).getNum());
-		stats.get(Statistics.HASHTAG).setTotal((int) this.getUnique(Statistics.HASHTAG_COUNT).getNum());
+		numStatsMap.get(NumbersEnum.PURETWEETS_COUNT).setTotal(user.getTweetsAnalyzed());
+		numStatsMap.get(NumbersEnum.MENTIONS_COUNT).setTotal(user.getTweetsAnalyzed());
+		numStatsMap.get(NumbersEnum.RETWEET_BY_ME).setTotal(user.getTweetsAnalyzed());
+		numStatsMap.get(NumbersEnum.FAVORITE).setTotal(user.getTweetsAnalyzed());
+		numStatsMap.get(NumbersEnum.RETWEET).setTotal(user.getTweetsAnalyzed());
+
+		//Set the number by which they will be divided to provide a percentage
+		wordStatsMap.get(WordsEnum.SOURCE).setTotal(user.getTweetsAnalyzed());
+		wordStatsMap.get(WordsEnum.DAYS).setTotal(user.getTweetsAnalyzed());
+		wordStatsMap.get(WordsEnum.HOURS).setTotal(user.getTweetsAnalyzed());
+		wordStatsMap.get(WordsEnum.LANG).setTotal(user.getTweetsAnalyzed());
+		wordStatsMap.get(WordsEnum.WORDS).setTotal((int) numStatsMap.get(NumbersEnum.WORDS_COUNT).getNum());
+		wordStatsMap.get(WordsEnum.HASHTAG).setTotal((int) numStatsMap.get(NumbersEnum.HASHTAG_COUNT).getNum());
+
+		userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).setTotal(user.getMentionsAnalyzed());
+		userStatsMap.get(UsersEnum.MENTIONS_SENT).setTotal((int) numStatsMap.get(NumbersEnum.MENTIONS_COUNT).getNum());
 	}
 
 	private void setStats(Status status) throws TwitterException {
 
 		if(status.isRetweet()) {
-			this.getUnique(Statistics.RETWEET_BY_ME).increment();
+			numStatsMap.get(NumbersEnum.RETWEET_BY_ME).increment();
 
 		} else {
 
-			for(UserMentionEntity mention : status.getUserMentionEntities()) {
-				stats.get(Statistics.MENTIONS_SENT).add(mention.getScreenName());
-				stats.get(Statistics.FIRST_TALK).add(mention.getScreenName(), status.getCreatedAt(), status);
+			for(UserMentionEntity mentionUser : status.getUserMentionEntities()) {
+				userStatsMap.get(UsersEnum.MENTIONS_SENT).add(mentionUser.getId());
+				userStatsMap.get(UsersEnum.FIRST_TALK).add(mentionUser.getId(), status);
 			}
 			for(HashtagEntity hashtag : status.getHashtagEntities()) {
-				stats.get(Statistics.HASHTAG).add("#" + hashtag.getText().toLowerCase());
-				this.getUnique(Statistics.HASHTAG_COUNT).increment();
+				wordStatsMap.get(WordsEnum.HASHTAG).add("#" + hashtag.getText().toLowerCase());
+				numStatsMap.get(NumbersEnum.HASHTAG_COUNT).increment();
 			}
 
-			if(status.getRetweetCount() + status.getFavoriteCount() > 0)	stats.get(Statistics.POPULARE).add(new WordInfo(status));
-			if(status.getRetweetCount() > 0)								this.getUnique(Statistics.RETWEET).increment();
-			if(status.getFavoriteCount() > 0)								this.getUnique(Statistics.FAVORITE).increment();
-			if(status.getText().startsWith("@"))							this.getUnique(Statistics.MENTIONS_COUNT).increment();
-			if(status.getMediaEntities().length > 0)						this.getUnique(Statistics.MEDIA).increment();
-			if(status.getURLEntities().length > 0)							this.getUnique(Statistics.URL).increment();
+			if(status.getRetweetCount() + status.getFavoriteCount() > 0)	wordStatsMap.get(WordsEnum.POPULAR).add(status);
+			if(status.getRetweetCount() > 0)								numStatsMap.get(NumbersEnum.RETWEET).increment();
+			if(status.getFavoriteCount() > 0)								numStatsMap.get(NumbersEnum.FAVORITE).increment();
+			if(status.getUserMentionEntities().length > 0)					numStatsMap.get(NumbersEnum.MENTIONS_COUNT).increment();
+			if(status.getMediaEntities().length > 0)						numStatsMap.get(NumbersEnum.MEDIA).increment();
+			if(status.getURLEntities().length > 0)							numStatsMap.get(NumbersEnum.URL).increment();
 
 			//Regex removes HTML tag
-			stats.get(Statistics.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
+			wordStatsMap.get(WordsEnum.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
 
 			//If it's an archive that is analyzed, lang doesn't exist and throws null
 			if(!isArchive) {
 				//Lang is two-letter iso language code
 				String lang = new Locale(status.getLang()).getDisplayLanguage(OptionsPanel.getLocaleLang());
-				String capLang = lang.substring(0, 1).toUpperCase() + lang.substring(1);
-				stats.get(Statistics.LANG).add(capLang);
+				wordStatsMap.get(WordsEnum.LANG).add(StringUtils.capitalize(lang));
 			}
 
 			//Get day and add capitalize
 			String day = new SimpleDateFormat("EEEE", OptionsPanel.getLocaleLang()).format(status.getCreatedAt());
-			String capDay = day.substring(0, 1).toUpperCase() + day.substring(1);
-			stats.get(Statistics.DAYS).add(capDay);
+			wordStatsMap.get(WordsEnum.DAYS).add(StringUtils.capitalize(day));
 
 			//Gets the hour as 24
-			stats.get(Statistics.HOURS).add(new SimpleDateFormat("H").format(status.getCreatedAt()) + "h");
+			wordStatsMap.get(WordsEnum.HOURS).add(new SimpleDateFormat("H").format(status.getCreatedAt()) + "h");
 
 			//Split spaces and line breaks ("|\\" equals "and")
 			for(String word : status.getText().split(" |\\\n")) {
@@ -176,29 +178,27 @@ public class Stats {
 				//Delete all letters except a-z/A-Z/0-9/@/# and accents and lowercase
 				word = word.replaceAll("[^a-zA-ZÀ-ÿ0-9^@#]", "").toLowerCase();
 
-				this.getUnique(Statistics.WORDS_COUNT).increment();
-				this.getUnique(Statistics.LETTERS).increment(word.length());
+				numStatsMap.get(NumbersEnum.WORDS_COUNT).increment();
+				numStatsMap.get(NumbersEnum.LETTERS).increment(word.length());
 
-				if(word.length() >= OptionsPanel.getMinLettersWord() && !word.startsWith("#") && !word.startsWith("@")) {
-					stats.get(Statistics.WORDS).add(word);
+				if(word.length() >= OptionsPanel.get(Options.LETTERS_PER_WORD_MIN) && !word.startsWith("#") && !word.startsWith("@")) {
+					wordStatsMap.get(WordsEnum.WORDS).add(word);
 				}
 			}
 		}
 	}
 
-	public WordInfo get(Statistics type, int i) {
-		return stats.get(type).sort().get(i);
+	public List<WordStats> get(WordsEnum stat) {
+		return wordStatsMap.get(stat).sort();
 	}
 
-	public List <WordInfo> get(Statistics type) {
-		return stats.get(type).sort();
+	public List<UserStats> get(UsersEnum stat) {
+		List<UserStats> list = userStatsMap.get(stat).sort();
+		if(stat == UsersEnum.FIRST_TALK) Collections.reverse(list);
+		return list;
 	}
 
-	public WordInfo getUnique(Statistics type) {
-		return stats.get(type).getWordInfo();
-	}
-
-	public static void stop() {
-		stop = true;
+	public NumberStat get(NumbersEnum stat) {
+		return numStatsMap.get(stat);
 	}
 }

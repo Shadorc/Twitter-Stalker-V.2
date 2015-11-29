@@ -1,8 +1,6 @@
-package me.shadorc.twitterstalker.initialization;
+package me.shadorc.twitterstalker.utility;
 
 import java.util.regex.Pattern;
-
-import me.shadorc.twitterstalker.graphics.Ressources;
 
 
 public class Version {
@@ -32,7 +30,7 @@ public class Version {
 	public boolean isNewerThan(Version version) {
 		//If the current version is a beta, don't check for update
 		return Ressources.forceUpdate() || 
-				!version.isBeta() && (this.major > version.getMajor() || this.minor > version.getMinor()	|| this.macro > version.getMacro());
+				!version.isBeta() && (this.major > version.getMajor() || this.minor > version.getMinor() || this.macro > version.getMacro());
 	}
 
 	public int getMajor() {

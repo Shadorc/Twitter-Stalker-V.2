@@ -29,7 +29,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 
@@ -43,7 +45,7 @@ public class Share {
 	private String message;
 	private File screen;
 
-	public Share(String message, Container panel) {
+	public Share(String message) {
 
 		this.message = message;
 		this.screen = new File("./screen-" + screenCount + ".png");
@@ -51,7 +53,7 @@ public class Share {
 		screenCount++;
 
 		try {
-			BufferedImage image = this.getScreenshot(panel);
+			BufferedImage image = this.getScreenshot(Ressources.getFrame().getContentPane());
 			if(image.getHeight() > HEIGHT_LIMIT) {
 				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/HEIGHT_LIMIT));
 			}
@@ -72,7 +74,7 @@ public class Share {
 			JOptionPane.showMessageDialog(null, Storage.tra("screenshotError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 
 		} finally {
-			Frame.reset();
+			Ressources.getFrame().reset();
 		}
 	}
 
@@ -210,7 +212,7 @@ public class Share {
 					@Override
 					public void run() {
 						try {
-							Frame.getTwitter().updateStatus(status);
+							Main.getTwitter().updateStatus(status);
 							info.setText(Storage.tra("finished"));
 						} catch (TwitterException e) {
 							info.setForeground(Color.RED);

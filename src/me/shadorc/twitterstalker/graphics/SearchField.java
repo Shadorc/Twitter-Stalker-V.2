@@ -1,12 +1,16 @@
 package me.shadorc.twitterstalker.graphics;
 
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 import javax.swing.AbstractAction;
@@ -14,42 +18,51 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-import javax.swing.text.DefaultEditorKit;
 
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 
-public class TextField extends JTextField {
+public class SearchField extends JTextField {
 
 	private static final long serialVersionUID = 1L;
 
-	public interface Text {
-		String PIN = "enterPin";
-		String USERNAME = "enterAccount";
-		String COMPARISON = "enterComparison";
-		String ARCHIVE = "enterArchive";
-		String INVALID_PIN = "invalidPin";
-		String INVALID_USER = "invalidUser";
-		String INVALID_ARCHIVE = "invalidArchive";
-		String API_LIMIT = "apiLimit";
-		String NO_TWEET = "userNeverTweet";
-		String PRIVATE = "privateAccount";
-		String ARCHIVE_ERROR = "archiveError";
-		String ERROR = "unexpectedError";
+	public enum Text {
+		PIN,
+		ACCOUNT,
+		COMPARISON,
+		ARCHIVE,
+
+		INVALID_PIN,
+		INVALID_USER,
+		INVALID_ARCHIVE,
+		API_LIMIT,
+		NO_TWEET,
+		PRIVATE,
+		ARCHIVE_ERROR
 	}
 
-	public TextField(String text, Font font) {
-		super(text);
+	public SearchField(Text text) {
+		super(Storage.tra(text));
 
 		this.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseReleased(final MouseEvent event) {
+			public void mouseReleased(MouseEvent event) {
+
 				//Open right click drop-down menu
 				if(event.isPopupTrigger()) {
 					JPopupMenu menu = new JPopupMenu();
 					menu.setBackground(Color.WHITE);
 
-					JMenuItem paste = new JMenuItem(new DefaultEditorKit.PasteAction());
-					paste.setText(Storage.tra("paste"));
+					JMenuItem paste = new JMenuItem(new AbstractAction(Storage.tra("paste")) {
+						private static final long serialVersionUID = 1L;
+
+						public void actionPerformed(ActionEvent ae) {
+							try {
+								String data = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+								((JTextField) event.getSource()).setText(data);
+							} catch (HeadlessException | UnsupportedFlavorException | IOException ignore) { } 
+						}
+					});
 					paste.setBackground(Color.WHITE);
 					paste.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 15));
 					menu.add(paste);
@@ -76,7 +89,7 @@ public class TextField extends JTextField {
 			public void focusLost(FocusEvent event) {
 				JTextField jtf = (JTextField) event.getSource();
 				if(jtf.getText().isEmpty()) {
-					jtf.setText(text);
+					jtf.setText(Storage.tra(text));
 				}
 			}
 
@@ -93,13 +106,13 @@ public class TextField extends JTextField {
 							jtf.setForeground(Color.WHITE);
 							jtf.setText("");
 						}
-					} catch (IllegalArgumentException | IllegalAccessException ignored) {	}
+					} catch (IllegalArgumentException | IllegalAccessException ignore) {}
 				}
 			}
 		});
 
 		this.setHorizontalAlignment(JTextField.CENTER);
-		this.setFont(font);
+		this.setFont(Ressources.getFont("RobotoCondensed-LightItalic.ttf", 48));
 		this.setForeground(Color.WHITE);
 		this.setBackground(new Color(179, 229, 252));
 		this.setBorder(BorderFactory.createLineBorder(new Color(2,113,174), 3));
@@ -113,7 +126,7 @@ public class TextField extends JTextField {
 		return this.getText().trim().matches("[0-9]+") && this.getText().trim().length() >= 7;
 	}
 
-	public void error(String error) {
+	public void setErrorText(String error) {
 		this.setForeground(Color.RED);
 		this.setText(error);
 		//Unfocus the JTextField

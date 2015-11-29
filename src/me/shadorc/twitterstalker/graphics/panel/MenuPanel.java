@@ -19,10 +19,9 @@ import javax.swing.border.CompoundBorder;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
-import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.Ressources;
-import me.shadorc.twitterstalker.graphics.TextField.Text;
+import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 
 public class MenuPanel extends JPanel implements ActionListener {
 
@@ -36,7 +35,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 		JLabel title = new JLabel(Storage.tra("menuQuestion"), JLabel.CENTER);
 
-		title.setForeground(new Color(33,33,33));
+		title.setForeground(new Color(33, 33, 33));
 		title.setFont(Ressources.getFont("RobotoCondensed-LightItalic.ttf", 72));
 		title.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(25, 0, 25, 0)));
 		this.add(title, BorderLayout.PAGE_START);
@@ -49,7 +48,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		for(int i = 0; i < 5; i++) {
 			optionButtonPane.add(new JLabel());
 		}
-		options = new Button(ButtonType.OPTIONS, new int[] {15, 10, 0, 0}, Size.MEDIUM, this);
+		options = new Button(ButtonType.OPTIONS, Size.MEDIUM, new int[] {15, 10, 0, 0}, this);
 		optionButtonPane.add(options);
 
 		center.add(optionButtonPane, BorderLayout.WEST);
@@ -107,9 +106,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == statistics)		 Frame.setPanel(new ConnectionPanel(Storage.tra(Text.USERNAME)));
-		else if(e.getSource() == comparison) Frame.setPanel(new ConnectionPanel(Storage.tra(Text.COMPARISON)));
-		else if(e.getSource() == archive)	 Frame.setPanel(new ConnectionPanel(Storage.tra(Text.ARCHIVE)));
-		else if(e.getSource() == options)	 Frame.setPanel(new OptionsPanel());
+		if(e.getSource() == statistics)		 Ressources.getFrame().setPanel(new ConnectionPanel(Text.ACCOUNT));
+		else if(e.getSource() == comparison) Ressources.getFrame().setPanel(new ConnectionPanel(Text.COMPARISON));
+		else if(e.getSource() == archive)	 Ressources.getFrame().setPanel(new ConnectionPanel(Text.ARCHIVE));
+		else if(e.getSource() == options)	 Ressources.getFrame().setPanel(new OptionsPanel());
 	}
 }

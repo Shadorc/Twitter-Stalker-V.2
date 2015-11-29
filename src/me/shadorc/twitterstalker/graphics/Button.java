@@ -13,21 +13,21 @@ public class Button extends JButton {
 
 	private static final long serialVersionUID = 1L;
 
-	private ButtonType buttonTy;
+	private ButtonType type;
 	private Size size;
-
-	public enum Size {
-		SMALL, MEDIUM, NORMAL;
-	}
 
 	public enum ButtonType {
 		BACK, OPTIONS, UPLOAD, VALIDATE;
 	}
 
-	public Button(ButtonType buttonTy, int[] border, Size size, ActionListener listener) {
+	public enum Size {
+		SMALL, MEDIUM, NORMAL;
+	}
+
+	public Button(ButtonType buttonTy, Size size, int[] border,  ActionListener listener) {
 		super();
 
-		this.buttonTy = buttonTy;
+		this.type = buttonTy;
 		this.size = size;
 
 		ImageIcon defaultIcon = this.getIcon("default");
@@ -36,7 +36,6 @@ public class Button extends JButton {
 
 		this.setIcon(defaultIcon);
 		this.setPressedIcon(pressedIcon);
-		this.addActionListener(listener);
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -51,6 +50,7 @@ public class Button extends JButton {
 			}
 		});
 
+		this.addActionListener(listener);
 		this.setBorder(BorderFactory.createEmptyBorder(border[0], border[1], border[2], border[3]));
 		this.setFocusable(false);
 		this.setContentAreaFilled(false);
@@ -59,7 +59,7 @@ public class Button extends JButton {
 	}
 
 	private ImageIcon getIcon(String state) {
-		ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/Buttons/" + buttonTy.toString() + "_" + state + ".png"));
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/Buttons/" + type.toString() + "_" + state + ".png"));
 		if(size == Size.MEDIUM) {
 			return new ImageIcon(icon.getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
 		} else if(size == Size.SMALL) {

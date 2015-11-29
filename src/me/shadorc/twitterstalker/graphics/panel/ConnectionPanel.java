@@ -15,28 +15,29 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
-import me.shadorc.infonet.Infonet;
+import org.apache.commons.io.FileUtils;
+
+import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
-import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.Ressources;
-import me.shadorc.twitterstalker.graphics.TextField;
-import me.shadorc.twitterstalker.graphics.TextField.Text;
-import me.shadorc.twitterstalker.statistics.Stats;
+import me.shadorc.twitterstalker.graphics.SearchField;
+import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.ArchiveFile;
+import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.JSONArray;
 import twitter4j.JSONException;
 import twitter4j.Status;
@@ -47,18 +48,16 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 
 	private static final long serialVersionUID = 1L;
 
-	private TextField field1, field2;
+	private SearchField field1, field2;
 	private JButton search, back;
-	private String text;
+	private Text text;
 
-	private File file;
 	private List <Status> statusList;
 
-	private StatisticsPanel statsPanel;
-	private ComparisonPanel comparePanel;
-
-	public ConnectionPanel(String text) {
+	public ConnectionPanel(Text text) {
 		super(new GridLayout(4, 0));
+
+		Ressources.stop = false;
 
 		//This permit the JTextField aren't focused by default to be able to see the text, and we can unfocus them by clicking outside
 		this.setFocusable(true);
@@ -78,25 +77,23 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 
 		this.add(new JLabel(new ImageIcon(this.getClass().getResource("/res/Twitter_icon.png"))));
 
-		Font font = Ressources.getFont("RobotoCondensed-LightItalic.ttf", 48);
-
 		JPanel fieldPane = new JPanel();
 		fieldPane.setOpaque(false);
 
-		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.PIN)) || text.equals(Storage.tra(Text.ARCHIVE))) {
-			fieldPane.setLayout(new BorderLayout());
-			fieldPane.setBorder(BorderFactory.createEmptyBorder(110, 50, 0, 50));
-
-		} else if(text.equals(Storage.tra(Text.COMPARISON))) {
+		if(text == Text.COMPARISON) {
 			fieldPane.setLayout(new GridLayout(2, 0, 0, 40));
 			fieldPane.setBorder(BorderFactory.createEmptyBorder(25, 50, 0, 50));
 
-			field2 = new TextField(text, font);
+			field2 = new SearchField(text);
 			field2.addKeyListener(this);
 			fieldPane.add(field2);
+
+		} else {
+			fieldPane.setLayout(new BorderLayout());
+			fieldPane.setBorder(BorderFactory.createEmptyBorder(110, 50, 0, 50));
 		}
 
-		field1 = new TextField(text, font);
+		field1 = new SearchField(text);
 		field1.addKeyListener(this);
 		fieldPane.add(field1);
 
@@ -106,7 +103,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		searchPanel.setOpaque(false);
 		searchPanel.add(new JLabel());
 
-		search = new Button(ButtonType.VALIDATE, new int[] {30, 0, 0, 0}, Size.NORMAL, this);
+		search = new Button(ButtonType.VALIDATE, Size.NORMAL, new int[] {30, 0, 0, 0}, this);
 		search.setDisabledIcon(new ImageIcon(this.getClass().getResource("/res/loading.gif")));
 		search.setForeground(Color.WHITE);
 		search.setFont(Ressources.getFont("RobotoCondensed-LightItalic.ttf", 20));
@@ -120,17 +117,17 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		JPanel bottomPanel = new JPanel(new BorderLayout());
 		bottomPanel.setOpaque(false);
 
-		if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.COMPARISON)) || text.equals(Storage.tra(Text.ARCHIVE))) {
-			back = new Button(ButtonType.BACK, new int[] {95, 10, 0, 0}, Size.MEDIUM, this);
-			bottomPanel.add(back, BorderLayout.WEST);
-		} else {
+		if(text == Text.PIN) {
 			bottomPanel.add(new JLabel(), BorderLayout.WEST);
+		} else {
+			back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {95, 10, 0, 0}, this);
+			bottomPanel.add(back, BorderLayout.WEST);
 		}
 
 		JPanel labelsPanel = new JPanel(new GridLayout(6, 0));
 		labelsPanel.setOpaque(false);
 
-		font = Ressources.getFont("RobotoCondensed-Light.ttf", 22).deriveFont(Font.BOLD);
+		Font font = Ressources.getFont("RobotoCondensed-Light.ttf", 22).deriveFont(Font.BOLD);
 
 		JLabel design = new JLabel("Design : @Dasporal", JLabel.RIGHT);
 		design.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));		
@@ -151,7 +148,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		bottomPanel.add(labelsPanel, BorderLayout.EAST);
 		this.add(bottomPanel);
 
-		if(text.equals(Storage.tra(Text.ARCHIVE))) {
+		if(text == Text.ARCHIVE) {
 			this.setArchive();
 		}
 	}
@@ -165,103 +162,55 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 				for(FocusListener li : field1.getFocusListeners())	field1.removeFocusListener(li);
 				for(MouseListener li : field1.getMouseListeners())	field1.removeMouseListener(li);
 
-				while(file == null || !file.exists()) {
-					//Change UIManager look to look like the operating system one, this is for the JFileChooser
-					try {
-						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-						e.printStackTrace();
-					}
+				File archiveFile = ArchiveFile.getFile(field1);
 
-					JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home"), "Desktop"));
-					JButton help = new JButton(Storage.tra("archiveHelp"));
-					help.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							JEditorPane textPane = new JEditorPane("text/html", Storage.tra("archiveHelpText"));
-							textPane.setEditable(false);
-							textPane.setOpaque(false);
-							textPane.addHyperlinkListener(new HyperlinkListener() {
-								@Override
-								public void hyperlinkUpdate(HyperlinkEvent he) {
-									if(he.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
-										Infonet.open(he.getURL().toString(), true);
-									}
-								}
-							});
-
-							JOptionPane.showMessageDialog(null, textPane, Storage.tra("archiveHelp"), JOptionPane.QUESTION_MESSAGE, Ressources.getBigIcon());
-						}
-					});
-					chooser.add(help, BorderLayout.SOUTH);
-					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-					int choice = chooser.showOpenDialog(null);
-
-					//Reset UIManager look to avoid changing buttons, drop-downs menus...
-					try {
-						UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-						e.printStackTrace();
-					}
-
-					if(choice == JFileChooser.APPROVE_OPTION) {
-						file = new File(chooser.getSelectedFile().getPath() + "/data/js/tweets");
-					} else if(choice == JFileChooser.CANCEL_OPTION) {
-						Frame.setPanel(new MenuPanel());
-						return;
-					}
-
-					if(!file.exists()) {
-						field1.error(Storage.tra(Text.INVALID_ARCHIVE));
-					}
-				}
+				if(archiveFile == null) return;
 
 				field1.setForeground(Color.WHITE);
 				field1.setText(Storage.tra("loadingTweet"));
 
 				statusList = new ArrayList <Status> ();
 
-				ArrayList <File> jsonFiles = new ArrayList <File> (Arrays.asList(file.listFiles()));
+				ArrayList <File> jsonFiles = new ArrayList <File> (Arrays.asList(archiveFile.listFiles()));
 
 				search.setEnabled(false);
-				for(File f : jsonFiles) {
-					search.setText(new DecimalFormat("#.#").format((jsonFiles.indexOf(f)+1.0)*100.0/jsonFiles.size()) + "%");
+				for(File file : jsonFiles) {
+					search.setText(Ressources.format((jsonFiles.indexOf(file)+1.0)*100.0/jsonFiles.size()) + "%");
 					try {
-						//Read all file
-						String file = new String(Files.readAllBytes(Paths.get(f.getPath())), StandardCharsets.UTF_8);
+						String rawJSON = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+
 						//Remove useless first line to get only JSON
-						if(file.indexOf("[") != -1) {
-							file = file.substring(file.indexOf("["));
+						if(rawJSON.indexOf("[") != -1) {
+							rawJSON = rawJSON.substring(rawJSON.indexOf("["));
 						}
 
-						//Create an array with all SJON object in the file
-						JSONArray json = new JSONArray(file);
+						//Create an array with all JSON objects in the file
+						JSONArray json = new JSONArray(rawJSON);
 
 						//Iterate the whole array of JSON objects
 						for(int i = 0; i < json.length(); i++) {
 							try {
 								statusList.add(TwitterObjectFactory.createStatus(json.getJSONObject(i).toString()));
 							} catch (TwitterException | JSONException e) {
-								field1.error(Storage.tra(Text.ARCHIVE_ERROR));
+								field1.setErrorText(Storage.tra(Text.ARCHIVE_ERROR) + " : " + e.getMessage());
 								e.printStackTrace();
 							}
 						}
 					} catch (IOException | JSONException e) {
-						field1.error(Storage.tra(Text.ARCHIVE_ERROR));
+						field1.setErrorText(Storage.tra(Text.ARCHIVE_ERROR) + " : " + e.getMessage());
 						search.setText(null);
 						e.printStackTrace();
 					}
 				}
 
 				field1.setText(statusList.get(0).getUser().getScreenName());
-				valid();
+				ConnectionPanel.this.valid();
 			}
 		}).start();
 	}
 
 	public void invalidPin() {
-		field1.error(Storage.tra(Text.INVALID_PIN));
+		field1.setErrorText(Storage.tra(Text.INVALID_PIN));
 	}
 
 	@Override
@@ -269,8 +218,8 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		if(event.getSource() == search) {
 			this.valid();
 		} else if(event.getSource() == back) {
-			Stats.stop();
-			Frame.setPanel(new MenuPanel());
+			Ressources.stop = true;
+			Ressources.getFrame().setPanel(new MenuPanel());
 		}
 	}
 
@@ -281,108 +230,83 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		}
 	}
 
+	private void valid() {
+		new Thread(new Runnable() {
+			@SuppressWarnings("incomplete-switch")
+			@Override
+			public void run() {
+				if(search.isEnabled() || text == Text.ARCHIVE) {
+
+					search.setEnabled(false);
+					search.setText(Storage.tra("loading"));
+
+					field1.getParent().requestFocus();
+					field1.setEditable(false);
+					if(field2 != null) field2.setEditable(false);
+
+					switch(text) {
+						case PIN:
+							if(field1.isValidPin()) {
+								Main.connect(field1.getText().trim());
+							} else {
+								field1.setErrorText(Storage.tra(Text.INVALID_PIN));
+							}
+							break;
+
+						case ARCHIVE:
+						case ACCOUNT:
+							try {
+								AccountPanel statsPanel = new AccountPanel(field1.getUserName(), search, statusList);
+								if(Ressources.stop) return;
+								Ressources.getFrame().setPanel(statsPanel);
+							} catch (TwitterException e) {
+								if(e.exceededRateLimitation()) {
+									field1.setErrorText(Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+								} else {
+									field1.setErrorText(e.getMessage());
+								}
+							}
+							break;
+
+						case COMPARISON:
+							try {
+								ComparisonPanel comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
+								if(Ressources.stop) return;
+								Ressources.getFrame().setPanel(comparePanel);
+							} catch (TwitterException e) {
+								//StatusCode: -1 is a personal error message from TwitterUser
+								if(e.getStatusCode() == -1) {
+									if(field1.getUserName().equals(e.getCause().getMessage()))	field1.setErrorText(e.getMessage());
+									if(field2.getUserName().equals(e.getCause().getMessage()))	field2.setErrorText(e.getMessage());
+
+								} else {
+									String message;
+									if(e.exceededRateLimitation()) {
+										message = Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
+									} else {
+										message = e.getMessage();
+									}
+
+									field1.setErrorText(message);
+									field2.setErrorText(message);
+								}
+							}
+							break;
+					}
+
+					search.setEnabled(true);
+					search.setText(null);
+
+					field1.setEditable(true);
+					if(field2 != null) field2.setEditable(true);
+				}
+			}
+		}).start();
+	}
+
 	@Override
 	public void keyReleased(KeyEvent e) { }
 
 	@Override
 	public void keyTyped(KeyEvent e) { }
-
-	private void valid() {
-		if(search.isEnabled() || text.equals(Storage.tra(Text.ARCHIVE))) {
-			if(text.equals(Storage.tra(Text.PIN))) {
-				//If field contains only numbers and the pin is more than 6 characters
-				if(field1.isValidPin()) {
-					Frame.connect(field1.getText().trim());
-				} else {
-					field1.error(Storage.tra(Text.INVALID_PIN));
-				}
-
-			} else if(text.equals(Storage.tra(Text.USERNAME)) || text.equals(Storage.tra(Text.ARCHIVE))) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							statsPanel = new StatisticsPanel(field1.getUserName(), search, statusList);
-							if(Stats.stop == true) return;
-							Frame.setPanel(statsPanel);
-						} catch (TwitterException e) {
-							e.printStackTrace();
-
-							String error;
-							if(e.getErrorCode() == 88) {
-								error = Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
-							} else {
-								switch(e.getStatusCode()) {
-									case 401:
-										error = Storage.tra(Text.PRIVATE);
-										break;
-									case 600:
-										error = Storage.tra(Text.NO_TWEET);
-										break;
-									case 604:
-										error = Storage.tra(Text.INVALID_USER);
-										break;
-									default:
-										error = Storage.tra(Text.ERROR) + " " + e.getMessage();
-										break;
-								}
-							}
-							field1.error(error);
-
-							search.setText(null);
-							search.setEnabled(true);
-						}
-					}
-				}).start();
-
-			} else if(text.equals(Storage.tra(Text.COMPARISON))) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
-							if(Stats.stop == true) return;
-							Frame.setPanel(comparePanel);
-						} catch (TwitterException e) {
-							e.printStackTrace();
-
-							String message = (e.getCause() != null) ? e.getCause().getMessage() : null;
-							String globalEr = null;
-							String error = null;
-
-							if(e.getErrorCode() == 88) {
-								globalEr = Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
-							} else {
-								switch(e.getStatusCode()) {
-									case 401:
-										error = Storage.tra(Text.PRIVATE);
-										break;
-									case 600:
-										error = Storage.tra(Text.NO_TWEET);
-										break;
-									case 604:
-										error = Storage.tra(Text.INVALID_USER);
-										break;
-									default:
-										globalEr = Storage.tra(Text.ERROR) + e.getMessage();
-										break;
-								}
-							}
-
-							if(globalEr != null) {
-								field1.error(globalEr);
-								field2.error(globalEr);
-							} else {
-								if(field1.getText().equals(message))	field1.error(error);
-								if(field2.getText().equals(message))	field2.error(error);
-							}
-
-							search.setText(null);
-							search.setEnabled(true);
-						}
-					}
-				}).start();
-			}
-		}
-	}
 }

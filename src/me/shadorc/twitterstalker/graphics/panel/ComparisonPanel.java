@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,16 +18,15 @@ import javax.swing.border.CompoundBorder;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
-import me.shadorc.twitterstalker.graphics.EditorPane;
-import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
-import me.shadorc.twitterstalker.graphics.TextField.Text;
+import me.shadorc.twitterstalker.graphics.SearchField.Text;
+import me.shadorc.twitterstalker.graphics.Share;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
-import me.shadorc.twitterstalker.storage.Data.Statistics;
+import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.TwitterException;
 
 public class ComparisonPanel extends JPanel implements ActionListener {
@@ -36,21 +34,18 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private JButton back, upload;
-	private JPanel statsPanel;
 	private TwitterUser user1, user2;
-	private Stats stats1, stats2;
-	private ArrayList <String> ignored;
 
-	ComparisonPanel(String name1, String name2, JButton button) throws TwitterException {
+	protected ComparisonPanel(String name1, String name2, JButton button) throws TwitterException {
 		super(new BorderLayout());
 
 		user1 = new TwitterUser(name1);
 		user2 = new TwitterUser(name2);
 
-		stats1 = new Stats(user1, button, null);
-		stats2 = new Stats(user2, button, null);
+		Stats stats1 = new Stats(user1, button, null);
+		Stats stats2 = new Stats(user2, button, null);
 
-		if(Stats.stop == true) return;
+		if(Ressources.stop == true) return;
 
 		button.setText(Storage.tra("interface"));
 
@@ -67,13 +62,14 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		JPanel center = new JPanel(new GridLayout(0, 2));
 		center.setOpaque(false);
 
-		ignored = new ArrayList <String> ();
+		JPanel statsPanel1 = new StatsPanel(stats1, stats2, user1, user2);
+		statsPanel1.setLayout(new GridLayout(statsPanel1.getComponentCount(), 0));
 
-		JPanel statsPanel1 = this.createStatsJPanel(user1, stats1);
-		JPanel statsPanel2 = this.createStatsJPanel(user2, stats2);
+		JPanel statsPanel2 = new StatsPanel(stats2, stats1, user2, user1);
+		statsPanel2.setLayout(new GridLayout(statsPanel2.getComponentCount(), 0));
 
 		for(Component comp : statsPanel1.getComponents()) {
-			if(ignored.contains(comp.getName())) {
+			if(!this.contains(statsPanel2, comp)) {
 				statsPanel1.remove(comp);
 				((GridLayout) statsPanel1.getLayout()).setRows(((GridLayout) statsPanel1.getLayout()).getRows()-1);
 				System.out.println("'" + comp.getName() + "' ignored in panel 1");
@@ -81,15 +77,23 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		}
 
 		for(Component comp : statsPanel2.getComponents()) {
-			if(ignored.contains(comp.getName())) {
+			if(!this.contains(statsPanel1, comp)) {
 				statsPanel2.remove(comp);
 				((GridLayout) statsPanel2.getLayout()).setRows(((GridLayout) statsPanel2.getLayout()).getRows()-1);
-				System.out.println(comp.getName() + " ignored in panel 2.");
+				System.out.println("'" + comp.getName() + "' ignored in panel 2");
 			}
 		}
 
-		center.add(statsPanel1);
-		center.add(statsPanel2);
+		//If there's no stat to show
+		if(statsPanel1.getComponentCount() == 0 || statsPanel1.getComponentCount() == 0) {
+			center.setLayout(new BorderLayout());
+			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
+			error.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 30));
+			center.add(error, JLabel.CENTER);
+		} else {
+			center.add(statsPanel1);
+			center.add(statsPanel2);
+		}
 
 		JScrollPane centerScroll = new JScrollPane(center, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		centerScroll.getVerticalScrollBar().setUnitIncrement(20);
@@ -104,18 +108,27 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		JPanel buttonsPanel = new JPanel(new GridLayout(0, 14));
 		buttonsPanel.setOpaque(false);
 
-		back = new Button(ButtonType.BACK, new int[] {0, 0, 10, 20}, Size.MEDIUM, this);
+		back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {0, 0, 10, 20}, this);
 		buttonsPanel.add(back);
 
 		for(int i = 0; i < 12; i++) {
 			buttonsPanel.add(new JLabel());
 		}
 
-		upload = new Button(ButtonType.UPLOAD, new int[] {0, 20, 10, 0}, Size.MEDIUM, this);
+		upload = new Button(ButtonType.UPLOAD, Size.MEDIUM, new int[] {0, 20, 10, 0}, this);
 		upload.setToolTipText(Storage.tra("shareStat"));
 		buttonsPanel.add(upload);
 
 		this.add(buttonsPanel, BorderLayout.PAGE_END);
+	}
+
+	private boolean contains(JPanel panel, Component comp) {
+		for(Component comp2 : panel.getComponents()) {
+			if(comp2.getName().equals(comp.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private JPanel createUserJPanel(TwitterUser user, Stats stats) {
@@ -139,87 +152,21 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		JPanel infosPanel = new JPanel(new GridLayout(7, 0));
 		infosPanel.setOpaque(false);
 		infosPanel.add(new JLabel());
-		infosPanel.add(this.createInfoLabel(Storage.tra("follower") + user.getFollowersCount()));
-		infosPanel.add(this.createInfoLabel(Storage.tra("following") + user.getFollowingCount()));
-		infosPanel.add(this.createInfoLabel(Storage.tra("memberSince") + user.getAge() + Storage.tra("days")));
-		infosPanel.add(this.createInfoLabel(Storage.tra("tweetsAnalyzed") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted()));
-		infosPanel.add(this.createInfoLabel(user.getTweetsPerDay(stats)));
+		infosPanel.add(this.createLabel(Storage.tra("follower") + user.getFollowersCount()));
+		infosPanel.add(this.createLabel(Storage.tra("following") + user.getFollowingCount()));
+		infosPanel.add(this.createLabel(Storage.tra("memberSince") + user.getAge() + Storage.tra("days")));
+		infosPanel.add(this.createLabel(Storage.tra("tweetsAnalyzed") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted()));
+		infosPanel.add(this.createLabel(stats.get(NumbersEnum.TWEETS_PER_DAY).toString()));
 		descPanel.add(infosPanel, BorderLayout.EAST);
 
 		return descPanel;
 	}
 
-	private JLabel createInfoLabel(String infos) {
-		JLabel tweetsPerDay = new JLabel(infos, JLabel.RIGHT);
-		tweetsPerDay.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 18));
-		tweetsPerDay.setForeground(Color.WHITE);
-		return tweetsPerDay;
-	}
-
-	private JPanel createStatsJPanel(TwitterUser user, Stats stats) {
-		statsPanel = new JPanel();
-		statsPanel.setOpaque(false);
-
-		if(stats == stats1) {
-			statsPanel.add(new EditorPane(stats1, stats2, user1, user2));
-		} else {
-			statsPanel.add(new EditorPane(stats2, stats1, user2, user1));
-		}
-
-		if(OptionsPanel.isSelected(Statistics.TWEETS)   
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("tweetsStat"), Statistics.WORDS_PER_TWEET, Statistics.LETTERS_PER_TWEET, Statistics.LETTERS_PER_WORD)) 
-			ignored.add(Storage.tra("tweetsStat"));
-
-		if(OptionsPanel.isSelected(Statistics.TIMELINE) 
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("timelineStat"), Statistics.PURETWEETS_COUNT, Statistics.MENTIONS_COUNT, Statistics.RETWEET_BY_ME)) 
-			ignored.add(Storage.tra("timelineStat"));
-
-		if(OptionsPanel.isSelected(Statistics.REPUTE)   
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("reputeStat"), Statistics.FAVORITE, Statistics.RETWEET)) 
-			ignored.add(Storage.tra("reputeStat"));
-
-		if(OptionsPanel.isSelected(Statistics.SOURCE)   
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("sourceStat"), Statistics.SOURCE)) 
-			ignored.add(Storage.tra("sourceStat"));
-
-		if(OptionsPanel.isSelected(Statistics.DAYS)     
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("daysStat"), Statistics.DAYS))
-			ignored.add(Storage.tra("daysStat"));
-
-		if(OptionsPanel.isSelected(Statistics.HOURS)    
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("hoursStat"), Statistics.HOURS)) 
-			ignored.add(Storage.tra("hoursStat"));
-
-		if(OptionsPanel.isSelected(Statistics.WORDS)    
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("wordsStat"), Statistics.WORDS))
-			ignored.add(Storage.tra("wordsStat"));
-
-		if(OptionsPanel.isSelected(Statistics.HASHTAG)  
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("hashtagStat"), Statistics.HASHTAG))
-			ignored.add(Storage.tra("hashtagStat"));
-
-		if(OptionsPanel.isSelected(Statistics.POPULARE) 
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("popularStat"), Statistics.POPULARE)) 
-			ignored.add(Storage.tra("popularStat"));
-
-		if(OptionsPanel.isSelected(Statistics.LANG)     
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("languageStat"), Statistics.LANG))
-			ignored.add(Storage.tra("languageStat"));
-
-		if(OptionsPanel.isSelected(Statistics.MENTIONS_SENT) 
-				&& !EditorPane.get(statsPanel, stats, Storage.tra("mentionsSent"), Statistics.MENTIONS_SENT)) 
-			ignored.add(Storage.tra("mentionsSent"));
-
-		if(statsPanel.getComponents().length == 0) {
-			statsPanel.setLayout(new BorderLayout());
-			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
-			error.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 30));
-			statsPanel.add(error, JLabel.CENTER);
-		} else {
-			statsPanel.setLayout(new GridLayout(statsPanel.getComponents().length, 0, 15, 15));
-		}
-
-		return statsPanel;
+	private JLabel createLabel(String infos) {
+		JLabel label = new JLabel(infos, JLabel.RIGHT);
+		label.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 18));
+		label.setForeground(Color.WHITE);
+		return label;
 	}
 
 	@Override
@@ -227,9 +174,9 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		JButton bu = (JButton) e.getSource();
 
 		if(bu == back) {
-			Frame.setPanel(new ConnectionPanel(Storage.tra(Text.COMPARISON)));
+			Ressources.getFrame().setPanel(new ConnectionPanel(Text.COMPARISON));
 		} else if(bu == upload) {
-			Frame.upload("Comparison between @" + user1.getName() + " & @" + user2.getName());
+			new Share("Comparison between @" + user1.getName() + " & @" + user2.getName());
 		}
 	}
 }

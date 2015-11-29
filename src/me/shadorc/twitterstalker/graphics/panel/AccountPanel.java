@@ -19,39 +19,36 @@ import javax.swing.border.CompoundBorder;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
-import me.shadorc.twitterstalker.graphics.EditorPane;
-import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
-import me.shadorc.twitterstalker.graphics.TextField.Text;
+import me.shadorc.twitterstalker.graphics.SearchField.Text;
+import me.shadorc.twitterstalker.graphics.Share;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.TwitterUser;
-import me.shadorc.twitterstalker.storage.Data.Statistics;
+import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-public class StatisticsPanel extends JPanel implements ActionListener {
+public class AccountPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
 	private JButton back, upload;
-	private JPanel textPanel;
 	private TwitterUser user;
-	private Stats stats;
 	private boolean isArchive;
 
-	StatisticsPanel(String name, JButton button, List <Status> statusList) throws TwitterException {
+	protected AccountPanel(String name, JButton button, List <Status> statusList) throws TwitterException {
 		super(new BorderLayout());
 
 		user = new TwitterUser(name);
 
 		isArchive = (statusList != null);
 
-		stats = new Stats(user, button, statusList);
+		Stats stats = new Stats(user, button, statusList);
 
-		if(Stats.stop == true) return;
+		if(Ressources.stop) return;
 
 		button.setText(Storage.tra("interface"));
 
@@ -110,17 +107,17 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		userInfosStats.add(new JLabel());
 		userInfosStats.add(new JLabel());
 
-		JLabel tweets = new JLabel(Storage.tra("tweetsAnalyzed") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted());
+		JLabel tweets = new JLabel(Storage.tra("tweetsAnalyzed") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted(), JLabel.CENTER);
 		tweets.setForeground(Color.WHITE);
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
 
-		JLabel tweetsDays = new JLabel(user.getTweetsPerDay(stats));
+		JLabel tweetsDays = new JLabel(stats.get(NumbersEnum.TWEETS_PER_DAY).toString(), JLabel.CENTER);
 		tweetsDays.setForeground(Color.WHITE);
 		tweetsDays.setFont(font);
 		userInfosStats.add(tweetsDays);
 
-		JLabel age = new JLabel(Storage.tra("joined") + user.getCreatedAt() + " (" + user.getAge() + Storage.tra("days") + ")");
+		JLabel age = new JLabel(Storage.tra("joined") + user.getCreatedAt() + " (" + user.getAge() + Storage.tra("days") + ")", JLabel.CENTER);
 		age.setForeground(Color.WHITE);
 		age.setFont(font);
 		userInfosStats.add(age);
@@ -129,53 +126,38 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 
 		this.add(top, BorderLayout.PAGE_START);
 
-		textPanel = new JPanel();
-		textPanel.setOpaque(false);
+		JPanel statsPanel = new StatsPanel(stats, isArchive);
 
-		JScrollPane jsp = new JScrollPane(textPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		jsp.getVerticalScrollBar().setUnitIncrement(16);
-		jsp.getViewport().setOpaque(false);
-		jsp.setOpaque(false);
-		jsp.setBorder(null);
-		jsp.getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
-		jsp.getHorizontalScrollBar().setUI(new ScrollbarUI(Position.HORIZONTAL));
+		JScrollPane scrollPane = new JScrollPane(statsPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		scrollPane.getViewport().setOpaque(false);
+		scrollPane.setOpaque(false);
+		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
+		scrollPane.getHorizontalScrollBar().setUI(new ScrollbarUI(Position.HORIZONTAL));
 
-		if(OptionsPanel.isSelected(Statistics.TWEETS))					EditorPane.get(textPanel, stats, Storage.tra("tweetsStat"), Statistics.WORDS_PER_TWEET, Statistics.LETTERS_PER_TWEET, Statistics.LETTERS_PER_WORD);
-		if(OptionsPanel.isSelected(Statistics.TIMELINE))					EditorPane.get(textPanel, stats, Storage.tra("timelineStat"), Statistics.PURETWEETS_COUNT, Statistics.MENTIONS_COUNT, Statistics.RETWEET_BY_ME);
-		if(OptionsPanel.isSelected(Statistics.REPUTE) && !isArchive)		EditorPane.get(textPanel, stats, Storage.tra("reputeStat"), Statistics.FAVORITE, Statistics.RETWEET);
-		if(OptionsPanel.isSelected(Statistics.SOURCE))					EditorPane.get(textPanel, stats, Storage.tra("sourceStat"), Statistics.SOURCE);
-		if(OptionsPanel.isSelected(Statistics.DAYS))						EditorPane.get(textPanel, stats, Storage.tra("daysStat"), Statistics.DAYS);
-		if(OptionsPanel.isSelected(Statistics.HOURS))						EditorPane.get(textPanel, stats, Storage.tra("hoursStat"), Statistics.HOURS);
-		if(OptionsPanel.isSelected(Statistics.WORDS))						EditorPane.get(textPanel, stats, Storage.tra("wordsStat"), Statistics.WORDS);
-		if(OptionsPanel.isSelected(Statistics.HASHTAG))					EditorPane.get(textPanel, stats, Storage.tra("hashtagStat"), Statistics.HASHTAG);
-		if(OptionsPanel.isSelected(Statistics.POPULARE) && !isArchive)	EditorPane.get(textPanel, stats, Storage.tra("popularStat"), Statistics.POPULARE);
-		if(OptionsPanel.isSelected(Statistics.LANG) && !isArchive)		EditorPane.get(textPanel, stats, Storage.tra("languageStat"), Statistics.LANG);
-		if(OptionsPanel.isSelected(Statistics.MENTIONS_SENT))				EditorPane.get(textPanel, stats, Storage.tra("mentionsSent"), Statistics.MENTIONS_SENT);
-		if(OptionsPanel.isSelected(Statistics.MENTIONS_RECEIVED))			EditorPane.get(textPanel, stats, Storage.tra("mentionsReceived"), Statistics.MENTIONS_RECEIVED);
-		if(isArchive) 												EditorPane.get(textPanel, stats, Storage.tra("oldMentionsStats") + " (<a href=search>" + Storage.tra("search") + "</a>)", Statistics.FIRST_TALK);
-
-		if(textPanel.getComponents().length == 0) {
-			textPanel.setLayout(new BorderLayout());
+		if(statsPanel.getComponentCount() == 0) {
+			statsPanel.setLayout(new BorderLayout());
 			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
 			error.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 30));
-			textPanel.add(error, JLabel.CENTER);
+			statsPanel.add(error, BorderLayout.CENTER);
 		} else {
-			textPanel.setLayout(new GridLayout((int) Math.ceil(textPanel.getComponents().length/3.0), 3, 15, 15));
+			statsPanel.setLayout(new GridLayout((int) Math.ceil(statsPanel.getComponents().length/3.0), 3, 15, 15));
 		}
 
-		this.add(jsp, BorderLayout.CENTER);
+		this.add(scrollPane, BorderLayout.CENTER);
 
 		JPanel buttonsPanel = new JPanel(new GridLayout(0, 14));
 		buttonsPanel.setOpaque(false);
 
-		back = new Button(ButtonType.BACK, new int[] {10, 0, 10, 20}, Size.MEDIUM, this);
+		back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {10, 0, 10, 20}, this);
 		buttonsPanel.add(back);
 
 		for(int i = 0; i < 12; i++) {
 			buttonsPanel.add(new JLabel());
 		}
 
-		upload = new Button(ButtonType.UPLOAD, new int[] {10, 20, 10, 0}, Size.MEDIUM, this);
+		upload = new Button(ButtonType.UPLOAD, Size.MEDIUM, new int[] {10, 20, 10, 0}, this);
 		upload.setToolTipText(Storage.tra("shareStat"));
 		buttonsPanel.add(upload);
 
@@ -187,9 +169,9 @@ public class StatisticsPanel extends JPanel implements ActionListener {
 		JButton bu = (JButton) e.getSource();
 
 		if(bu == back) {
-			Frame.setPanel(isArchive ? new MenuPanel() : new ConnectionPanel(Storage.tra(Text.USERNAME)));
+			Ressources.getFrame().setPanel(isArchive ? new MenuPanel() : new ConnectionPanel(Text.ACCOUNT));
 		} else if(bu == upload) {
-			Frame.upload("@" + user.getName() + "'s stats");
+			new Share("@" + user.getName() + "'s stats");
 		}
 	}
 }

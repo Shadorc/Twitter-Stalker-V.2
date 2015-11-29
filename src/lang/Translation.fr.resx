@@ -26,7 +26,7 @@
   <data name="urlError" xml:space="preserve">
     <value>Erreur lors de l'ouverture, l'URL a été copiée dans le presse-papier.</value>
   </data>
-  <data name="archiveError" xml:space="preserve">
+  <data name="ARCHIVE_ERROR" xml:space="preserve">
     <value>Erreur lors du chargement de l'archive</value>
   </data>
   <data name="error" xml:space="preserve">
@@ -35,38 +35,35 @@
   <data name="saveError" xml:space="preserve">
     <value>Erreur lors de la sauvegarde des données. Essayez de lancer Twitter Stalker en tant qu'administrateur pour corriger le problème.</value>
   </data>
-  <data name="enterPin" xml:space="preserve">
+  <data name="PIN" xml:space="preserve">
     <value>Veuillez entrer le code PIN</value>
   </data>
-  <data name="enterComparison" xml:space="preserve">
+  <data name="COMPARISON" xml:space="preserve">
     <value>Veuillez entrer l'@ d'un compte à comparer</value>
   </data>
-  <data name="enterAccount" xml:space="preserve">
+  <data name="ACCOUNT" xml:space="preserve">
     <value>Veuillez entrer l'@ du compte à analyser</value>
   </data>
-  <data name="enterArchive" xml:space="preserve">
+  <data name="ARCHIVE" xml:space="preserve">
     <value>Veuillez sélectionner l'archive à analyser</value>
   </data>
-  <data name="invalidPin" xml:space="preserve">
+  <data name="INVALID_PIN" xml:space="preserve">
     <value>Merci d'entrer un code PIN valide</value>
   </data>
-  <data name="invalidUser" xml:space="preserve">
+  <data name="INVALID_USER" xml:space="preserve">
     <value>L'utilisateur n'existe pas</value>
   </data>
-  <data name="invalidArchive" xml:space="preserve">
+  <data name="INVALID_ARCHIVE" xml:space="preserve">
     <value>Merci de choisir une archive valide</value>
   </data>
-  <data name="apiLimit" xml:space="preserve">
+  <data name="API_LIMIT" xml:space="preserve">
     <value>Limite de l'API atteinte : </value>
   </data>
-  <data name="userNeverTweet" xml:space="preserve">
+  <data name="NO_TWEET" xml:space="preserve">
     <value>L'utilisateur n'a jamais tweeté</value>
   </data>
-  <data name="privateAccount" xml:space="preserve">
+  <data name="PRIVATE" xml:space="preserve">
     <value>Le compte est privé</value>
-  </data>
-  <data name="unexpectedError" xml:space="preserve">
-    <value>Erreur inattendue : </value>
   </data>
   <data name="paste" xml:space="preserve">
     <value>Coller</value>
@@ -84,7 +81,7 @@
     <value>Tweeter</value>
   </data>
   <data name="loading" xml:space="preserve">
-    <value>Chargement...</value>
+    <value>Chargement</value>
   </data>
   <data name="finished" xml:space="preserve">
     <value>Terminé</value>
@@ -113,34 +110,34 @@
   <data name="tweetsAnalyzed" xml:space="preserve">
     <value>Tweets analysés : </value>
   </data>
-  <data name="tweetsStat" xml:space="preserve">
+  <data name="TWEETS" xml:space="preserve">
     <value>Tweets</value>
   </data>
-  <data name="timelineStat" xml:space="preserve">
+  <data name="TIMELINE" xml:space="preserve">
     <value>Timeline</value>
   </data>
-  <data name="reputeStat" xml:space="preserve">
+  <data name="REPUTE" xml:space="preserve">
     <value>Renommée</value>
   </data>
-  <data name="sourceStat" xml:space="preserve">
+  <data name="SOURCE" xml:space="preserve">
     <value>Sources</value>
   </data>
-  <data name="daysStat" xml:space="preserve">
+  <data name="DAYS" xml:space="preserve">
     <value>Jours</value>
   </data>
-  <data name="wordsStat" xml:space="preserve">
+  <data name="WORDS" xml:space="preserve">
     <value>Mots</value>
   </data>
-  <data name="hoursStat" xml:space="preserve">
+  <data name="HOURS" xml:space="preserve">
     <value>Heures</value>
   </data>
-  <data name="hashtagStat" xml:space="preserve">
+  <data name="HASHTAG" xml:space="preserve">
     <value>Hashtags</value>
   </data>
-  <data name="popularStat" xml:space="preserve">
+  <data name="POPULAR" xml:space="preserve">
     <value>Populaires</value>
   </data>
-  <data name="languageStat" xml:space="preserve">
+  <data name="LANG" xml:space="preserve">
     <value>Langues</value>
   </data>
   <data name="url" xml:space="preserve">
@@ -149,10 +146,10 @@
   <data name="medias" xml:space="preserve">
     <value>Médias</value>
   </data>
-  <data name="mentionsSent" xml:space="preserve">
+  <data name="MENTIONS_SENT" xml:space="preserve">
     <value>Mentions envoyées</value>
   </data>
-  <data name="mentionsReceived" xml:space="preserve">
+  <data name="MENTIONS_RECEIVED" xml:space="preserve">
     <value>Mentions reçues</value>
   </data>
   <data name="unlockIn" xml:space="preserve">
@@ -173,16 +170,16 @@
   <data name="archive" xml:space="preserve">
     <value>Archive</value>
   </data>
-  <data name="minWordLenght" xml:space="preserve">
+  <data name="LETTERS_PER_WORD_MIN" xml:space="preserve">
     <value>Taille min. des mots à analyser : </value>
   </data>
-  <data name="mentionsNumber" xml:space="preserve">
+  <data name="MENTIONS_TO_ANALYZE" xml:space="preserve">
     <value>Mentions à analyser : </value>
   </data>
-  <data name="tweetsNumber" xml:space="preserve">
+  <data name="TWEETS_TO_ANALYZE" xml:space="preserve">
     <value>Tweets à analyser : </value>
   </data>
-  <data name="listLenght" xml:space="preserve">
+  <data name="LIST_LENGHT" xml:space="preserve">
     <value>Taille des listes : </value>
   </data>
   <data name="statsToShow" xml:space="preserve">
@@ -203,31 +200,31 @@
   <data name="nonExistentUser" xml:space="preserve">
     <value>Utilisateur inexistant</value>
   </data>
-  <data name="tweetsPerDay" xml:space="preserve">
+  <data name="TWEETS_PER_DAY" xml:space="preserve">
     <value>tweets par jour</value>
   </data>
-  <data name="wordsPerTweet" xml:space="preserve">
+  <data name="WORDS_PER_TWEET" xml:space="preserve">
     <value>mots par tweet</value>
   </data>
-  <data name="lettersPerTweet" xml:space="preserve">
+  <data name="LETTERS_PER_TWEET" xml:space="preserve">
     <value>lettres par tweet</value>
   </data>
-  <data name="lettersPerWord" xml:space="preserve">
+  <data name="LETTERS_PER_WORD" xml:space="preserve">
     <value>lettres par mot</value>
   </data>
-  <data name="puretweet" xml:space="preserve">
+  <data name="PURETWEETS_COUNT" xml:space="preserve">
     <value>Puretweets</value>
   </data>
-  <data name="mentions" xml:space="preserve">
+  <data name="MENTIONS_COUNT" xml:space="preserve">
     <value>Mentions</value>
   </data>
-  <data name="retweets" xml:space="preserve">
+  <data name="RETWEET_BY_ME" xml:space="preserve">
     <value>Retweets</value>
   </data>
-  <data name="retweeted" xml:space="preserve">
+  <data name="RETWEET" xml:space="preserve">
     <value>Retweetés</value>
   </data>
-  <data name="favored" xml:space="preserve">
+  <data name="FAVORITE" xml:space="preserve">
     <value>Favorisés</value>
   </data>
   <data name="rt" xml:space="preserve">
@@ -236,7 +233,7 @@
   <data name="fav" xml:space="preserve">
     <value> FAV</value>
   </data>
-  <data name="progLanguage" xml:space="preserve">
+  <data name="INTERFACE_LANG" xml:space="preserve">
     <value>Langue du programme : </value>
   </data>
   <data name="updateAvailable" xml:space="preserve">
@@ -281,8 +278,8 @@
   <data name="onlyTwitterWeb" xml:space="preserve">
     <value>ne sait pas qu'il existe autre chose que Twitter Web</value>
   </data>
-  <data name="oldMentionsStats" xml:space="preserve">
-    <value>Première mention</value>
+  <data name="FIRST_TALK" xml:space="preserve">
+    <value>Première mention (<![CDATA[<a href=search>Chercher</a>)]]></value>
   </data>
   <data name="loadingTweet" xml:space="preserve">
     <value>Chargement des tweets...</value>
@@ -305,7 +302,7 @@
   <data name="reset" xml:space="preserve">
     <value>Réinitialiser</value>
   </data>
-  <data name="showNumber" xml:space="preserve">
+  <data name="SHOW_NUMBER" xml:space="preserve">
     <value>Afficher plus de détails (nombre)</value>
   </data>
   <data name="archiveHelp" xml:space="preserve">
@@ -320,5 +317,32 @@
     <br><b>Comment obtenir son Archive ?</b>
     <br>Rendez-vous sur <a href="https://twitter.com/settings/account">cette page</a>. En bas de la page, cliquez sur 'Demander votre archive', vous la recevrez plus tard par mail.
     <br>Il ne vous restera plus qu'à l'extraire !</html>]]></value>
+  </data>
+  <data name="loadingMentions" xml:space="preserve">
+    <value>Mentions</value>
+  </data>
+  <data name="extractFiles" xml:space="preserve">
+    <value>Extraction des fichiers...</value>
+  </data>
+  <data name="copyData" xml:space="preserve">
+    <value>Copie des données...</value>
+  </data>
+  <data name="folderExists" xml:space="preserve">
+    <value>Un dossier avec le même nom existe déjà : </value>
+  </data>
+  <data name="downloadingVersion" xml:space="preserve">
+    <value>Téléchargement de la nouvelle version</value>
+  </data>
+  <data name="openingVersion" xml:space="preserve">
+    <value>Ouverture de la nouvelle version...</value>
+  </data>
+  <data name="updateError" xml:space="preserve">
+    <value>Une erreur est survenue lors de la mise à jour : </value>
+  </data>
+  <data name="updataDeletingError" xml:space="preserve">
+    <value>L'ancienne version n'a pas pu être supprimée : </value>
+  </data>
+  <data name="SUMMARY" xml:space="preserve">
+    <value>Résumé</value>
   </data>
 </root>

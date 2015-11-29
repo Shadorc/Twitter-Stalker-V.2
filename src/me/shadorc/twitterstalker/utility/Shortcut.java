@@ -1,4 +1,4 @@
-package me.shadorc.twitterstalker.initialization;
+package me.shadorc.twitterstalker.utility;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,12 +7,11 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
-import me.shadorc.twitterstalker.graphics.Ressources;
+import org.apache.commons.io.FileUtils;
+
 import me.shadorc.twitterstalker.storage.Data.Installation;
 import me.shadorc.twitterstalker.storage.Storage;
 import net.jimmc.jshortcut.JShellLink;
-
-import org.apache.commons.io.FileUtils;
 
 public class Shortcut {
 
@@ -56,6 +55,7 @@ public class Shortcut {
 				}
 			}
 		} catch(URISyntaxException | IOException e) {
+			System.err.println("Shortcut hasn't been created : " + e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -1,4 +1,4 @@
-package me.shadorc.twitterstalker.statistics;
+package me.shadorc.twitterstalker.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,8 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -25,27 +24,35 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.DefaultEditorKit;
 
 import me.shadorc.infonet.Infonet;
-import me.shadorc.twitterstalker.graphics.Ressources;
-import me.shadorc.twitterstalker.graphics.TextField.Text;
+import me.shadorc.twitterstalker.Main;
+import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Data.Statistics;
+import me.shadorc.twitterstalker.statistics.Stats;
+import me.shadorc.twitterstalker.statistics.UserStats;
+import me.shadorc.twitterstalker.storage.Data.Options;
+import me.shadorc.twitterstalker.storage.Data.UsersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.MediaEntity;
 import twitter4j.MediaEntity.Size;
 import twitter4j.Status;
+import twitter4j.TwitterException;
+import twitter4j.UserMentionEntity;
 
 public class TweetPreview implements HyperlinkListener {
 
 	private JPopupMenu menu;
 	private JEditorPane editorPane;
+	private JFrame frame;
 	private Stats stats;
-	private Statistics data;
+	private JButton ok, reset;
 
-	public TweetPreview(JEditorPane editorPane, Stats stats, Statistics data) {
+	public TweetPreview(JEditorPane editorPane, Stats stats) {
 		this.editorPane = editorPane;
 		this.stats = stats;
-		this.data = data;
 		this.menu = new JPopupMenu();
+
+		editorPane.requestFocusInWindow();
 
 		menu.setBackground(new Color(79, 182, 246));
 		menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -63,7 +70,12 @@ public class TweetPreview implements HyperlinkListener {
 	public void hyperlinkUpdate(HyperlinkEvent he) {
 		if(he.getEventType() == EventType.ACTIVATED) {
 			if(he.getDescription().equals("search")) {
-				this.openSearchFrame(editorPane, stats);
+				if(frame == null) {
+					this.showSearchFrame(stats);
+				} else {
+					frame.setVisible(true);
+					frame.toFront();
+				}
 			} else {
 				Infonet.open(he.getURL().toString(), true);
 			}
@@ -73,36 +85,38 @@ public class TweetPreview implements HyperlinkListener {
 			menu.removeAll();
 
 		} else if(he.getEventType() == EventType.ENTERED) {
-			if(!he.getDescription().equals("search")) {
-				for(WordInfo wi : stats.get(data)) {
-					Status status = wi.getStatus();
-					if(wi.getStatusUrl().equals(he.getURL().toString())) {
-						String tweet = "<html><center><font color='white' size=4>&emsp;" + status.getText().replaceAll("\n", "&emsp;<br>&emsp;") + "&emsp;";
+			if(he.getDescription().equals("search")) return;
 
-						if(status.getMediaEntities().length != 0) {
-							MediaEntity img = status.getMediaEntities()[0];
-							Size size = img.getSizes().get(Size.SMALL);
-							tweet += "<br>&emsp;<img src=" + img.getMediaURLHttps() + " width=" + size.getWidth() + " height=" + size.getHeight() + " border=1 align=middle>&emsp;";
-						}
+			try {
+				String url = he.getURL().toString();
+				//Get Status' ID
+				Status status = Main.getTwitter().showStatus(Long.parseLong(url.substring(url.lastIndexOf("/")+1)));
 
-						menu.add(new JLabel(tweet));
+				String tweet = "<html><center><font color='white' size=4>&emsp;" + status.getText().replaceAll("\n", "&emsp;<br>&emsp;") + "&emsp;";
 
-						DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
-						menu.add(new JLabel("<html><b><i>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
-
-						Point mouse = MouseInfo.getPointerInfo().getLocation();
-						menu.show(null, (int) mouse.getX() + 50, (int) ((int) mouse.getY() - menu.getPreferredSize().getHeight() - 20));
-						break;
-					}
+				for(MediaEntity media : status.getMediaEntities()) {
+					Size size = media.getSizes().get(Size.SMALL);
+					tweet += "<br>&emsp;<img src=" + media.getMediaURLHttps() + " width=" + size.getWidth() + " height=" + size.getHeight() + " border=1 align=middle>&emsp;";
 				}
-			}
+
+				menu.add(new JLabel(tweet));
+
+				DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
+				menu.add(new JLabel("<html><b><i>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
+
+				Point mouse = MouseInfo.getPointerInfo().getLocation();
+				menu.show(null, (int) mouse.getX() + 50, (int) ((int) mouse.getY() - menu.getPreferredSize().getHeight() - 20));
+
+			} catch (NumberFormatException | TwitterException ignore) {	}
 		}
 	}
 
-	private void openSearchFrame(final JEditorPane editorPane, final Stats stats) {
+	private void showSearchFrame(Stats stats) {
 		Font font = Ressources.getFont("RobotoCondensed-LightItalic.ttf", 20);
 
-		final JFrame frame = new JFrame(Storage.tra("search"));
+		UIManager.put("Button.disabledText", Color.LIGHT_GRAY);
+
+		frame = new JFrame(Storage.tra("search"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel pane = new JPanel(new GridLayout(2, 0));
@@ -115,32 +129,32 @@ public class TweetPreview implements HyperlinkListener {
 		info.setFont(font);
 		top.add(info, BorderLayout.CENTER);
 
-		JButton reset = new JButton(Storage.tra("reset"));
+		reset = new JButton(Storage.tra("reset"));
+		reset.setEnabled(false);
 		reset.setFocusable(false);
 		reset.setBackground(Color.WHITE);
 		reset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
+				reset.setEnabled(false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						List<UserStats> list = stats.get(UsersEnum.FIRST_TALK);
 
-				if(stats.get(Statistics.FIRST_TALK).isEmpty()) {
-					System.out.println(Statistics.FIRST_TALK + " ignored.");
-					return;
-				}
+						if(list.isEmpty()) return;
 
-				String text = "<font color=#212121>" + Storage.tra("oldMentionsStats") + " (<a href=search>" + Storage.tra("search") + "</a>)" + "<font color=#727272><style=\"font-size:23\";>";
-				for(int i = 0; i < OptionsPanel.getMaxListLenght(); i++) {
+						String text = "<font color=#212121>" + Storage.tra(UsersEnum.FIRST_TALK) + "<font color=#727272><style=\"font-size:23\";>";
+						for(int i = 0; i < OptionsPanel.get(Options.LIST_LENGHT); i++) {
+							text += "<br>";
+							if(i < list.size()) {
+								text += "&nbsp;&nbsp;- " + list.get(i).toString();
+							}
+						}
 
-					if(stats.get(Statistics.FIRST_TALK).size() <= i) {
-						text += "<br>";
-						continue;
+						editorPane.setText(text);
 					}
-
-					text += "<br>&nbsp;&nbsp;";
-					ArrayList <WordInfo> copy = new ArrayList <WordInfo> (stats.get(Statistics.FIRST_TALK));
-					Collections.reverse(copy);
-					text += "- " + copy.get(i).getFirstTalkInfo();
-				}
-				editorPane.setText(text);
+				}).start();
 			}
 		});
 		top.add(reset, BorderLayout.EAST);
@@ -150,7 +164,7 @@ public class TweetPreview implements HyperlinkListener {
 		JPanel bottom = new JPanel(new BorderLayout());
 		bottom.setOpaque(false);
 
-		final JFormattedTextField userInput = new JFormattedTextField();
+		JFormattedTextField userInput = new JFormattedTextField();
 		userInput.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -182,7 +196,7 @@ public class TweetPreview implements HyperlinkListener {
 		});
 		bottom.add(userInput, BorderLayout.CENTER);
 
-		JButton ok = new JButton(Storage.tra("ok"));
+		ok = new JButton(Storage.tra("ok"));
 		ok.setFocusable(false);
 		ok.setBackground(Color.WHITE);
 		ok.setPreferredSize(reset.getPreferredSize());
@@ -206,16 +220,38 @@ public class TweetPreview implements HyperlinkListener {
 	}
 
 	private void search(JFormattedTextField userInput, JFrame frame) {
-		for(WordInfo user : stats.get(Statistics.FIRST_TALK)) {
-			if(user.getWord().equalsIgnoreCase(userInput.getText().replaceAll("@", ""))) {
-				String text = editorPane.getText();
-				editorPane.setText(text.substring(0, text.indexOf(")")+1) + "<br>&nbsp;&nbsp;- " + user.getFirstTalkInfo());
-				frame.dispose();
-				return;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				ok.setText(Storage.tra("loading"));
+				ok.setEnabled(false);
+				try {
+					UserStats user = find(userInput.getText().replaceAll("@", ""));
+					String text = "<font color=#212121>" + Storage.tra(UsersEnum.FIRST_TALK) + "<font color=#727272><style=\"font-size:23\";>";
+					editorPane.setText(text + "<br>&nbsp;&nbsp;- " + user);
+					frame.setVisible(false);
+					reset.setEnabled(true);
+					userInput.setText("");
+				} catch (TwitterException e) {
+					userInput.setForeground(Color.RED);
+					userInput.setText(Storage.tra(Text.INVALID_USER));
+					userInput.getParent().requestFocusInWindow();
+				}
+				ok.setEnabled(true);
+				ok.setText(Storage.tra("ok"));
+			}
+		}).start();
+	}
+
+	private UserStats find(String name) throws TwitterException {
+		List <UserStats> list = stats.get(UsersEnum.FIRST_TALK);
+		for(int i = 0; i < list.size(); i++) {
+			for(UserMentionEntity mention : list.get(i).getStatus().getUserMentionEntities()) {
+				if(mention.getScreenName().equals(name)) {
+					return new UserStats(mention.getId(), list.get(i).getStatus());
+				}
 			}
 		}
-		userInput.setForeground(Color.RED);
-		userInput.setText(Storage.tra(Text.INVALID_USER));
-		userInput.getParent().requestFocusInWindow();
+		throw new TwitterException(name);
 	}
 }

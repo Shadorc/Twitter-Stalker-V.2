@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 
@@ -25,33 +26,71 @@ import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
 import me.shadorc.twitterstalker.graphics.CheckBoxOption;
-import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.Ressources;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI;
 import me.shadorc.twitterstalker.graphics.ScrollbarUI.Position;
+import me.shadorc.twitterstalker.storage.Data.Category;
 import me.shadorc.twitterstalker.storage.Data.Options;
-import me.shadorc.twitterstalker.storage.Data.Statistics;
+import me.shadorc.twitterstalker.storage.Data.UsersEnum;
+import me.shadorc.twitterstalker.storage.Data.WordsEnum;
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 
-public class OptionsPanel extends JPanel implements ActionListener, ItemListener {
+public class OptionsPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private static LinkedHashMap <Enum<?>, JCheckBox> checkBoxMap = new LinkedHashMap <Enum<?>, JCheckBox> ();
-	private static JComboBox <String> list_lenght, letters_word, tweets_number, mentions_number, languages;
+	private static LinkedHashMap <Enum<?>, JCheckBox> checkBoxMap;
+	private static HashMap <Options, JComboBox <String>> comboBox;
+
 	private JButton back;
 
-	public OptionsPanel() {
+	public static void init() {
+		comboBox = new HashMap<>();
+		comboBox.put(Options.LIST_LENGHT, createComboBox(Options.LIST_LENGHT, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "3"));
+		comboBox.put(Options.LETTERS_PER_WORD_MIN, createComboBox(Options.LETTERS_PER_WORD_MIN, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "1"));
+		comboBox.put(Options.TWEETS_TO_ANALYZE, createComboBox(Options.TWEETS_TO_ANALYZE, new String[] {"200","400","600","800","1000","1200","1400","1600","1800","2000","2200","2400","2600","2800","3000"}, "3000"));
+		comboBox.put(Options.MENTIONS_TO_ANALYZE, createComboBox(Options.MENTIONS_TO_ANALYZE, new String[] {"200","400","600"}, "600"));
+		comboBox.put(Options.INTERFACE_LANG, createComboBox(Options.INTERFACE_LANG, new String[] {"French","English"}, Locale.getDefault().getDisplayLanguage(Locale.ENGLISH)));
+
+		checkBoxMap = new LinkedHashMap <Enum<?>, JCheckBox> ();
+		for(Object enumsArray : new Object[] {Category.values(), WordsEnum.values(), UsersEnum.values()}) {
+			for(Enum<?> stat : (Enum<?>[]) enumsArray) {
+				checkBoxMap.put(stat, new CheckBoxOption(stat));
+			}
+		}
+	}
+
+	private static JComboBox <String> createComboBox(Enum<?> data, String[] list, String def) {
+		JComboBox <String> jcb = new JComboBox <String> (list);
+		jcb.setName(data.toString());
+		jcb.setFocusable(false);
+		jcb.setBackground(new Color(179, 229, 252));
+		((JScrollPane) ((Container) jcb.getUI().getAccessibleChild(jcb, 0)).getComponent(0)).getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
+		String obj = Storage.getData(data);
+		jcb.setSelectedItem((obj != null) ? obj : def);
+
+		jcb.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent event) {
+				if(event.getStateChange() == ItemEvent.SELECTED) {
+					JComboBox <?> jcb = (JComboBox <?>) event.getSource();
+					Storage.saveData(jcb.getName(), jcb.getSelectedItem());
+					//Update Frame if language is changed
+					if(jcb.getName().equals(Options.INTERFACE_LANG.toString())) {
+						//Prevent weird IndexOutOfBound Exception
+						jcb.hidePopup();
+						OptionsPanel.init();
+						Ressources.getFrame().setPanel(new OptionsPanel());
+					}
+				}
+			}
+		});
+
+		return jcb;
+	}
+
+	protected OptionsPanel() {
 		super(new BorderLayout());
 		this.setBackground(new Color(2, 136, 209));
-
-		list_lenght = this.createComboBox(Options.LIST_LENGHT, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "3");
-		letters_word = this.createComboBox(Options.LETTERS_PER_WORD_MIN, new String[] {"1","2","3","4","5","6","7","8","9","10"}, "1");
-		//Limit : 3200 Tweets
-		tweets_number = this.createComboBox(Options.TWEETS_TO_ANALYZE, new String[] {"200","400","600","800","1000","1200","1400","1600","1800","2000","2200","2400","2600","2800","3000"}, "3000");
-		//Limit : 800 Mentions
-		mentions_number = this.createComboBox(Options.MENTIONS_TO_ANALYZE, new String[] {"200","400","600"}, "600");
-		languages = this.createComboBox(Options.INTERFACE_LANG, new String[] {"French","English"}, Locale.getDefault().getDisplayLanguage(Locale.ENGLISH));
 
 		JPanel top = new JPanel(new BorderLayout());
 		top.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(25, 0, 25, 0)));
@@ -67,25 +106,15 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setOpaque(false);
 
-		JPanel options = new JPanel(new GridLayout(6, 2));
+		JPanel options = new JPanel(new GridLayout(6, 1));
 		options.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
 		options.setOpaque(false);
 
-		options.add(this.createOption(Storage.tra("minWordLenght"), letters_word));
+		for(Options option : Options.values()) {
+			options.add(this.createOption(Storage.tra(option), comboBox.get(option)));
+		}
 
-		checkBoxMap.put(Options.SHOW_NUMBER, new CheckBoxOption(Storage.tra("showNumber"), Options.SHOW_NUMBER));
-		options.add(checkBoxMap.get(Options.SHOW_NUMBER));
-
-		options.add(this.createOption(Storage.tra("progLanguage"), languages));
-		options.add(new JLabel());
-		options.add(this.createOption(Storage.tra("mentionsNumber"), mentions_number));
-		options.add(new JLabel());
-		options.add(this.createOption(Storage.tra("tweetsNumber"), tweets_number));
-		options.add(new JLabel());
-		options.add(this.createOption(Storage.tra("listLenght"), list_lenght));
-		options.add(new JLabel());
 		options.add(this.createOption(Storage.tra("statsToShow"), null));
-		options.add(new JLabel());
 
 		centerPanel.add(options, BorderLayout.PAGE_START);
 
@@ -93,45 +122,19 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		checkBox.setBorder(BorderFactory.createEmptyBorder(0, 25, 25, 25));
 		checkBox.setOpaque(false);
 
-		checkBoxMap.put(Statistics.TWEETS, new CheckBoxOption(Storage.tra("tweetsStat"), Statistics.TWEETS));
-		checkBoxMap.put(Statistics.TIMELINE, new CheckBoxOption(Storage.tra("timelineStat"), Statistics.TIMELINE));
-		checkBoxMap.put(Statistics.REPUTE, new CheckBoxOption(Storage.tra("reputeStat"), Statistics.REPUTE));
-		checkBoxMap.put(Statistics.SOURCE, new CheckBoxOption(Storage.tra("sourceStat"), Statistics.SOURCE));
-		checkBoxMap.put(Statistics.DAYS, new CheckBoxOption(Storage.tra("daysStat"), Statistics.DAYS));
-		checkBoxMap.put(Statistics.HOURS, new CheckBoxOption(Storage.tra("hoursStat"), Statistics.HOURS));
-		checkBoxMap.put(Statistics.WORDS, new CheckBoxOption(Storage.tra("wordsStat"), Statistics.WORDS));
-		checkBoxMap.put(Statistics.HASHTAG, new CheckBoxOption(Storage.tra("hashtagStat"), Statistics.HASHTAG));
-		checkBoxMap.put(Statistics.POPULARE, new CheckBoxOption(Storage.tra("popularStat"), Statistics.POPULARE));
-		checkBoxMap.put(Statistics.LANG, new CheckBoxOption(Storage.tra("languageStat"), Statistics.LANG));
-		checkBoxMap.put(Statistics.MENTIONS_SENT, new CheckBoxOption(Storage.tra("mentionsSent"), Statistics.MENTIONS_SENT));
-		checkBoxMap.put(Statistics.MENTIONS_RECEIVED, new CheckBoxOption(Storage.tra("mentionsReceived"), Statistics.MENTIONS_RECEIVED));
-
-		for(Enum<?> data : checkBoxMap.keySet()) {
-			if(data != Options.SHOW_NUMBER) {
-				checkBox.add(checkBoxMap.get(data));
-			}
+		for(Enum <?> key : checkBoxMap.keySet()) {
+			checkBox.add(checkBoxMap.get(key));
 		}
 
 		centerPanel.add(checkBox, BorderLayout.CENTER);
 
 		this.add(centerPanel, BorderLayout.CENTER);
 
-		JPanel button = new JPanel(new BorderLayout());
-		button.setOpaque(false);
-		back = new Button(ButtonType.BACK, new int[] {0, 10, 10, 0}, Size.MEDIUM, this);
-		button.add(back, BorderLayout.WEST);
-		this.add(button, BorderLayout.PAGE_END);
-	}
-
-	private JComboBox <String> createComboBox(Enum<?> data, String[] list, String def) {
-		JComboBox <String> jcb = new JComboBox <String> (list);
-		jcb.addItemListener(this);
-		jcb.setFocusable(false);
-		((JScrollPane) ((Container) jcb.getUI().getAccessibleChild(jcb, 0)).getComponent(0)).getVerticalScrollBar().setUI(new ScrollbarUI(Position.VERTICAL));
-		jcb.setBackground(new Color(179, 229, 252));
-		String obj = Storage.getData(data);
-		jcb.setSelectedItem((obj != null) ? obj : def);
-		return jcb;
+		JPanel buttonPane = new JPanel(new BorderLayout());
+		buttonPane.setOpaque(false);
+		back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {0, 10, 10, 0}, this);
+		buttonPane.add(back, BorderLayout.WEST);
+		this.add(buttonPane, BorderLayout.PAGE_END);
 	}
 
 	private JPanel createOption(String desc, JComboBox <String> jcb) {
@@ -146,56 +149,26 @@ public class OptionsPanel extends JPanel implements ActionListener, ItemListener
 		return pane;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		Frame.setPanel(new MenuPanel());		
-	}
-
-	public static int getMaxListLenght() {
-		return Integer.parseInt(list_lenght.getSelectedItem().toString());
-	}
-
-	public static int getMaxTweetsNumber() {
-		return Integer.parseInt(tweets_number.getSelectedItem().toString());
-	}
-
-	public static int getMaxMentionsNumber() {
-		return Integer.parseInt(mentions_number.getSelectedItem().toString());
-	}
-
-	public static int getMinLettersWord() {
-		return Integer.parseInt(letters_word.getSelectedItem().toString());
-	}
-
-	public static Locale getLocaleLang() {
-		try {
-			return new Locale(Storage.getData(Options.INTERFACE_LANG).substring(0, 2));
-		} catch (NullPointerException e) {
-			//If language has never been configured, returned default computer's language
-			return new Locale(Locale.getDefault().getDisplayCountry(Locale.ENGLISH).substring(0, 2));
-		}
+	public static int get(Options option) {
+		return Integer.parseInt(comboBox.get(option).getSelectedItem().toString());
 	}
 
 	public static boolean isSelected(Enum<?> data) {
 		return checkBoxMap.get(data).isSelected();
 	}
 
-	@Override
-	public void itemStateChanged(ItemEvent event) {
-		if(event.getStateChange() == ItemEvent.SELECTED) {
-			JComboBox <?> jcb = (JComboBox <?>) event.getSource();
-			String data = event.getItem().toString();
-
-			if(jcb == list_lenght) 			Storage.saveData(Options.LIST_LENGHT, data);
-			else if(jcb == tweets_number) 	Storage.saveData(Options.TWEETS_TO_ANALYZE, data);
-			else if(jcb == mentions_number)	Storage.saveData(Options.MENTIONS_TO_ANALYZE, data);
-			else if(jcb == letters_word) 	Storage.saveData(Options.LETTERS_PER_WORD_MIN, data);
-			else if(jcb == languages) {
-				//Prevent weird IndexOutOfBound Exception
-				languages.hidePopup();
-				Storage.saveData(Options.INTERFACE_LANG, data);
-				Frame.setPanel(new OptionsPanel());
-			}
+	public static Locale getLocaleLang() {
+		String lang = Storage.getData(Options.INTERFACE_LANG);
+		if(lang == null) {
+			//If language has never been configured, returned default computer's language
+			return new Locale(Locale.getDefault().getDisplayCountry(Locale.ENGLISH).substring(0, 2));
+		} else {
+			return new Locale(lang.substring(0, 2));
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		Ressources.getFrame().setPanel(new MenuPanel());		
 	}
 }

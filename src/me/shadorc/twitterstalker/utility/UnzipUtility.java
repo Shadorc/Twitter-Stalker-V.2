@@ -1,4 +1,4 @@
-package me.shadorc.twitterstalker.initialization;
+package me.shadorc.twitterstalker.utility;
 
 import java.io.File;
 import java.io.FileOutputStream;

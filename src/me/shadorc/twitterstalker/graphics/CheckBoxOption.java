@@ -6,16 +6,17 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 
 import me.shadorc.twitterstalker.storage.Storage;
+import me.shadorc.twitterstalker.utility.Ressources;
 
 public class CheckBoxOption extends JCheckBox implements ItemListener {
 
 	private static final long serialVersionUID = 1L;
 	private Enum<?> data;
 
-	public CheckBoxOption(String name, Enum<?> data) {
+	public CheckBoxOption(Enum<?> data) {
 		//If user has never changed this option, set true by default
-		super(name, Storage.getData(data) == null ? true : Boolean.valueOf(Storage.getData(data)));
-
+		//Regex is isued to remove html tag in FIRST_MENTION String
+		super(Storage.tra(data).replaceAll("\\(.*?\\)", ""), (Storage.getData(data) == null) ? true : Boolean.valueOf(Storage.getData(data)));
 		this.data = data;
 
 		this.setOpaque(false);
@@ -26,6 +27,6 @@ public class CheckBoxOption extends JCheckBox implements ItemListener {
 
 	@Override
 	public void itemStateChanged(ItemEvent event) {
-		Storage.saveData(data, Boolean.toString(event.getStateChange() == ItemEvent.SELECTED));
+		Storage.saveData(data, (event.getStateChange() == ItemEvent.SELECTED));
 	}
 }

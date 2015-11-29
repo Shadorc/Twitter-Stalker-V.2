@@ -10,13 +10,12 @@ import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import twitter4j.JSONException;
 import twitter4j.JSONObject;
 
@@ -65,7 +64,7 @@ public class Storage {
 		return null;
 	}
 
-	public static void saveData(Enum<?> data, Object value) {
+	public static void saveData(Object data, Object value) {
 		FileWriter writer = null;
 		try {
 			String text = new String(Files.readAllBytes(Paths.get(saveFile.getPath())), StandardCharsets.UTF_8);
@@ -90,11 +89,8 @@ public class Storage {
 		}
 	}
 
-	public static String tra(String key) {
-		return tra(key, OptionsPanel.getLocaleLang().getLanguage().substring(0, 2).toLowerCase());
-	}
-
-	private static String tra(String key, String lang) {
+	public static String tra(Object key) {
+		String lang = OptionsPanel.getLocaleLang().getLanguage().substring(0, 2).toLowerCase();
 		try {
 			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(Storage.class.getResourceAsStream("/lang/Translation." + lang + ".resx"));
 			document.getDocumentElement().normalize();
@@ -103,14 +99,14 @@ public class Storage {
 			for (int i = 0; i < dataList.getLength(); i++) {
 				Node node = dataList.item(i);
 
-				if(node.getAttributes().getNamedItem("name").getTextContent().equals(key)) {
+				if(node.getAttributes().getNamedItem("name").getTextContent().equals(key.toString())) {
 					return ((Element) node).getElementsByTagName("value").item(0).getTextContent();
 				}
 			}
 		} catch (Exception ignore) { }
 
-		System.err.println("Translation not found, language : " + lang + ", key : " + key);
-		return (lang.equals("fr")) ? key : tra(key, "fr");
+		System.err.println("[WARNING] Translation not found [lang: " + lang + ", key: " + key + "]");
+		return key.toString();
 	}
 
 	public static File getSaveFile() {

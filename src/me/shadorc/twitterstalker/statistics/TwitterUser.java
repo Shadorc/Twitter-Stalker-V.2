@@ -10,10 +10,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import me.shadorc.twitterstalker.graphics.Frame;
-import me.shadorc.twitterstalker.graphics.TextField.Text;
+import me.shadorc.twitterstalker.Main;
+import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Data.Statistics;
+import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -24,25 +24,36 @@ public class TwitterUser {
 	private int tweetsAnalyzed;
 	private int mentionsAnalyzed;
 
-	public TwitterUser(String userName) throws TwitterException {
+	public TwitterUser(long id) throws TwitterException {
 		try {
-			this.user = Frame.getTwitter().showUser(userName);
+			this.user = Main.getTwitter().showUser(id);
 		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(userName), 604);
+			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(Long.toString(id)));
+		}
+	}
+
+	public TwitterUser(String name) throws TwitterException {
+		try {
+			this.user = Main.getTwitter().showUser(name);
+		} catch (TwitterException e) {
+			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(name));
 		}
 
-		if(this.getTweetsPosted() == 0) {
-			throw new TwitterException(Storage.tra(Text.NO_TWEET), new Exception(userName), 600);
+		if(user.getStatusesCount() == 0) {
+			throw new TwitterException(Storage.tra(Text.NO_TWEET), new Exception(this.getName()));
 		}
 
-		if(this.isPrivate() && !this.getName().equals(Frame.getTwitter().getScreenName())) {
-			throw new TwitterException(Storage.tra(Text.PRIVATE), new Exception(userName), 401);
+		//Test if user's timeline is available
+		try {
+			Main.getTwitter().getUserTimeline(user.getId());
+		} catch(TwitterException e) {
+			throw new TwitterException(Storage.tra(Text.PRIVATE), new Exception(this.getName()));
 		}
 	}
 
 	public double getTwitterMoney(Stats stats) {
-		double money = stats.getUnique(Statistics.TWEETS_PER_DAY).getRatio(); //Get tweets per day
-		money *= (double) this.getFollowersCount(); 					//Potential views on tweet per day
+		double money = stats.get(NumbersEnum.TWEETS_PER_DAY).getNum();	//Get tweets per day
+		money *= (double) this.getFollowersCount();						//Potential views on tweet per day
 		money = (double) ((money * 25) / 100);							//Estimated views per day
 		money *= 9.12;													//9.12 = Twitter Value / Tweets per day on Twitter (centimes)
 		money /= 100;													//Euro conversion
@@ -54,11 +65,11 @@ public class TwitterUser {
 	}
 
 	public void incremenAnalyzedTweets() {
-		tweetsAnalyzed++;
+		this.tweetsAnalyzed++;
 	}
 
 	public void incremenAnalyzedMentions() {
-		mentionsAnalyzed++;
+		this.mentionsAnalyzed++;
 	}
 
 	public String getName() {
@@ -71,10 +82,6 @@ public class TwitterUser {
 
 	public String getCreatedAt() {
 		return DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(user.getCreatedAt());
-	}
-
-	public String getTweetsPerDay(Stats stats) {
-		return stats.getUnique(Statistics.TWEETS_PER_DAY).getWord() + stats.getUnique(Statistics.TWEETS_PER_DAY).getRatio();
 	}
 
 	public int getTweetsAnalyzed() {
@@ -113,5 +120,9 @@ public class TwitterUser {
 		}
 
 		return new UserImage(image);
+	}
+
+	public long getId() {
+		return user.getId();
 	}
 }
