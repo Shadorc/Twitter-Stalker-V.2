@@ -87,27 +87,41 @@ public class TweetPreview implements HyperlinkListener {
 		} else if(he.getEventType() == EventType.ENTERED) {
 			if(he.getDescription().equals("search")) return;
 
-			try {
-				String url = he.getURL().toString();
-				//Get Status' ID
-				Status status = Main.getTwitter().showStatus(Long.parseLong(url.substring(url.lastIndexOf("/")+1)));
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Point mouse = MouseInfo.getPointerInfo().getLocation();
 
-				String tweet = "<html><center><font color='white' size=4>&emsp;" + status.getText().replaceAll("\n", "&emsp;<br>&emsp;") + "&emsp;";
+						menu.add(new JLabel("<html>&emsp;" + Storage.tra("loading") + "...&emsp;</html>"));
+						menu.show(null, (int) (mouse.getX() + 50), (int) (mouse.getY() - menu.getPreferredSize().getHeight() - 20));
 
-				for(MediaEntity media : status.getMediaEntities()) {
-					Size size = media.getSizes().get(Size.SMALL);
-					tweet += "<br>&emsp;<img src=" + media.getMediaURLHttps() + " width=" + size.getWidth() + " height=" + size.getHeight() + " border=1 align=middle>&emsp;";
+						String url = he.getURL().toString();
+						//Get Status' ID
+						Status status = Main.getTwitter().showStatus(Long.parseLong(url.substring(url.lastIndexOf("/")+1)));
+
+						String tweet = "<html><center><font color='white' size=4>&emsp;" + status.getText().replaceAll("\n", "&emsp;<br>&emsp;") + "&emsp;";
+
+						for(MediaEntity media : status.getMediaEntities()) {
+							Size size = media.getSizes().get(Size.SMALL);
+							tweet += "<br>&emsp;<img src=" + media.getMediaURLHttps() + " width=" + size.getWidth() + " height=" + size.getHeight() + " border=1 align=middle>&emsp;";
+						}
+
+						menu.removeAll();
+
+						menu.add(new JLabel(tweet));
+
+						DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
+						menu.add(new JLabel("<html><b><i>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
+
+						//If the popup is already closed, don't open it
+						if(!menu.isVisible()) return;
+
+						menu.setVisible(false);
+						menu.show(null, (int) (mouse.getX() + 50), (int) (mouse.getY() - menu.getPreferredSize().getHeight() - 20));
+					} catch (NumberFormatException | TwitterException ignore) {	}
 				}
-
-				menu.add(new JLabel(tweet));
-
-				DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
-				menu.add(new JLabel("<html><b><i>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
-
-				Point mouse = MouseInfo.getPointerInfo().getLocation();
-				menu.show(null, (int) mouse.getX() + 50, (int) ((int) mouse.getY() - menu.getPreferredSize().getHeight() - 20));
-
-			} catch (NumberFormatException | TwitterException ignore) {	}
+			}).start();
 		}
 	}
 
