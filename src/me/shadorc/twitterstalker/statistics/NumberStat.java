@@ -9,7 +9,7 @@ import me.shadorc.twitterstalker.utility.Ressources;
 public class NumberStat {
 
 	private float total;
-	private double num;
+	private float num;
 	private String desc;
 
 	public NumberStat(String desc) {
@@ -21,11 +21,11 @@ public class NumberStat {
 		num += (i.length > 0) ? i[0] : 1;
 	}
 
-	public void setNum(double num) {
+	public void setNum(float num) {
 		this.num = num;
 	}
 
-	public double getNum() {
+	public float getNum() {
 		return num;
 	}
 

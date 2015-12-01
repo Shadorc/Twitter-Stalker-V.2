@@ -39,7 +39,7 @@ public class Share {
 
 	private static String downloadUrl = "http://lc.cx/TSDL";
 
-	private static double HEIGHT_LIMIT = 2000;
+	private static int HEIGHT_LIMIT = 2000;
 	private static int screenCount = 0;
 
 	private String message;

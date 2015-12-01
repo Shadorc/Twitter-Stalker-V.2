@@ -72,7 +72,7 @@ public class Stats {
 				this.setStats(status);
 			}
 
-			double progress = (100.0 * user.getTweetsAnalyzed()) / tweetsToAnalyze;
+			float progress = (100f * user.getTweetsAnalyzed()) / tweetsToAnalyze;
 			if(progress > 100) progress = 100;
 			bu.setText(Ressources.format(progress) + "%");
 		}
@@ -108,7 +108,7 @@ public class Stats {
 		}
 
 		//'total' is the time in millisecond since the last tweet. The result is tweets/ms, 8.64*Math.pow(10,7) converts it to tweets/day
-		numStatsMap.get(NumbersEnum.TWEETS_PER_DAY).setNum((float) user.getTweetsAnalyzed()/timeFirstTweet*(8.64*Math.pow(10,7)));
+		numStatsMap.get(NumbersEnum.TWEETS_PER_DAY).setNum(((float) user.getTweetsAnalyzed()/timeFirstTweet * (float) (8.64*Math.pow(10,7))));
 		numStatsMap.get(NumbersEnum.WORDS_PER_TWEET).setNum(numStatsMap.get(NumbersEnum.WORDS_COUNT).getNum()/user.getTweetsAnalyzed());
 		numStatsMap.get(NumbersEnum.LETTERS_PER_TWEET).setNum(numStatsMap.get(NumbersEnum.LETTERS).getNum()/user.getTweetsAnalyzed());
 		numStatsMap.get(NumbersEnum.LETTERS_PER_WORD).setNum(numStatsMap.get(NumbersEnum.LETTERS).getNum()/numStatsMap.get(NumbersEnum.WORDS_COUNT).getNum());

@@ -51,10 +51,10 @@ public class TwitterUser {
 		}
 	}
 
-	public double getTwitterMoney(Stats stats) {
-		double money = stats.get(NumbersEnum.TWEETS_PER_DAY).getNum();	//Get tweets per day
-		money *= (double) this.getFollowersCount();						//Potential views on tweet per day
-		money = (double) ((money * 25) / 100);							//Estimated views per day
+	public float getTwitterMoney(Stats stats) {
+		float money = stats.get(NumbersEnum.TWEETS_PER_DAY).getNum();	//Get tweets per day
+		money *= (float) this.getFollowersCount();						//Potential views on tweet per day
+		money = (float) ((money * 25f) / 100f);							//Estimated views per day
 		money *= 9.12;													//9.12 = Twitter Value / Tweets per day on Twitter (centimes)
 		money /= 100;													//Euro conversion
 		return money;
