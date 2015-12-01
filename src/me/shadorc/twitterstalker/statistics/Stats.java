@@ -117,7 +117,7 @@ public class Stats {
 		numStatsMap.get(NumbersEnum.PURETWEETS_COUNT).setTotal(user.getTweetsAnalyzed());
 		numStatsMap.get(NumbersEnum.MENTIONS_COUNT).setTotal(user.getTweetsAnalyzed());
 		numStatsMap.get(NumbersEnum.RETWEET_BY_ME).setTotal(user.getTweetsAnalyzed());
-		numStatsMap.get(NumbersEnum.FAVORITE).setTotal(user.getTweetsAnalyzed());
+		numStatsMap.get(NumbersEnum.LIKE).setTotal(user.getTweetsAnalyzed());
 		numStatsMap.get(NumbersEnum.RETWEET).setTotal(user.getTweetsAnalyzed());
 
 		//Set the number by which they will be divided to provide a percentage
@@ -150,7 +150,7 @@ public class Stats {
 
 			if(status.getRetweetCount() + status.getFavoriteCount() > 0)	wordStatsMap.get(WordsEnum.POPULAR).add(status);
 			if(status.getRetweetCount() > 0)								numStatsMap.get(NumbersEnum.RETWEET).increment();
-			if(status.getFavoriteCount() > 0)								numStatsMap.get(NumbersEnum.FAVORITE).increment();
+			if(status.getFavoriteCount() > 0)								numStatsMap.get(NumbersEnum.LIKE).increment();
 			if(status.getUserMentionEntities().length > 0)					numStatsMap.get(NumbersEnum.MENTIONS_COUNT).increment();
 			if(status.getMediaEntities().length > 0)						numStatsMap.get(NumbersEnum.MEDIA).increment();
 			if(status.getURLEntities().length > 0)							numStatsMap.get(NumbersEnum.URL).increment();

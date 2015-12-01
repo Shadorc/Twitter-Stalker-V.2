@@ -224,8 +224,8 @@
   <data name="RETWEET" xml:space="preserve">
     <value>Retweetés</value>
   </data>
-  <data name="FAVORITE" xml:space="preserve">
-    <value>Favorisés</value>
+  <data name="LIKE" xml:space="preserve">
+    <value>Aimés</value>
   </data>
   <data name="rt" xml:space="preserve">
     <value> RT | </value>

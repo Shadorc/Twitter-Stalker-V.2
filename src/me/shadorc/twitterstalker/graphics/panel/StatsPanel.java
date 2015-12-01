@@ -100,7 +100,7 @@ public class StatsPanel extends JPanel {
 			}
 
 			else if(stat == Category.REPUTE) {
-				text += indent + stats1.get(NumbersEnum.FAVORITE);
+				text += indent + stats1.get(NumbersEnum.LIKE);
 				text += indent + stats1.get(NumbersEnum.RETWEET);
 			}
 

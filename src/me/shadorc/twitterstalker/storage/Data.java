@@ -53,10 +53,10 @@ public class Data {
 		RETWEET_BY_ME,
 		HASHTAG_COUNT,
 		WORDS_COUNT,
-		FAVORITE,
 		LETTERS,
 		RETWEET,
 		MEDIA,
+		LIKE,
 		URL
 	}
 }
