@@ -156,7 +156,7 @@ public class Stats {
 			if(status.getURLEntities().length > 0)							numStatsMap.get(NumbersEnum.URL).increment();
 
 			//Regex removes HTML tag
-			wordStatsMap.get(WordsEnum.SOURCE).add(status.getSource().replaceAll("<[^>]*>", ""));
+			wordStatsMap.get(WordsEnum.SOURCE).add(Ressources.removeHTML(status.getSource()));
 
 			//If it's an archive that is analyzed, lang doesn't exist and throws null
 			if(!isArchive) {

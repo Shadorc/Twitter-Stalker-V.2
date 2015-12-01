@@ -60,8 +60,7 @@ public class UpdateUtility {
 						}
 					}
 				} catch (Exception e) {
-					System.err.println("New updates haven't been verified : " + e.getMessage());
-					e.printStackTrace();
+					System.err.println("[WARNING] New updates haven't been verified : " + e.getMessage());
 				}
 			}
 		}).start();

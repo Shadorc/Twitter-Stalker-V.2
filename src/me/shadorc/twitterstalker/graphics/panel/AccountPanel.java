@@ -112,7 +112,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
 
-		JLabel tweetsDays = new JLabel(stats.get(NumbersEnum.TWEETS_PER_DAY).toString(), JLabel.CENTER);
+		JLabel tweetsDays = new JLabel(Ressources.removeHTML(stats.get(NumbersEnum.TWEETS_PER_DAY).toString()), JLabel.CENTER);
 		tweetsDays.setForeground(Color.WHITE);
 		tweetsDays.setFont(font);
 		userInfosStats.add(tweetsDays);

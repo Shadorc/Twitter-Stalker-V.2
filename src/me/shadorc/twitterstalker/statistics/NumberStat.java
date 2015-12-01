@@ -40,7 +40,7 @@ public class NumberStat {
 	@Override
 	public String toString() {
 		String percen = Ressources.format(this.getNum()/total*100.0);
-		return Ressources.format(this.getNum()) + " " + this.getDesc() + (total != 0 ? " (" + percen + "%)" : "");
+		return "<b>" + Ressources.format(this.getNum()) + "</b> " + this.getDesc() + (total != 0 ? " (" + percen + "%)" : "");
 	}
 
 	public static HashMap<NumbersEnum, NumberStat> init() {

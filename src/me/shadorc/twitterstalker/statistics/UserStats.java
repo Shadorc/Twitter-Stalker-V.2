@@ -52,11 +52,11 @@ public class UserStats {
 			TwitterUser user = new TwitterUser(id);
 			String img = "<img src=" + user.getImageUrl() + " border=1 align=middle>";
 			if(userStatsMap != null) {
-				return img + " " + this.getNum() + " " + "@" + user.getName() + " (" + Ressources.format(this.getNum()/userStatsMap.getTotal()*100.0) + "%)";
+				return img + " " + this.getNum() + " " + "<b>@" + user.getName() + "</b> (" + Ressources.format(this.getNum()/userStatsMap.getTotal()*100.0) + "%)";
 			} else {
 				//FIRST_TALK
 				String date = DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(new Date(this.getNum()));
-				return img + " <a href=" + Ressources.getStatusURL(status) + "> @" + user.getName() + "</a> (" + date + ")";
+				return img + " <a href=" + Ressources.getStatusURL(status) + "> <b>@" + user.getName() + "</b></a> (" + date + ")";
 			}
 		} catch (TwitterException e) {
 			return Storage.tra("nonExistentUser");

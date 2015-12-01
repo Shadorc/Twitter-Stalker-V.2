@@ -37,10 +37,13 @@ public class WordStats {
 	@Override
 	public String toString() {
 		if(wordStatsMap != null) {
-			return this.getNum() + " " + this.getObject() + " (" + Ressources.format(this.getNum()/wordStatsMap.getTotal()*100.0) + "%)"; 
-		} else {
-			String url = Ressources.getStatusURL((Status) obj);
-			String infos = ((Status) obj).getRetweetCount() + Storage.tra("rt") + ((Status) obj).getFavoriteCount() + Storage.tra("fav");
+			return this.getNum() + " <b>" + this.getObject() + "</b> (" + Ressources.format(this.getNum()/wordStatsMap.getTotal()*100.0) + "%)"; 
+		} 
+		//Popular
+		else {
+			Status status = (Status) obj;
+			String url = Ressources.getStatusURL(status);
+			String infos = "<b>" + status.getRetweetCount() + "</b>" +  Storage.tra("rt") + "<b>" + status.getFavoriteCount() + "</b>" + Storage.tra("fav");
 			return "<a href=" + url + ">" + infos + "</a>";
 		}
 	}

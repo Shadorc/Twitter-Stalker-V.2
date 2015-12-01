@@ -41,6 +41,10 @@ public class Ressources {
 		return "http://twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId();
 	}
 
+	public static String removeHTML(String text) {
+		return text.replaceAll("<[^>]*>", "");
+	}
+
 	public static String getName() {
 		return name;
 	}
