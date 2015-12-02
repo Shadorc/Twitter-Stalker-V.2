@@ -131,11 +131,11 @@ public class StatsPanel extends JPanel {
 	private String getDesc() {
 		ArrayList <String> phrases = new ArrayList <String> ();
 
-		if(stats1.get(NumbersEnum.TWEETS_PER_DAY).getNum() > stats2.get(NumbersEnum.TWEETS_PER_DAY).getNum())														phrases.add(Storage.tra("tweetMore"));
-		if(stats1.get(NumbersEnum.RETWEET_BY_ME).getNum()/user1.getTweetsAnalyzed() > stats2.get(NumbersEnum.RETWEET_BY_ME).getNum()/user2.getTweetsAnalyzed()) 	phrases.add(Storage.tra("retweetMore"));
-		if(stats1.get(NumbersEnum.MENTIONS_COUNT).getNum()/user1.getTweetsAnalyzed() > stats2.get(NumbersEnum.MENTIONS_COUNT).getNum()/user2.getTweetsAnalyzed()) 	phrases.add(Storage.tra("moreMentions"));
-		if(stats1.get(NumbersEnum.URL).getNum()/user1.getTweetsAnalyzed() > stats2.get(NumbersEnum.URL).getNum()/user2.getTweetsAnalyzed()) 						phrases.add(Storage.tra("moreUrl"));
-		if(stats1.get(NumbersEnum.MEDIA).getNum()/user1.getTweetsAnalyzed() > stats2.get(NumbersEnum.MEDIA).getNum()/user2.getTweetsAnalyzed()) 					phrases.add(Storage.tra("moreMedias"));
+		if(isSuperior(NumbersEnum.TWEETS_PER_DAY))															phrases.add(Storage.tra("tweetMore"));
+		if(isSuperior(NumbersEnum.RETWEET_BY_ME, user1.getTweetsAnalyzed(), user2.getTweetsAnalyzed())) 	phrases.add(Storage.tra("retweetMore"));
+		if(isSuperior(NumbersEnum.MENTIONS_COUNT, user1.getTweetsAnalyzed(), user2.getTweetsAnalyzed())) 	phrases.add(Storage.tra("moreMentions"));
+		if(isSuperior(NumbersEnum.URL, user1.getTweetsAnalyzed(), user2.getTweetsAnalyzed()))				phrases.add(Storage.tra("moreUrl"));
+		if(isSuperior(NumbersEnum.MEDIA, user1.getTweetsAnalyzed(), user2.getTweetsAnalyzed())) 			phrases.add(Storage.tra("moreMedias"));
 
 		String sunday = new DateFormatSymbols(OptionsPanel.getLocaleLang()).getWeekdays()[1];
 		if(stats1.get(WordsEnum.DAYS).get(0).getObject().toString().equalsIgnoreCase(sunday))											phrases.add(Storage.tra("sundayTweet"));
@@ -143,9 +143,9 @@ public class StatsPanel extends JPanel {
 		if(stats1.get(WordsEnum.HOURS).get(0).getNum() > stats2.get(WordsEnum.HOURS).get(0).getNum())									phrases.add(Storage.tra("tweetLater"));
 		if(stats1.get(NumbersEnum.TWEETS_PER_DAY).getNum() >= 200)																		phrases.add(Storage.tra("tweetALot"));
 
-		if(user1.getTwitterMoney(stats1) > user2.getTwitterMoney(stats2))	 															phrases.add(Storage.tra("morePopular"));
-		if(user1.getFollowingCount()/2 > user1.getFollowersCount())																		phrases.add(Storage.tra("followALot"));
-		if(user1.getAge() > 1825) 																										phrases.add(Storage.tra("oldOnTwitter"));
+		if(user1.getTwitterMoney(stats1) > user2.getTwitterMoney(stats2))	phrases.add(Storage.tra("morePopular"));
+		if(user1.getFollowingCount()/2 > user1.getFollowersCount())			phrases.add(Storage.tra("followALot"));
+		if(user1.getAge() > 1825) 											phrases.add(Storage.tra("oldOnTwitter"));
 
 		Collections.shuffle(phrases);
 
@@ -156,5 +156,11 @@ public class StatsPanel extends JPanel {
 		text += "</lu>";
 
 		return text;
+	}
+
+	private boolean isSuperior(NumbersEnum stat, int... total) {
+		int total1 = total.length > 0 ? total[0] : 1;
+		int total2 = total.length > 0 ? total[1] : 1;
+		return stats1.get(stat).getNum()/total1 > stats2.get(stat).getNum()/total2;
 	}
 }
