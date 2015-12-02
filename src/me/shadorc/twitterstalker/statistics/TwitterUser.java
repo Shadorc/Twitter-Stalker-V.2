@@ -24,14 +24,6 @@ public class TwitterUser {
 	private int tweetsAnalyzed;
 	private int mentionsAnalyzed;
 
-	public TwitterUser(long id) throws TwitterException {
-		try {
-			this.user = Main.getTwitter().showUser(id);
-		} catch (TwitterException e) {
-			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(Long.toString(id)));
-		}
-	}
-
 	public TwitterUser(String name) throws TwitterException {
 		try {
 			this.user = Main.getTwitter().showUser(name);

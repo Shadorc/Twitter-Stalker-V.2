@@ -11,24 +11,24 @@ import twitter4j.Status;
 
 public class UsersMap {
 
-	private HashMap <Long, UserStats> map;
+	private HashMap <String, UserStats> map;
 	private int total;
 
 	public UsersMap() {
 		map = new HashMap<>();
 	}
 
-	public void add(long id) {
-		if(!map.containsKey(id)) {
-			map.put(id, new UserStats(id, this));
+	public void add(String name) {
+		if(!map.containsKey(name)) {
+			map.put(name, new UserStats(name, this));
 		}
-		map.get(id).increment();
+		map.get(name).increment();
 	}
 
 	//Used by FIRST_TALK
-	public void add(long id, Status status) {
-		if(!map.containsKey(id) || status.getCreatedAt().getTime() < map.get(id).getNum()) {
-			map.put(id, new UserStats(id, status));
+	public void add(String name, Status status) {
+		if(!map.containsKey(name) || status.getCreatedAt().getTime() < map.get(name).getNum()) {
+			map.put(name, new UserStats(name, status));
 		}
 	}
 

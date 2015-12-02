@@ -262,7 +262,7 @@ public class TweetPreview implements HyperlinkListener {
 		for(int i = 0; i < list.size(); i++) {
 			for(UserMentionEntity mention : list.get(i).getStatus().getUserMentionEntities()) {
 				if(mention.getScreenName().equals(name)) {
-					return new UserStats(mention.getId(), list.get(i).getStatus());
+					return new UserStats(mention.getScreenName(), list.get(i).getStatus());
 				}
 			}
 		}

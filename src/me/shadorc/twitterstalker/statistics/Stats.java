@@ -94,7 +94,7 @@ public class Stats {
 							if(Ressources.stop) return;
 
 							user.incremenAnalyzedMentions();
-							userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).add(status.getUser().getId());
+							userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).add(status.getUser().getScreenName());
 						}
 					} catch(TwitterException e) {
 						//API mentions limit reachs, ignore it.
@@ -142,8 +142,8 @@ public class Stats {
 		} else {
 
 			for(UserMentionEntity mentionUser : status.getUserMentionEntities()) {
-				userStatsMap.get(UsersEnum.MENTIONS_SENT).add(mentionUser.getId());
-				userStatsMap.get(UsersEnum.FIRST_TALK).add(mentionUser.getId(), status);
+				userStatsMap.get(UsersEnum.MENTIONS_SENT).add(mentionUser.getScreenName());
+				userStatsMap.get(UsersEnum.FIRST_TALK).add(mentionUser.getScreenName(), status);
 			}
 			for(HashtagEntity hashtag : status.getHashtagEntities()) {
 				wordStatsMap.get(WordsEnum.HASHTAG).add("#" + hashtag.getText().toLowerCase());

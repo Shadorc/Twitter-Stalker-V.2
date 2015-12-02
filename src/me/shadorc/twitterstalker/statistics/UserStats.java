@@ -4,34 +4,32 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Storage;
 import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.Status;
-import twitter4j.TwitterException;
 
 
 public class UserStats {
 
-	private long id;
+	private String name;
 	private UsersMap userStatsMap;
 	private long num;
 	private Status status;
 
-	public UserStats(long id, UsersMap userStatsMap) {
-		this.id = id;
+	public UserStats(String name, UsersMap userStatsMap) {
+		this.name = name;
 		this.userStatsMap = userStatsMap;
 		this.num = 0;
 	}
 
 	//Used by FIRST_TALK
-	public UserStats(long id, Status status) {
-		this.id = id;
+	public UserStats(String name, Status status) {
+		this.name = name;
 		this.status = status;
 		this.num = status.getCreatedAt().getTime();
 	}
 
-	public long getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 
 	public long getNum() {
@@ -48,18 +46,16 @@ public class UserStats {
 
 	@Override
 	public String toString() {
-		try {
-			TwitterUser user = new TwitterUser(id);
-			String img = "<img src=" + user.getImageUrl() + " border=1 align=middle>";
-			if(userStatsMap != null) {
-				return img + " " + this.getNum() + " " + "<b>@" + user.getName() + "</b> (" + Ressources.format(this.getNum()/userStatsMap.getTotal()*100.0) + "%)";
-			} else {
-				//FIRST_TALK
-				String date = DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(new Date(this.getNum()));
-				return img + " <a href=" + Ressources.getStatusURL(status) + "> <b>@" + user.getName() + "</b></a> (" + date + ")";
-			}
-		} catch (TwitterException e) {
-			return Storage.tra("nonExistentUser");
+		String img = "<img src=" + "https://twitter.com/" + this.getName() + "/profile_image?size=normal" + " border=1 align=middle>";
+
+		if(userStatsMap != null) {
+			return img + " " + this.getNum() + " " + "<b>@" + this.getName() + "</b> (" + Ressources.format(this.getNum()/userStatsMap.getTotal()*100.0) + "%)";
+		} 
+
+		//FIRST_TALK
+		else {
+			String date = DateFormat.getDateInstance(DateFormat.SHORT, OptionsPanel.getLocaleLang()).format(new Date(this.getNum()));
+			return img + " <a href=" + Ressources.getStatusURL(status) + "> <b>@" + this.getName() + "</b></a> (" + date + ")";
 		}
 	}
 }
