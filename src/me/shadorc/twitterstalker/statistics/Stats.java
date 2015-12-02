@@ -34,7 +34,7 @@ public class Stats {
 	private HashMap <NumbersEnum, NumberStat> numStatsMap;
 	private HashMap <UsersEnum, UsersMap> userStatsMap;
 
-	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
+	public Stats(TwitterUser user, JButton bu, List <Status> statusList, boolean mentions) throws TwitterException {
 		if(Ressources.stop) return;
 
 		this.isArchive = (statusList != null);
@@ -80,29 +80,31 @@ public class Stats {
 		bu.setText(Storage.tra("loadingMentions"));
 
 		/*Analyze user's mentions received*/
-		if(user.getName().equals(Main.getTwitter().getScreenName())) {
-			for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.get(Options.MENTIONS_TO_ANALYZE); i++) {
+		if(mentions) {
+			if(user.getName().equals(Main.getTwitter().getScreenName())) {
+				for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.get(Options.MENTIONS_TO_ANALYZE); i++) {
 
-				int secure = user.getMentionsAnalyzed();
+					int secure = user.getMentionsAnalyzed();
 
-				RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
-				System.out.println("[Mentions timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
+					RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
+					System.out.println("[Mentions timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
 
-				try {
-					for(Status status : Main.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
-						if(Ressources.stop) return;
+					try {
+						for(Status status : Main.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
+							if(Ressources.stop) return;
 
-						user.incremenAnalyzedMentions();
-						userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).add(status.getUser().getId());
+							user.incremenAnalyzedMentions();
+							userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).add(status.getUser().getId());
+						}
+					} catch(TwitterException e) {
+						//API mentions limit reachs, ignore it.
+						break;
 					}
-				} catch(TwitterException e) {
-					//API mentions limit reachs, ignore it.
-					break;
-				}
 
-				//User has never tweeted mentions or tweeted fewer than 150 mentions
-				if(secure == user.getMentionsAnalyzed() || user.getMentionsAnalyzed() < 150) {
-					break;
+					//User has never tweeted mentions or tweeted fewer than 150 mentions
+					if(secure == user.getMentionsAnalyzed() || user.getMentionsAnalyzed() < 150) {
+						break;
+					}
 				}
 			}
 		}
