@@ -150,7 +150,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 		JPanel buttonsPanel = new JPanel(new GridLayout(0, 14));
 		buttonsPanel.setOpaque(false);
 
-		back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {10, 0, 10, 20}, this);
+		back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {7, 0, 13, 20}, this);
 		buttonsPanel.add(back);
 
 		for(int i = 0; i < 12; i++) {

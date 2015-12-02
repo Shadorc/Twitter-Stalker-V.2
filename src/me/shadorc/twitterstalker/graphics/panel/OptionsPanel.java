@@ -132,7 +132,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
 		JPanel buttonPane = new JPanel(new BorderLayout());
 		buttonPane.setOpaque(false);
-		back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {0, 10, 10, 0}, this);
+		back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {0, 10, 14, 0}, this);
 		buttonPane.add(back, BorderLayout.WEST);
 		this.add(buttonPane, BorderLayout.PAGE_END);
 	}

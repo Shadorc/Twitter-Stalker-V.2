@@ -120,7 +120,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		if(text == Text.PIN) {
 			bottomPanel.add(new JLabel(), BorderLayout.WEST);
 		} else {
-			back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {95, 10, 0, 0}, this);
+			back = new Button(ButtonType.BACK, Size.MEDIUM, new int[] {98, 10, 0, 0}, this);
 			bottomPanel.add(back, BorderLayout.WEST);
 		}
 
