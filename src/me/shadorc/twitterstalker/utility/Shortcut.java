@@ -25,7 +25,7 @@ public class Shortcut {
 						Storage.tra("installation"),
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE,
-						Ressources.getBigIcon(),
+						Ressources.bigIcon,
 						new String[] {Storage.tra("yes"), Storage.tra("notNow"), Storage.tra("never")},
 						"default");
 
@@ -36,7 +36,7 @@ public class Shortcut {
 
 					JShellLink link = new JShellLink();
 					link.setFolder(JShellLink.getDirectory("desktop"));
-					link.setName(Ressources.getName());
+					link.setName(Ressources.name);
 					link.setPath(jar.getPath());
 
 					//Copy icon outside the jar to be able to use it

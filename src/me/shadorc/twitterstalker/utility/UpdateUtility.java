@@ -40,14 +40,14 @@ public class UpdateUtility {
 
 					Version lastVersion = new Version(lastRelease.getString("tag_name"));
 
-					if(lastVersion.isNewerThan(Ressources.getVersion()) && Storage.getData(Installation.UPDATE) == null) {
+					if(lastVersion.isNewerThan(Ressources.version) && Storage.getData(Installation.UPDATE) == null) {
 
 						int reply = JOptionPane.showOptionDialog(null,
 								Storage.tra("updateAvailable") + " (" + lastVersion + ") !",
 								Storage.tra("update"),
 								JOptionPane.YES_NO_CANCEL_OPTION,
 								JOptionPane.PLAIN_MESSAGE,
-								Ressources.getBigIcon(),
+								Ressources.bigIcon,
 								new String[] {Storage.tra("download"), Storage.tra("doNotDownload"), Storage.tra("doNotRemindMe")},
 								"default");
 
@@ -122,13 +122,13 @@ public class UpdateUtility {
 	}
 
 	private static void showUpdateFrame() {
-		JFrame frame = new JFrame(Ressources.getName() + " - " + Storage.tra("update"));
+		JFrame frame = new JFrame(Ressources.name + " - " + Storage.tra("update"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		JLabel icon = new JLabel(Ressources.getBigIcon());
+		JLabel icon = new JLabel(Ressources.bigIcon);
 		panel.add(icon, BorderLayout.WEST);
 
 		info = new JLabel("", JLabel.CENTER);
@@ -138,7 +138,7 @@ public class UpdateUtility {
 
 		frame.setContentPane(panel);
 
-		frame.setIconImage(Ressources.getSmallIcon().getImage());
+		frame.setIconImage(Ressources.smallIcon.getImage());
 		frame.setSize(500, 200);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);

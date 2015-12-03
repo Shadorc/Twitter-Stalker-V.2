@@ -169,7 +169,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 		JButton bu = (JButton) e.getSource();
 
 		if(bu == back) {
-			Ressources.getFrame().setPanel(isArchive ? new MenuPanel() : new ConnectionPanel(Text.ACCOUNT));
+			Ressources.frame.setPanel(isArchive ? new MenuPanel() : new ConnectionPanel(Text.ACCOUNT));
 		} else if(bu == upload) {
 			new Share("@" + user.getName() + "'s stats");
 		}

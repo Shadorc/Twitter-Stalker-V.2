@@ -226,7 +226,7 @@ public class TweetPreview implements HyperlinkListener {
 
 		frame.setContentPane(pane);
 		frame.pack();
-		frame.setIconImage(Ressources.getSmallIcon().getImage()	);
+		frame.setIconImage(Ressources.smallIcon.getImage());
 		frame.setSize(500, 80);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);

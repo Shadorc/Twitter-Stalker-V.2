@@ -79,7 +79,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
 						//Prevent weird IndexOutOfBound Exception
 						jcb.hidePopup();
 						OptionsPanel.init();
-						Ressources.getFrame().setPanel(new OptionsPanel());
+						Ressources.frame.setPanel(new OptionsPanel());
 					}
 				}
 			}
@@ -169,6 +169,6 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		Ressources.getFrame().setPanel(new MenuPanel());		
+		Ressources.frame.setPanel(new MenuPanel());		
 	}
 }

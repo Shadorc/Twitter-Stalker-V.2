@@ -106,9 +106,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == statistics)		 Ressources.getFrame().setPanel(new ConnectionPanel(Text.ACCOUNT));
-		else if(e.getSource() == comparison) Ressources.getFrame().setPanel(new ConnectionPanel(Text.COMPARISON));
-		else if(e.getSource() == archive)	 Ressources.getFrame().setPanel(new ConnectionPanel(Text.ARCHIVE));
-		else if(e.getSource() == options)	 Ressources.getFrame().setPanel(new OptionsPanel());
+		if(e.getSource() == statistics)		 Ressources.frame.setPanel(new ConnectionPanel(Text.ACCOUNT));
+		else if(e.getSource() == comparison) Ressources.frame.setPanel(new ConnectionPanel(Text.COMPARISON));
+		else if(e.getSource() == archive)	 Ressources.frame.setPanel(new ConnectionPanel(Text.ARCHIVE));
+		else if(e.getSource() == options)	 Ressources.frame.setPanel(new OptionsPanel());
 	}
 }

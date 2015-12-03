@@ -174,7 +174,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		JButton bu = (JButton) e.getSource();
 
 		if(bu == back) {
-			Ressources.getFrame().setPanel(new ConnectionPanel(Text.COMPARISON));
+			Ressources.frame.setPanel(new ConnectionPanel(Text.COMPARISON));
 		} else if(bu == upload) {
 			new Share("Comparison between @" + user1.getName() + " & @" + user2.getName());
 		}

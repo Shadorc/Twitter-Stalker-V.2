@@ -55,7 +55,7 @@ public class Main {
 			JPanel error = new JPanel(new BorderLayout());
 			error.setBackground(new Color(2, 136, 209));
 
-			JLabel icon = new JLabel(Ressources.getBigIcon());
+			JLabel icon = new JLabel(Ressources.bigIcon);
 			icon.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
 			error.add(icon, BorderLayout.PAGE_START);
 
@@ -65,10 +65,10 @@ public class Main {
 			info.setForeground(Color.WHITE);
 			error.add(info, BorderLayout.CENTER);
 
-			Ressources.getFrame().setPanel(error);
+			Ressources.frame.setPanel(error);
 		}
 
-		Ressources.getFrame().setVisible(true);
+		Ressources.frame.setVisible(true);
 	}
 
 	private static void checkID() throws TwitterException {
@@ -77,7 +77,7 @@ public class Main {
 
 		requestToken = twitter.getOAuthRequestToken();
 		if(Storage.getData(Connection.TOKEN) == null) {
-			Ressources.getFrame().setPanel(new ConnectionPanel(Text.PIN));
+			Ressources.frame.setPanel(new ConnectionPanel(Text.PIN));
 			//Open web browser to access PIN code
 			new Thread() {
 				@Override
@@ -104,9 +104,9 @@ public class Main {
 			}
 			twitter.setOAuthAccessToken(accessToken);
 
-			Ressources.getFrame().setPanel(new MenuPanel());
+			Ressources.frame.setPanel(new MenuPanel());
 		} catch (TwitterException e) {
-			((ConnectionPanel) Ressources.getFrame().getContentPane()).invalidPin();
+			((ConnectionPanel) Ressources.frame.getContentPane()).invalidPin();
 		}
 	}
 

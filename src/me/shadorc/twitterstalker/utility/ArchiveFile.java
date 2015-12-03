@@ -50,7 +50,7 @@ public class ArchiveFile {
 						}
 					});
 
-					JOptionPane.showMessageDialog(null, textPane, Storage.tra("archiveHelp"), JOptionPane.QUESTION_MESSAGE, Ressources.getBigIcon());
+					JOptionPane.showMessageDialog(null, textPane, Storage.tra("archiveHelp"), JOptionPane.QUESTION_MESSAGE, Ressources.bigIcon);
 				}
 			});
 			chooser.add(help, BorderLayout.SOUTH);
@@ -68,7 +68,7 @@ public class ArchiveFile {
 			if(choice == JFileChooser.APPROVE_OPTION) {
 				file = new File(chooser.getSelectedFile().getPath() + "/data/js/tweets");
 			} else if(choice == JFileChooser.CANCEL_OPTION) {
-				Ressources.getFrame().setPanel(new MenuPanel());
+				Ressources.frame.setPanel(new MenuPanel());
 				return null;
 			}
 

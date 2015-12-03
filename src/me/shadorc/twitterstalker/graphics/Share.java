@@ -53,7 +53,7 @@ public class Share {
 		screenCount++;
 
 		try {
-			BufferedImage image = this.getScreenshot(Ressources.getFrame().getContentPane());
+			BufferedImage image = this.getScreenshot(Ressources.frame.getContentPane());
 			if(image.getHeight() > HEIGHT_LIMIT) {
 				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/HEIGHT_LIMIT));
 			}
@@ -74,7 +74,7 @@ public class Share {
 			JOptionPane.showMessageDialog(null, Storage.tra("screenshotError") + e.getMessage(), Storage.tra("error"), JOptionPane.ERROR_MESSAGE);
 
 		} finally {
-			Ressources.getFrame().reset();
+			Ressources.frame.reset();
 		}
 	}
 
@@ -147,7 +147,7 @@ public class Share {
 	}
 
 	private void showPreviewFrame() {
-		StatusUpdate status = new StatusUpdate(Ressources.getName() + " [" + downloadUrl + "] : " +  message + ".");
+		StatusUpdate status = new StatusUpdate(Ressources.name + " [" + downloadUrl + "] : " +  message + ".");
 		status.setMedia(screen);
 
 		JFrame frame = new JFrame(Storage.tra("share"));
@@ -232,7 +232,7 @@ public class Share {
 
 		frame.setContentPane(panel);
 		frame.pack();
-		frame.setIconImage(Ressources.getSmallIcon().getImage());
+		frame.setIconImage(Ressources.smallIcon.getImage());
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);

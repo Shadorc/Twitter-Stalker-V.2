@@ -219,7 +219,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 			this.valid();
 		} else if(event.getSource() == back) {
 			Ressources.stop = true;
-			Ressources.getFrame().setPanel(new MenuPanel());
+			Ressources.frame.setPanel(new MenuPanel());
 		}
 	}
 
@@ -258,7 +258,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							try {
 								AccountPanel statsPanel = new AccountPanel(field1.getUserName(), search, statusList);
 								if(Ressources.stop) return;
-								Ressources.getFrame().setPanel(statsPanel);
+								Ressources.frame.setPanel(statsPanel);
 							} catch (TwitterException e) {
 								if(e.exceededRateLimitation()) {
 									field1.setErrorText(Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
@@ -272,7 +272,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 							try {
 								ComparisonPanel comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
 								if(Ressources.stop) return;
-								Ressources.getFrame().setPanel(comparePanel);
+								Ressources.frame.setPanel(comparePanel);
 							} catch (TwitterException e) {
 								//StatusCode: -1 is a personal error message from TwitterUser
 								if(e.getStatusCode() == -1) {

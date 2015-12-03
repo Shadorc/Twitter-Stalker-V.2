@@ -22,12 +22,12 @@ public class Frame extends JFrame {
 	private int keyTyped = 0;
 
 	public Frame() {
-		super(Ressources.getName() + " " + Ressources.getVersion());
+		super(Ressources.name + " " + Ressources.version);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new MyDispatcher());
 
-		this.setIconImage(Ressources.getSmallIcon().getImage());
+		this.setIconImage(Ressources.smallIcon.getImage());
 		this.setContentPane(new JPanel());
 		this.pack();
 		this.setMinimumSize(new Dimension(1024, 768));

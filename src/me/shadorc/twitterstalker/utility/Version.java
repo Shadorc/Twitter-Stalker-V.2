@@ -29,7 +29,7 @@ public class Version {
 
 	public boolean isNewerThan(Version version) {
 		//If the current version is a beta, don't check for update
-		return Ressources.forceUpdate() || 
+		return Ressources.forceUpdate || 
 				!version.isBeta() && (this.major > version.getMajor() || this.minor > version.getMinor() || this.macro > version.getMacro());
 	}
 
