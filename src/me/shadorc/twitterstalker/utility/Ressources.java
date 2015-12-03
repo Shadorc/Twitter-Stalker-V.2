@@ -22,10 +22,10 @@ public class Ressources {
 	public static boolean stop = false;
 	public static boolean showLogs = false;
 
-	public static final Frame frame = new Frame();
-
 	public static final ImageIcon bigIcon = new ImageIcon(Ressources.class.getResource("/res/TS_icon.png"));
 	public static final ImageIcon smallIcon = new ImageIcon(bigIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+
+	public static final Frame frame = new Frame();
 
 	private static final DecimalFormat df = new DecimalFormat("#.#");
 
