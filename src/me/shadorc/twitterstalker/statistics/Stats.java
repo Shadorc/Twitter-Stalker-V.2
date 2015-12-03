@@ -52,8 +52,9 @@ public class Stats {
 		userStatsMap = UsersMap.init();
 
 		long timeFirstTweet = 1;
+		int tweetsRequested = 0;
 
-		for(int i = 1; user.getTweetsAnalyzed() < tweetsToAnalyze; i++) {
+		for(int i = 1; tweetsRequested < tweetsToAnalyze; i++) {
 
 			RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
 			System.out.println("[User timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
@@ -72,7 +73,9 @@ public class Stats {
 				this.setStats(status);
 			}
 
-			float progress = (100f * user.getTweetsAnalyzed()) / tweetsToAnalyze;
+			tweetsRequested += 200;
+
+			float progress = 100f * tweetsRequested/tweetsToAnalyze;
 			if(progress > 100) progress = 100;
 			bu.setText(Ressources.format(progress) + "%");
 		}
