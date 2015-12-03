@@ -55,7 +55,7 @@ public class Share {
 		try {
 			BufferedImage image = this.getScreenshot(Ressources.frame.getContentPane());
 			if(image.getHeight() > HEIGHT_LIMIT) {
-				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/HEIGHT_LIMIT));
+				image = this.splitImage(image, image.getHeight()/HEIGHT_LIMIT);
 			}
 			image = this.addBorder(image);
 
