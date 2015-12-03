@@ -56,8 +56,10 @@ public class Stats {
 
 		for(int i = 1; tweetsRequested < tweetsToAnalyze; i++) {
 
-			RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
-			System.out.println("[User timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
+			if(Ressources.showLogs) {
+				RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
+				System.out.println("[User timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
+			}
 
 			List <Status> timeline = isArchive ? statusList : Main.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200));
 			for(Status status : timeline) {
@@ -89,8 +91,10 @@ public class Stats {
 
 					int secure = user.getMentionsAnalyzed();
 
-					RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
-					System.out.println("[Mentions timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
+					if(Ressources.showLogs) {
+						RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
+						System.out.println("[Mentions timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
+					}
 
 					try {
 						for(Status status : Main.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
