@@ -78,7 +78,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 
 		userInfos.add(labelsPane, BorderLayout.WEST);
 
-		JLabel image = user.getProfileImage();
+		JLabel image = new JLabel(user.getProfileRoundedImage());
 		image.setHorizontalAlignment(JLabel.CENTER);
 		userInfos.add(image, BorderLayout.CENTER);
 

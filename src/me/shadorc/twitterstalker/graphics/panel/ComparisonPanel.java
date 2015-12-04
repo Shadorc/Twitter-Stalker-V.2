@@ -136,7 +136,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		descPanel.setBackground(new Color(68, 138, 255));
 		descPanel.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(183,183,183)), BorderFactory.createEmptyBorder(5, 10, 5, 30)));
 
-		descPanel.add(user.getProfileImage(), BorderLayout.WEST);
+		descPanel.add(new JLabel(user.getProfileRoundedImage()), BorderLayout.WEST);
 		JLabel name = new JLabel("@" + user.getName());
 		name.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		name.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 40));

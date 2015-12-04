@@ -1,18 +1,14 @@
 package me.shadorc.twitterstalker.statistics;
 
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.statistics.RoundedImage.Scaling;
 import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;
@@ -100,18 +96,8 @@ public class TwitterUser {
 		return (new Date().getTime() - user.getCreatedAt().getTime()) / 86400000;
 	}
 
-	public JLabel getProfileImage() {
-
-		Image image = new ImageIcon(this.getClass().getResource("/res/fictitious.png")).getImage();
-
-		try {
-			URL url = new URL(user.getOriginalProfileImageURL().replaceAll(".jpeg", "_400x400.jpeg"));
-			image = ImageIO.read(url);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return new UserImage(image);
+	public ImageIcon getProfileRoundedImage() {
+		return RoundedImage.create(user.getOriginalProfileImageURL().replaceAll(".jpeg", "_400x400.jpeg"), Scaling.NORMAL);
 	}
 
 	public long getId() {
