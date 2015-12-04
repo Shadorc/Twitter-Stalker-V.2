@@ -2,6 +2,7 @@ package me.shadorc.twitterstalker.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.MouseInfo;
@@ -15,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.*;
@@ -27,6 +29,8 @@ import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.statistics.RoundedImage;
+import me.shadorc.twitterstalker.statistics.RoundedImage.Scaling;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.UserStats;
 import me.shadorc.twitterstalker.storage.Data.Options;
@@ -41,33 +45,33 @@ import twitter4j.UserMentionEntity;
 
 public class TweetPreview implements HyperlinkListener {
 
-	private JPopupMenu menu;
+	private HashMap <String, JPopupMenu> menus;
+
 	private JEditorPane editorPane;
+	private JButton ok, reset;
 	private JFrame frame;
 	private Stats stats;
-	private JButton ok, reset;
 
 	public TweetPreview(JEditorPane editorPane, Stats stats) {
 		this.editorPane = editorPane;
 		this.stats = stats;
-		this.menu = new JPopupMenu();
+		this.menus = new HashMap<>();
 
 		editorPane.requestFocusInWindow();
-
-		menu.setBackground(new Color(79, 182, 246));
-		menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 		editorPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseExited(MouseEvent event) {
-				menu.setVisible(false);
-				menu.removeAll();
+				for(String key : menus.keySet()) {
+					menus.get(key).setVisible(false);
+				}
 			}
 		});
 	}
 
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent he) {
+		String url = he.getURL().toString();
+
 		if(he.getEventType() == EventType.ACTIVATED) {
 			if(he.getDescription().equals("search")) {
 				if(frame == null) {
@@ -77,51 +81,125 @@ public class TweetPreview implements HyperlinkListener {
 					frame.toFront();
 				}
 			} else {
-				Infonet.open(he.getURL().toString(), true);
+				Infonet.open(url, true);
 			}
 
 		} else if(he.getEventType() == EventType.EXITED) {
-			menu.setVisible(false);
-			menu.removeAll();
+			if(menus.containsKey(url)) {
+				menus.get(url).setVisible(false);
+			}
 
 		} else if(he.getEventType() == EventType.ENTERED) {
 			if(he.getDescription().equals("search")) return;
 
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						Point mouse = MouseInfo.getPointerInfo().getLocation();
+			Point mouse = MouseInfo.getPointerInfo().getLocation();
 
-						menu.add(new JLabel("<html>&emsp;" + Storage.tra("loading") + "...&emsp;</html>"));
-						menu.show(null, (int) (mouse.getX() + 50), (int) (mouse.getY() - menu.getPreferredSize().getHeight() - 20));
+			if(menus.containsKey(url)) {
+				menus.get(url).show(null, (int) (mouse.getX() + 50), (int) (mouse.getY() - menus.get(url).getPreferredSize().getHeight() - 20));
+			}
 
-						String url = he.getURL().toString();
-						//Get Status' ID
-						Status status = Main.getTwitter().showStatus(Long.parseLong(url.substring(url.lastIndexOf("/")+1)));
+			else {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							JPopupMenu menu = new JPopupMenu();
+							menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS)); 
+							menu.setBackground(new Color(79, 182, 246));
+							menu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-						String tweet = "<html><center><font color='white' size=4>&emsp;" + status.getText().replaceAll("\n", "&emsp;<br>&emsp;") + "&emsp;";
+							JLabel load = new JLabel(Storage.tra("loading") + "...");
+							load.setFont(new Font("Arial", Font.PLAIN, 20));
+							menu.add(load);
 
-						for(MediaEntity media : status.getMediaEntities()) {
-							Size size = media.getSizes().get(Size.SMALL);
-							tweet += "<br>&emsp;<img src=" + media.getMediaURLHttps() + " width=" + size.getWidth() + " height=" + size.getHeight() + " border=1 align=middle>&emsp;";
-						}
+							Point mouse = MouseInfo.getPointerInfo().getLocation();
+							menu.show(null, (int) (mouse.getX() + 50), (int) (mouse.getY() - menu.getPreferredSize().getHeight() - 20));
 
-						menu.removeAll();
+							menus.put(url, menu);
 
-						menu.add(new JLabel(tweet));
+							Status status = Main.getTwitter().showStatus(Long.parseLong(url.substring(url.lastIndexOf("/")+1)));
 
-						DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
-						menu.add(new JLabel("<html><b><i>" + df.format(status.getCreatedAt()), SwingConstants.CENTER));
+							/*User Panel*/
+							JPanel userPanel = new JPanel(new BorderLayout());
+							userPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+							userPanel.setOpaque(false);
 
-						//If the popup is already closed, don't open it
-						if(!menu.isVisible()) return;
+							userPanel.add(new JLabel(RoundedImage.create(status.getUser().getOriginalProfileImageURL().replaceAll(".jpeg", "_400x400.jpeg"), Scaling.THUMB)), BorderLayout.WEST);
 
-						menu.setVisible(false);
-						menu.show(null, (int) (mouse.getX() + 50), (int) (mouse.getY() - menu.getPreferredSize().getHeight() - 20));
-					} catch (NumberFormatException | TwitterException ignore) {	}
-				}
-			}).start();
+							JPanel names = new JPanel(new GridLayout(4, 2));
+							names.setBorder(BorderFactory.createEmptyBorder(25, 3, 0, 3));
+							names.setOpaque(false);
+
+							JLabel nameLab = new JLabel(status.getUser().getName());
+							nameLab.setOpaque(false);
+							nameLab.setForeground(Color.BLACK);
+							nameLab.setFont(new Font("Arial", Font.BOLD, 15));
+							names.add(nameLab);
+
+							DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, OptionsPanel.getLocaleLang());
+							names.add(new JLabel(df.format(status.getCreatedAt()), JLabel.RIGHT));
+
+							JLabel screenNameLab = new JLabel("@" + status.getUser().getScreenName());
+							screenNameLab.setOpaque(false);
+							screenNameLab.setForeground(Color.BLACK);
+							screenNameLab.setFont(new Font("Arial", Font.PLAIN, 15));
+							names.add(screenNameLab);
+
+							names.add(new JLabel());
+							names.add(new JLabel());
+							names.add(new JLabel());
+							names.add(new JLabel());
+							names.add(new JLabel());
+
+							userPanel.add(names, BorderLayout.CENTER);
+							/*User Panel End*/
+
+							JTextArea tweet = new JTextArea(status.getText());
+							tweet.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+							tweet.setEditable(false);  
+							tweet.setOpaque(false);  
+							tweet.setLineWrap(true);
+							tweet.setWrapStyleWord(true);
+							tweet.setForeground(Color.BLACK);
+							tweet.setFont(new Font("Arial", Font.PLAIN, 17));
+
+							JPanel mediasPanel = new JPanel(new GridLayout());
+							mediasPanel.setOpaque(false);
+							mediasPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+							for(int i = 0; i < status.getExtendedMediaEntities().length; i++) {
+								MediaEntity media = status.getExtendedMediaEntities()[i];
+								Size size = media.getSizes().get(status.getExtendedMediaEntities().length > 2 ? Size.THUMB : Size.SMALL);
+
+								mediasPanel.add(new JLabel("<html>"
+										+ "<img src=" + media.getMediaURLHttps() 
+										+ " width=" + size.getWidth()
+										+ " height=" + size.getHeight()
+										+ " border=1>"
+										+ "</html>"));
+							}
+
+							menu.removeAll();
+
+							menu.add(userPanel);
+							menu.add(tweet);
+							menu.add(mediasPanel);
+
+							//If the popup is already closed, don't open it
+							if(!menu.isVisible()) return;
+
+							int width = (int) (mediasPanel.getComponentCount() != 0 ? menu.getPreferredSize().getWidth() : 500);
+							int height = (int) (menu.getPreferredSize().getHeight() + 40);
+
+							menu.setVisible(false);
+							menu.setPreferredSize(new Dimension(width, height));
+							menu.setMinimumSize(new Dimension(width, height));
+							menu.show(null, (int) (mouse.getX() + 50), (int) (mouse.getY() - height - 20));
+
+							menus.put(url, menu);
+						} catch (NumberFormatException | TwitterException ignore) {	}
+					}
+				}).start();
+			}
 		}
 	}
 
