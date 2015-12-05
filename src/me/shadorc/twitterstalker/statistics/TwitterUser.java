@@ -6,9 +6,10 @@ import java.util.Date;
 import javax.swing.ImageIcon;
 
 import me.shadorc.twitterstalker.Main;
+import me.shadorc.twitterstalker.graphics.RoundedImage;
+import me.shadorc.twitterstalker.graphics.RoundedImage.Scaling;
 import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.statistics.RoundedImage.Scaling;
 import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
 import twitter4j.TwitterException;

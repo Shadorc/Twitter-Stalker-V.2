@@ -27,10 +27,9 @@ import javax.swing.text.DefaultEditorKit;
 
 import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.Main;
+import me.shadorc.twitterstalker.graphics.RoundedImage.Scaling;
 import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.statistics.RoundedImage;
-import me.shadorc.twitterstalker.statistics.RoundedImage.Scaling;
 import me.shadorc.twitterstalker.statistics.Stats;
 import me.shadorc.twitterstalker.statistics.UserStats;
 import me.shadorc.twitterstalker.storage.Data.Options;

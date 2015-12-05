@@ -1,4 +1,4 @@
-package me.shadorc.twitterstalker.statistics;
+package me.shadorc.twitterstalker.graphics;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
