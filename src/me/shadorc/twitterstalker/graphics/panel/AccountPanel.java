@@ -46,7 +46,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 
 		isArchive = (statusList != null);
 
-		Stats stats = new Stats(user, button, statusList);
+		Stats stats = new Stats(user, button, true, statusList);
 
 		if(Ressources.stop) return;
 

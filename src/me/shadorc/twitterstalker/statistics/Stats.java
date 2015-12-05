@@ -34,7 +34,7 @@ public class Stats {
 	private HashMap <NumbersEnum, NumberStat> numStatsMap;
 	private HashMap <UsersEnum, UsersMap> userStatsMap;
 
-	public Stats(TwitterUser user, JButton bu, List <Status> statusList) throws TwitterException {
+	public Stats(TwitterUser user, JButton bu, boolean analyzeMentions, List <Status> statusList) throws TwitterException {
 		if(Ressources.stop) return;
 
 		this.isArchive = (statusList != null);
@@ -83,7 +83,7 @@ public class Stats {
 		}
 
 		/*Analyze user's mentions received*/
-		if(user.getName().equals(Main.getTwitter().getScreenName())) {
+		if(analyzeMentions && user.getName().equals(Main.getTwitter().getScreenName())) {
 
 			bu.setText(Storage.tra("loadingMentions"));
 

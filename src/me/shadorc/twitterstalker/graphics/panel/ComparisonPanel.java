@@ -42,8 +42,8 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		user1 = new TwitterUser(name1);
 		user2 = new TwitterUser(name2);
 
-		Stats stats1 = new Stats(user1, button, null);
-		Stats stats2 = new Stats(user2, button, null);
+		Stats stats1 = new Stats(user1, button, false, null);
+		Stats stats2 = new Stats(user2, button, false, null);
 
 		if(Ressources.stop == true) return;
 
