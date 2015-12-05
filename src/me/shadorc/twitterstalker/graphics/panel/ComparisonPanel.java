@@ -63,34 +63,35 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		center.setOpaque(false);
 
 		JPanel statsPanel1 = new StatsPanel(stats1, stats2, user1, user2);
-		statsPanel1.setLayout(new GridLayout(statsPanel1.getComponentCount(), 0));
-
 		JPanel statsPanel2 = new StatsPanel(stats2, stats1, user2, user1);
-		statsPanel2.setLayout(new GridLayout(statsPanel2.getComponentCount(), 0));
-
-		for(Component comp : statsPanel1.getComponents()) {
-			if(!this.contains(statsPanel2, comp)) {
-				statsPanel1.remove(comp);
-				((GridLayout) statsPanel1.getLayout()).setRows(((GridLayout) statsPanel1.getLayout()).getRows()-1);
-				System.out.println("'" + comp.getName() + "' ignored in panel 1");
-			}
-		}
-
-		for(Component comp : statsPanel2.getComponents()) {
-			if(!this.contains(statsPanel1, comp)) {
-				statsPanel2.remove(comp);
-				((GridLayout) statsPanel2.getLayout()).setRows(((GridLayout) statsPanel2.getLayout()).getRows()-1);
-				System.out.println("'" + comp.getName() + "' ignored in panel 2");
-			}
-		}
 
 		//If there's no stat to show
 		if(statsPanel1.getComponentCount() == 0 || statsPanel1.getComponentCount() == 0) {
 			center.setLayout(new BorderLayout());
 			JLabel error = new JLabel(Storage.tra("noStatError"), JLabel.CENTER);
 			error.setFont(Ressources.getFont("RobotoCondensed-Regular.ttf", 30));
-			center.add(error, JLabel.CENTER);
+			center.add(error, BorderLayout.CENTER);
+
 		} else {
+			statsPanel1.setLayout(new GridLayout(statsPanel1.getComponentCount(), 0));
+			statsPanel2.setLayout(new GridLayout(statsPanel2.getComponentCount(), 0));
+
+			for(Component comp : statsPanel1.getComponents()) {
+				if(!this.contains(statsPanel2, comp)) {
+					statsPanel1.remove(comp);
+					((GridLayout) statsPanel1.getLayout()).setRows(((GridLayout) statsPanel1.getLayout()).getRows()-1);
+					System.out.println("'" + comp.getName() + "' ignored in panel 1");
+				}
+			}
+
+			for(Component comp : statsPanel2.getComponents()) {
+				if(!this.contains(statsPanel1, comp)) {
+					statsPanel2.remove(comp);
+					((GridLayout) statsPanel2.getLayout()).setRows(((GridLayout) statsPanel2.getLayout()).getRows()-1);
+					System.out.println("'" + comp.getName() + "' ignored in panel 2");
+				}
+			}
+
 			center.add(statsPanel1);
 			center.add(statsPanel2);
 		}
