@@ -140,7 +140,7 @@
   <data name="LANG" xml:space="preserve">
     <value>Langues</value>
   </data>
-  <data name="url" xml:space="preserve">
+  <data name="URL" xml:space="preserve">
     <value>URL</value>
   </data>
   <data name="medias" xml:space="preserve">
@@ -344,5 +344,17 @@
   </data>
   <data name="SUMMARY" xml:space="preserve">
     <value>Résumé</value>
+  </data>
+  <data name="HASHTAG_COUNT" xml:space="preserve">
+    <value>HASHTAG_COUNT</value>
+  </data>
+  <data name="WORDS_COUNT" xml:space="preserve">
+    <value>WORDS_COUNT</value>
+  </data>
+  <data name="LETTERS" xml:space="preserve">
+    <value>LETTERS</value>
+  </data>
+  <data name="MEDIA" xml:space="preserve">
+    <value>MEDIA</value>
   </data>
 </root>
