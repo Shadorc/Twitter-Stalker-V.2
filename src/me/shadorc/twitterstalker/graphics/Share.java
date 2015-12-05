@@ -39,7 +39,7 @@ public class Share {
 
 	private static String downloadUrl = "http://lc.cx/TSDL";
 
-	private static int HEIGHT_LIMIT = 2000;
+	private static float HEIGHT_LIMIT = 2000;
 	private static int screenCount = 0;
 
 	private String message;
@@ -55,7 +55,7 @@ public class Share {
 		try {
 			BufferedImage image = this.getScreenshot(Ressources.frame.getContentPane());
 			if(image.getHeight() > HEIGHT_LIMIT) {
-				image = this.splitImage(image, image.getHeight()/HEIGHT_LIMIT);
+				image = this.splitImage(image, (int) Math.ceil(image.getHeight()/HEIGHT_LIMIT));
 			}
 			image = this.addBorder(image);
 
@@ -150,7 +150,7 @@ public class Share {
 		StatusUpdate status = new StatusUpdate(Ressources.name + " [" + downloadUrl + "] : " +  message + ".");
 		status.setMedia(screen);
 
-		JFrame frame = new JFrame(Storage.tra("share"));
+		JFrame frame = new JFrame(Ressources.name + " - " + Storage.tra("share"));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		frame.addWindowListener(new WindowAdapter() {
