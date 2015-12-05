@@ -2,8 +2,8 @@
 <root>
   <data name="createShortcut" xml:space="preserve">
     <value>Bonjour et merci d'avoir téléchargé Twitter Stalker !
-	Placez le dossier téléchargé où vous voulez puis relancez le afin de créer un raccourci sur le bureau (optionnel).
-	Voulez-vous créer un raccourci sur le bureau maintenant ?</value>
+Placez le dossier téléchargé où vous voulez puis relancez le afin de créer un raccourci sur le bureau (optionnel).
+Voulez-vous créer un raccourci sur le bureau maintenant ?</value>
   </data>
   <data name="installation" xml:space="preserve">
     <value>Installation</value>
@@ -285,10 +285,10 @@
     <value>Chargement des tweets...</value>
   </data>
   <data name="oldOnTwitter" xml:space="preserve">
-    <value>est un vieux du game</value>
+    <value>est présent sur Twitter depuis beaucoup trop longtemps</value>
   </data>
   <data name="followALot" xml:space="preserve">
-    <value>follow beaucoup plus qu'il ne l'est</value>
+    <value>suit beaucoup plus qu'il ne l'est</value>
   </data>
   <data name="search" xml:space="preserve">
     <value>Chercher</value>
@@ -301,9 +301,6 @@
   </data>
   <data name="reset" xml:space="preserve">
     <value>Réinitialiser</value>
-  </data>
-  <data name="SHOW_NUMBER" xml:space="preserve">
-    <value>Afficher plus de détails (nombre)</value>
   </data>
   <data name="archiveHelp" xml:space="preserve">
     <value>Qu'est ce qu'une Archive Twitter ?</value>

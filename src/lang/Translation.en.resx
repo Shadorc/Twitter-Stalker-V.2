@@ -2,8 +2,8 @@
 <root>
   <data name="createShortcut" xml:space="preserve">
     <value>Welcome and thanks for downloading Twitter Stalker !
-    Place the downloaded folder where you want to create a shortcut on the desktop(optional).
-    Would you like to create a shortcut now?</value>
+Place the downloaded folder where you want to create a shortcut on the desktop(optional).
+Would you like to create a shortcut now?</value>
   </data>
   <data name="installation" xml:space="preserve">
     <value>Installation</value>
@@ -301,9 +301,6 @@
   </data>
   <data name="reset" xml:space="preserve">
     <value>Reset</value>
-  </data>
-  <data name="SHOW_NUMBER" xml:space="preserve">
-    <value>More details (number)</value>
   </data>
   <data name="archiveHelp" xml:space="preserve">
     <value>What is a Twitter Archive?</value>
