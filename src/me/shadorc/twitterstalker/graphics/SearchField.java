@@ -72,6 +72,7 @@ public class SearchField extends JTextField {
 
 						public void actionPerformed(ActionEvent ae) {
 							((JTextField) event.getSource()).setText("");
+							((JTextField) event.getSource()).setForeground(Color.WHITE);
 							((JTextField) event.getSource()).requestFocus();
 						}
 					});
