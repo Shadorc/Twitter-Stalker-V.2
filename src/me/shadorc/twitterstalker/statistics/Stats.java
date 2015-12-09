@@ -13,6 +13,7 @@ import com.sun.xml.internal.ws.util.StringUtils;
 
 import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.storage.Data;
 import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Data.Options;
 import me.shadorc.twitterstalker.storage.Data.UsersEnum;
@@ -41,7 +42,7 @@ public class Stats {
 
 		int tweetsToAnalyze = isArchive ? statusList.size() : user.getTweetsPosted();
 
-		if(tweetsToAnalyze > OptionsPanel.get(Options.TWEETS_TO_ANALYZE)) {
+		if(!isArchive && tweetsToAnalyze > OptionsPanel.get(Options.TWEETS_TO_ANALYZE)) {
 			tweetsToAnalyze = OptionsPanel.get(Options.TWEETS_TO_ANALYZE);
 		}
 
@@ -75,6 +76,7 @@ public class Stats {
 				this.setStats(status);
 			}
 
+			if(isArchive) break;
 			tweetsRequested += 200;
 
 			float progress = 100f * tweetsRequested/tweetsToAnalyze;
