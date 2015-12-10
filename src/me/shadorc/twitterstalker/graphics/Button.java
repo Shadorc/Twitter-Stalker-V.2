@@ -21,7 +21,7 @@ public class Button extends JButton {
 	}
 
 	public enum Size {
-		SMALL(25), MEDIUM(57), NORMAL(-1);
+		MEDIUM(57), NORMAL(-1);
 
 		public final int value;
 		Size(int value) {
