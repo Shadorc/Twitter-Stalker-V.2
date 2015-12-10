@@ -25,7 +25,7 @@ public class RoundedImage {
 	}
 
 	public static ImageIcon create(String imageUrl, Scaling scale) {
-		Image image = null;
+		Image image = new ImageIcon().getImage();
 		try {
 			/*Get Image from URL*/
 			image = ImageIO.read(new URL(imageUrl));
