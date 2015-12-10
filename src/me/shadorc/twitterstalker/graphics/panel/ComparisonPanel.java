@@ -27,7 +27,6 @@ import me.shadorc.twitterstalker.statistics.TwitterUser;
 import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
 import me.shadorc.twitterstalker.utility.Ressources;
-import twitter4j.TwitterException;
 
 public class ComparisonPanel extends JPanel implements ActionListener {
 
@@ -36,7 +35,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 	private JButton back, upload;
 	private TwitterUser user1, user2;
 
-	protected ComparisonPanel(String name1, String name2, JButton button) throws TwitterException {
+	protected ComparisonPanel(String name1, String name2, JButton button) throws Exception {
 		super(new BorderLayout());
 
 		user1 = new TwitterUser(name1);

@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -14,11 +16,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import org.apache.commons.io.FileUtils;
+
 import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.SearchField;
 import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.graphics.panel.MenuPanel;
 import me.shadorc.twitterstalker.storage.Storage;
+import twitter4j.JSONArray;
+import twitter4j.JSONException;
+import twitter4j.Status;
+import twitter4j.TwitterException;
+import twitter4j.TwitterObjectFactory;
 
 public class ArchiveFile {
 
@@ -77,5 +86,18 @@ public class ArchiveFile {
 			}
 		}
 		return file;
+	}
+
+	public static String getUserName(File archive) throws IOException, TwitterException, JSONException {
+		String rawJSON = FileUtils.readFileToString(archive.listFiles()[0], StandardCharsets.UTF_8);
+
+		if(rawJSON.indexOf("[") != -1) {
+			rawJSON = rawJSON.substring(rawJSON.indexOf("["));
+		}
+
+		JSONArray json = new JSONArray(rawJSON);
+		Status status = TwitterObjectFactory.createStatus(json.getJSONObject(0).toString());
+
+		return status.getUser().getScreenName();
 	}
 }

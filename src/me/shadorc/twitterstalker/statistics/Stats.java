@@ -1,7 +1,11 @@
 package me.shadorc.twitterstalker.statistics;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +13,12 @@ import java.util.Locale;
 
 import javax.swing.JButton;
 
+import org.apache.commons.io.FileUtils;
+
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
-import me.shadorc.twitterstalker.storage.Data;
 import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Data.Options;
 import me.shadorc.twitterstalker.storage.Data.UsersEnum;
@@ -21,100 +26,50 @@ import me.shadorc.twitterstalker.storage.Data.WordsEnum;
 import me.shadorc.twitterstalker.storage.Storage;
 import me.shadorc.twitterstalker.utility.Ressources;
 import twitter4j.HashtagEntity;
+import twitter4j.JSONArray;
+import twitter4j.JSONException;
 import twitter4j.Paging;
 import twitter4j.RateLimitStatus;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.TwitterObjectFactory;
 import twitter4j.UserMentionEntity;
 
 public class Stats {
 
-	private boolean isArchive;
+	private TwitterUser user;
+	private File archiveFile;
+	private JButton bu;
+
+	private long timeFirstTweet;
 
 	private HashMap <WordsEnum, WordsMap> wordStatsMap;
 	private HashMap <NumbersEnum, NumberStat> numStatsMap;
 	private HashMap <UsersEnum, UsersMap> userStatsMap;
 
-	public Stats(TwitterUser user, JButton bu, boolean analyzeMentions, List <Status> statusList) throws TwitterException {
+	public Stats(TwitterUser user, JButton bu, boolean analyzeMentions, File archiveFile) throws Exception {
 		if(Ressources.stop) return;
 
-		this.isArchive = (statusList != null);
-
-		int tweetsToAnalyze = isArchive ? statusList.size() : user.getTweetsPosted();
-
-		if(!isArchive && tweetsToAnalyze > OptionsPanel.get(Options.TWEETS_TO_ANALYZE)) {
-			tweetsToAnalyze = OptionsPanel.get(Options.TWEETS_TO_ANALYZE);
-		}
+		this.user = user;
+		this.bu = bu;
+		this.archiveFile = archiveFile;
 
 		bu.setText("0%");
 
-		wordStatsMap = WordsMap.init();
-		numStatsMap = NumberStat.init();
-		userStatsMap = UsersMap.init();
+		this.wordStatsMap = WordsMap.init();
+		this.numStatsMap = NumberStat.init();
+		this.userStatsMap = UsersMap.init();
 
-		long timeFirstTweet = 1;
-		int tweetsRequested = 0;
+		this.timeFirstTweet = 1;
 
-		for(int i = 1; tweetsRequested < tweetsToAnalyze; i++) {
-
-			if(Ressources.showLogs) {
-				RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
-				System.out.println("[User timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
-			}
-
-			List <Status> timeline = isArchive ? statusList : Main.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200));
-			for(Status status : timeline) {
-
-				if(Ressources.stop) return;
-
-				user.incremenAnalyzedTweets();
-
-				//Number of milliseconds since this tweet was posted
-				long timeTweet = new Date().getTime() - status.getCreatedAt().getTime();
-				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
-
-				this.setStats(status);
-			}
-
-			if(isArchive) break;
-			tweetsRequested += 200;
-
-			float progress = 100f * tweetsRequested/tweetsToAnalyze;
-			if(progress > 100) progress = 100;
-			bu.setText(Ressources.format(progress) + "%");
+		if(this.archiveFile != null) {
+			this.analyzeArchive();
+		} else {
+			this.analyzeTweets();
 		}
 
-		/*Analyze user's mentions received*/
 		if(analyzeMentions && user.getName().equals(Main.getTwitter().getScreenName())) {
-
-			bu.setText(Storage.tra("loadingMentions"));
-
-			for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.get(Options.MENTIONS_TO_ANALYZE); i++) {
-
-				int secure = user.getMentionsAnalyzed();
-
-				if(Ressources.showLogs) {
-					RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
-					System.out.println("[Mentions timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
-				}
-
-				try {
-					for(Status status : Main.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
-						if(Ressources.stop) return;
-
-						user.incremenAnalyzedMentions();
-						userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).add(status.getUser().getScreenName());
-					}
-				} catch(TwitterException e) {
-					//API mentions limit reachs, ignore it.
-					break;
-				}
-
-				//User has never tweeted mentions or tweeted fewer than 150 mentions
-				if(secure == user.getMentionsAnalyzed() || user.getMentionsAnalyzed() < 150) {
-					break;
-				}
-			}
+			this.analyzeMentions();
 		}
 
 		//'total' is the time in millisecond since the last tweet. The result is tweets/ms, 8.64*Math.pow(10,7) converts it to tweets/day
@@ -140,6 +95,111 @@ public class Stats {
 
 		userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).setTotal(user.getMentionsAnalyzed());
 		userStatsMap.get(UsersEnum.MENTIONS_SENT).setTotal((int) numStatsMap.get(NumbersEnum.MENTIONS_COUNT).getNum());
+
+		for(WordsEnum we : wordStatsMap.keySet()) {
+			wordStatsMap.get(we).sort();
+		}
+		for(UsersEnum ue : userStatsMap.keySet()) {
+			userStatsMap.get(ue).sort(!ue.equals(UsersEnum.FIRST_TALK));
+		}
+	}
+
+	private void analyzeArchive() throws TwitterException, JSONException, IOException {
+		ArrayList <File> jsonFiles = new ArrayList <File> (Arrays.asList(archiveFile.listFiles()));
+
+		for(File file : jsonFiles) {
+			bu.setText(Ressources.format((jsonFiles.indexOf(file)+1.0)*100.0/jsonFiles.size()) + "%");
+
+			String rawJSON = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+
+			//Remove useless first line to get only JSON
+			if(rawJSON.indexOf("[") != -1) {
+				rawJSON = rawJSON.substring(rawJSON.indexOf("["));
+			}
+
+			//Create an array with all JSON objects in the file
+			JSONArray json = new JSONArray(rawJSON);
+
+			//Iterate the whole array of JSON objects
+			for(int i = 0; i < json.length(); i++) {
+				if(Ressources.stop) return;
+
+				Status status = TwitterObjectFactory.createStatus(json.getJSONObject(i).toString());
+
+				user.incremenAnalyzedTweets();
+
+				//Number of milliseconds since this tweet was posted
+				long timeTweet = new Date().getTime() - status.getCreatedAt().getTime();
+				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
+
+				this.setStats(status);
+			}
+		}
+	}
+
+	private void analyzeTweets() throws TwitterException {
+		int tweetsToAnalyze = user.getTweetsPosted();
+		if(tweetsToAnalyze > OptionsPanel.get(Options.TWEETS_TO_ANALYZE)) {
+			tweetsToAnalyze = OptionsPanel.get(Options.TWEETS_TO_ANALYZE);
+		}
+
+		int tweetsRequested = 0;
+		for(int i = 1; tweetsRequested < tweetsToAnalyze; i++) {
+
+			if(Ressources.showLogs) {
+				RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/user_timeline");
+				System.out.println("[User timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
+			}
+
+			for(Status status : Main.getTwitter().getUserTimeline(user.getName(), new Paging(i, 200))) {
+				if(Ressources.stop) return;
+
+				user.incremenAnalyzedTweets();
+
+				//Number of milliseconds since this tweet was posted
+				long timeTweet = new Date().getTime() - status.getCreatedAt().getTime();
+				if(timeTweet > timeFirstTweet) timeFirstTweet = timeTweet;
+
+				this.setStats(status);
+			}
+
+			tweetsRequested += 200;
+
+			float progress = 100f * tweetsRequested/tweetsToAnalyze;
+			if(progress > 100) progress = 100;
+			bu.setText(Ressources.format(progress) + "%");
+		}
+	}
+
+	private void analyzeMentions() throws TwitterException {
+		bu.setText(Storage.tra("loadingMentions"));
+
+		for(int i = 1; user.getMentionsAnalyzed() < OptionsPanel.get(Options.MENTIONS_TO_ANALYZE); i++) {
+
+			int secure = user.getMentionsAnalyzed();
+
+			if(Ressources.showLogs) {
+				RateLimitStatus rls = Main.getTwitter().getRateLimitStatus().get("/statuses/mentions_timeline");
+				System.out.println("[Mentions timeline] Remaining requests : " + rls.getRemaining() + "/" + rls.getLimit() + ". Reset in " + (rls.getSecondsUntilReset()/60) + "min " + (rls.getSecondsUntilReset()%60) + "s");
+			}
+
+			try {
+				for(Status status : Main.getTwitter().getMentionsTimeline(new Paging(i, 200))) {
+					if(Ressources.stop) return;
+
+					user.incremenAnalyzedMentions();
+					userStatsMap.get(UsersEnum.MENTIONS_RECEIVED).add(status.getUser().getScreenName());
+				}
+			} catch(TwitterException e) {
+				//API mentions limit reachs, ignore it.
+				break;
+			}
+
+			//User has never tweeted mentions or tweeted fewer than 150 mentions
+			if(secure == user.getMentionsAnalyzed() || user.getMentionsAnalyzed() < 150) {
+				break;
+			}
+		}
 	}
 
 	private void setStats(Status status) throws TwitterException {
@@ -169,7 +229,7 @@ public class Stats {
 			wordStatsMap.get(WordsEnum.SOURCE).add(Ressources.removeHTML(status.getSource()));
 
 			//If it's an archive that is analyzed, lang doesn't exist and throws null
-			if(!isArchive) {
+			if(status.getLang() != null) {
 				//Lang is two-letter iso language code
 				String lang = new Locale(status.getLang()).getDisplayLanguage(OptionsPanel.getLocaleLang());
 				wordStatsMap.get(WordsEnum.LANG).add(StringUtils.capitalize(lang));
@@ -199,13 +259,11 @@ public class Stats {
 	}
 
 	public List<WordStats> get(WordsEnum stat) {
-		return wordStatsMap.get(stat).sort();
+		return wordStatsMap.get(stat).getSorted();
 	}
 
 	public List<UserStats> get(UsersEnum stat) {
-		List<UserStats> list = userStatsMap.get(stat).sort();
-		if(stat == UsersEnum.FIRST_TALK) Collections.reverse(list);
-		return list;
+		return userStatsMap.get(stat).getSorted();
 	}
 
 	public NumberStat get(NumbersEnum stat) {

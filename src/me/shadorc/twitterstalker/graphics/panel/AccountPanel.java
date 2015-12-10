@@ -6,7 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,8 +28,6 @@ import me.shadorc.twitterstalker.statistics.TwitterUser;
 import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
 import me.shadorc.twitterstalker.storage.Storage;
 import me.shadorc.twitterstalker.utility.Ressources;
-import twitter4j.Status;
-import twitter4j.TwitterException;
 
 public class AccountPanel extends JPanel implements ActionListener {
 
@@ -39,14 +37,13 @@ public class AccountPanel extends JPanel implements ActionListener {
 	private TwitterUser user;
 	private boolean isArchive;
 
-	protected AccountPanel(String name, JButton button, List <Status> statusList) throws TwitterException {
+	protected AccountPanel(String name, JButton button, File archiveFile) throws Exception {
 		super(new BorderLayout());
 
-		user = new TwitterUser(name);
+		this.user = new TwitterUser(name);
+		this.isArchive = (archiveFile != null);
 
-		isArchive = (statusList != null);
-
-		Stats stats = new Stats(user, button, true, statusList);
+		Stats stats = new Stats(user, button, true, archiveFile);
 
 		if(Ressources.stop) return;
 
@@ -167,7 +164,6 @@ public class AccountPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton bu = (JButton) e.getSource();
-
 		if(bu == back) {
 			Ressources.frame.setPanel(isArchive ? new MenuPanel() : new ConnectionPanel(Text.ACCOUNT));
 		} else if(bu == upload) {

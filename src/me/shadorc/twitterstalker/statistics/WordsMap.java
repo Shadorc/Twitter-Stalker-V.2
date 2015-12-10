@@ -6,12 +6,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
+import me.shadorc.twitterstalker.storage.Data.Options;
 import me.shadorc.twitterstalker.storage.Data.WordsEnum;
 import twitter4j.Status;
 
 public class WordsMap {
 
 	private HashMap <Object, WordStats> map;
+	private List <WordStats> sortedList;
 	private int total;
 
 	public WordsMap() {
@@ -37,8 +40,14 @@ public class WordsMap {
 		return total;
 	}
 
-	public List<WordStats> sort() {
-		List <WordStats> list = new ArrayList <WordStats> (map.values());
+	public List <WordStats> getSorted() {
+		return sortedList;
+	}
+
+	public void sort() {
+		if(map.isEmpty()) return;
+
+		sortedList = new ArrayList <WordStats> (map.values());
 
 		//Comparator who compares each words value
 		Comparator <WordStats> comparator = new Comparator <WordStats>() {
@@ -49,12 +58,15 @@ public class WordsMap {
 		};
 
 		//Sort the words in ascending order
-		Collections.sort(list, comparator);
+		Collections.sort(sortedList, comparator);
 
 		//Arranges them in descending order
-		Collections.reverse(list);
+		Collections.reverse(sortedList);
 
-		return list;
+		//Conserve only the first items to avoid massive usage of memory
+		if(sortedList.size() > OptionsPanel.get(Options.LIST_LENGHT)) {
+			sortedList.subList(OptionsPanel.get(Options.LIST_LENGHT), sortedList.size()).clear();
+		}
 	}
 
 	public static HashMap<WordsEnum, WordsMap> init() {

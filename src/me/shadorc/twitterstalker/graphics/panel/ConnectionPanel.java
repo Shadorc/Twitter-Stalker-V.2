@@ -6,18 +6,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -26,8 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
-
-import org.apache.commons.io.FileUtils;
 
 import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.Button;
@@ -38,11 +30,8 @@ import me.shadorc.twitterstalker.graphics.SearchField.Text;
 import me.shadorc.twitterstalker.storage.Storage;
 import me.shadorc.twitterstalker.utility.ArchiveFile;
 import me.shadorc.twitterstalker.utility.Ressources;
-import twitter4j.JSONArray;
 import twitter4j.JSONException;
-import twitter4j.Status;
 import twitter4j.TwitterException;
-import twitter4j.TwitterObjectFactory;
 
 public class ConnectionPanel extends JPanel implements ActionListener, KeyListener {
 
@@ -51,8 +40,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 	private SearchField field1, field2;
 	private JButton search, back;
 	private Text text;
-
-	private List <Status> statusList;
+	private File archiveFile;
 
 	public ConnectionPanel(Text text) {
 		super(new GridLayout(4, 0));
@@ -148,63 +136,25 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 		bottomPanel.add(labelsPanel, BorderLayout.EAST);
 		this.add(bottomPanel);
 
-		if(text == Text.ARCHIVE) {
-			this.setArchive();
-		}
-	}
-
-	private void setArchive() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				//Avoid to be able to change username while loading
-				field1.setEditable(false);
-				for(FocusListener li : field1.getFocusListeners())	field1.removeFocusListener(li);
-				for(MouseListener li : field1.getMouseListeners())	field1.removeMouseListener(li);
+				if(text == Text.ARCHIVE) {
+					archiveFile = ArchiveFile.getFile(field1);
 
-				File archiveFile = ArchiveFile.getFile(field1);
+					if(archiveFile == null) {
+						back.doClick();
+						return;
+					}
 
-				if(archiveFile == null) return;
-
-				field1.setForeground(Color.WHITE);
-				field1.setText(Storage.tra("loadingTweet"));
-
-				statusList = new ArrayList <Status> ();
-
-				ArrayList <File> jsonFiles = new ArrayList <File> (Arrays.asList(archiveFile.listFiles()));
-
-				search.setEnabled(false);
-				for(File file : jsonFiles) {
-					search.setText(Ressources.format((jsonFiles.indexOf(file)+1.0)*100.0/jsonFiles.size()) + "%");
 					try {
-						String rawJSON = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-
-						//Remove useless first line to get only JSON
-						if(rawJSON.indexOf("[") != -1) {
-							rawJSON = rawJSON.substring(rawJSON.indexOf("["));
-						}
-
-						//Create an array with all JSON objects in the file
-						JSONArray json = new JSONArray(rawJSON);
-
-						//Iterate the whole array of JSON objects
-						for(int i = 0; i < json.length(); i++) {
-							try {
-								statusList.add(TwitterObjectFactory.createStatus(json.getJSONObject(i).toString()));
-							} catch (TwitterException | JSONException e) {
-								field1.setErrorText(Storage.tra(Text.ARCHIVE_ERROR) + " : " + e.getMessage());
-								e.printStackTrace();
-							}
-						}
-					} catch (IOException | JSONException e) {
-						field1.setErrorText(Storage.tra(Text.ARCHIVE_ERROR) + " : " + e.getMessage());
-						search.setText(null);
+						field1.setForeground(Color.WHITE);
+						field1.setText(ArchiveFile.getUserName(archiveFile));
+						ConnectionPanel.this.valid();
+					} catch (IOException | TwitterException | JSONException e) {
 						e.printStackTrace();
 					}
 				}
-
-				field1.setText(statusList.get(0).getUser().getScreenName());
-				ConnectionPanel.this.valid();
 			}
 		}).start();
 	}
@@ -256,14 +206,16 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						case ARCHIVE:
 						case ACCOUNT:
 							try {
-								AccountPanel statsPanel = new AccountPanel(field1.getUserName(), search, statusList);
+								AccountPanel statsPanel = new AccountPanel(field1.getUserName(), search, archiveFile);
 								if(Ressources.stop) return;
 								Ressources.frame.setPanel(statsPanel);
-							} catch (TwitterException e) {
-								if(e.exceededRateLimitation()) {
-									field1.setErrorText(Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.");
+							} catch (Exception e) {
+								TwitterException te = (TwitterException) e;
+
+								if(te.exceededRateLimitation()) {
+									field1.setErrorText(Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + te.getRateLimitStatus().getSecondsUntilReset() + "s.");
 								} else {
-									field1.setErrorText(e.getMessage());
+									field1.setErrorText(te.getMessage());
 								}
 							}
 							break;
@@ -273,18 +225,20 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 								ComparisonPanel comparePanel = new ComparisonPanel(field1.getUserName(), field2.getUserName(), search);
 								if(Ressources.stop) return;
 								Ressources.frame.setPanel(comparePanel);
-							} catch (TwitterException e) {
+							} catch (Exception e) {
+								TwitterException te = (TwitterException) e;
+
 								//StatusCode: -1 is a personal error message from TwitterUser
-								if(e.getStatusCode() == -1) {
-									if(field1.getUserName().equals(e.getCause().getMessage()))	field1.setErrorText(e.getMessage());
-									if(field2.getUserName().equals(e.getCause().getMessage()))	field2.setErrorText(e.getMessage());
+								if(te.getStatusCode() == -1) {
+									if(field1.getUserName().equals(te.getCause().getMessage()))	field1.setErrorText(te.getMessage());
+									if(field2.getUserName().equals(te.getCause().getMessage()))	field2.setErrorText(te.getMessage());
 
 								} else {
 									String message;
-									if(e.exceededRateLimitation()) {
-										message = Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + e.getRateLimitStatus().getSecondsUntilReset() + "s.";
+									if(te.exceededRateLimitation()) {
+										message = Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + te.getRateLimitStatus().getSecondsUntilReset() + "s.";
 									} else {
-										message = e.getMessage();
+										message = te.getMessage();
 									}
 
 									field1.setErrorText(message);
