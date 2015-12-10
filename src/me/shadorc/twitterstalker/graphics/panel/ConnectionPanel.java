@@ -152,6 +152,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 						field1.setText(ArchiveFile.getUserName(archiveFile));
 						ConnectionPanel.this.valid();
 					} catch (IOException | TwitterException | JSONException e) {
+						field1.setErrorText(Storage.tra(Text.ARCHIVE_ERROR + " : " + e.getMessage()));
 						e.printStackTrace();
 					}
 				}
