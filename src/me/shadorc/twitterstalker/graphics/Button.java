@@ -14,21 +14,26 @@ public class Button extends JButton {
 	private static final long serialVersionUID = 1L;
 
 	private ButtonType type;
-	private Size size;
+	private int size;
 
 	public enum ButtonType {
 		BACK, OPTIONS, UPLOAD, VALIDATE;
 	}
 
 	public enum Size {
-		SMALL, MEDIUM, NORMAL;
+		SMALL(25), MEDIUM(57), NORMAL(-1);
+
+		public final int value;
+		Size(int value) {
+			this.value = value;
+		}
 	}
 
 	public Button(ButtonType buttonTy, Size size, int[] border,  ActionListener listener) {
 		super();
 
 		this.type = buttonTy;
-		this.size = size;
+		this.size = size.value;
 
 		ImageIcon defaultIcon = this.getIcon("default");
 		ImageIcon pressedIcon = this.getIcon("pressed");
@@ -60,11 +65,6 @@ public class Button extends JButton {
 
 	private ImageIcon getIcon(String state) {
 		ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/Buttons/" + type.toString() + "_" + state + ".png"));
-		if(size == Size.MEDIUM) {
-			return new ImageIcon(icon.getImage().getScaledInstance(57,57,Image.SCALE_SMOOTH));
-		} else if(size == Size.SMALL) {
-			return new ImageIcon(icon.getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH));
-		}
-		return icon;
+		return new ImageIcon(icon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
 	}
 }
