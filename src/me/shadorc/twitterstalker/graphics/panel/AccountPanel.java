@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.CompoundBorder;
 
+import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
@@ -109,7 +110,7 @@ public class AccountPanel extends JPanel implements ActionListener {
 		tweets.setFont(font);
 		userInfosStats.add(tweets);
 
-		JLabel tweetsDays = new JLabel(Ressources.removeHTML(stats.get(NumbersEnum.TWEETS_PER_DAY).toString()), JLabel.CENTER);
+		JLabel tweetsDays = new JLabel(Infonet.removeHtmlTags(stats.get(NumbersEnum.TWEETS_PER_DAY).toString()), JLabel.CENTER);
 		tweetsDays.setForeground(Color.WHITE);
 		tweetsDays.setFont(font);
 		userInfosStats.add(tweetsDays);

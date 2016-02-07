@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.CompoundBorder;
 
+import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.graphics.Button;
 import me.shadorc.twitterstalker.graphics.Button.ButtonType;
 import me.shadorc.twitterstalker.graphics.Button.Size;
@@ -156,7 +157,7 @@ public class ComparisonPanel extends JPanel implements ActionListener {
 		infosPanel.add(this.createLabel(Storage.tra("following") + user.getFollowingCount()));
 		infosPanel.add(this.createLabel(Storage.tra("memberSince") + user.getAge() + Storage.tra("days")));
 		infosPanel.add(this.createLabel(Storage.tra("tweetsAnalyzed") + user.getTweetsAnalyzed() + "/" + user.getTweetsPosted()));
-		infosPanel.add(this.createLabel(Ressources.removeHTML(stats.get(NumbersEnum.TWEETS_PER_DAY).toString())));
+		infosPanel.add(this.createLabel(Infonet.removeHtmlTags(stats.get(NumbersEnum.TWEETS_PER_DAY).toString())));
 		descPanel.add(infosPanel, BorderLayout.EAST);
 
 		return descPanel;

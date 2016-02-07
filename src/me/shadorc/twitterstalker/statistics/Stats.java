@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 
+import me.shadorc.infonet.Infonet;
 import me.shadorc.twitterstalker.Main;
 import me.shadorc.twitterstalker.graphics.panel.OptionsPanel;
 import me.shadorc.twitterstalker.storage.Data.NumbersEnum;
@@ -226,7 +227,7 @@ public class Stats {
 			if(status.getURLEntities().length > 0)							numStatsMap.get(NumbersEnum.URL).increment();
 
 			//Regex removes HTML tag
-			wordStatsMap.get(WordsEnum.SOURCE).add(Ressources.removeHTML(status.getSource()));
+			wordStatsMap.get(WordsEnum.SOURCE).add(Infonet.removeHtmlTags(status.getSource()));
 
 			//If it's an archive that is analyzed, lang doesn't exist and throws null
 			if(status.getLang() != null) {
