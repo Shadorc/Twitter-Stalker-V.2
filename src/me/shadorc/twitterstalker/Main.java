@@ -21,7 +21,7 @@ import me.shadorc.twitterstalker.storage.Data.Connection;
 import me.shadorc.twitterstalker.storage.Storage;
 import me.shadorc.twitterstalker.utility.Ressources;
 import me.shadorc.twitterstalker.utility.Shortcut;
-import me.shadorc.twitterstalker.utility.UpdateUtility;
+import me.shadorc.twitterstalker.utility.UpdateUtils;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -47,7 +47,7 @@ public class Main {
 
 		OptionsPanel.init();
 		Shortcut.create();
-		UpdateUtility.check();
+		UpdateUtils.check();
 
 		try {
 			Main.checkID();

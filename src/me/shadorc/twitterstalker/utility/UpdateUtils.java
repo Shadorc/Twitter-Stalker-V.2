@@ -23,7 +23,7 @@ import twitter4j.JSONException;
 import twitter4j.JSONObject;
 import twitter4j.JSONTokener;
 
-public class UpdateUtility {
+public class UpdateUtils {
 
 	private static JLabel info;
 
@@ -52,7 +52,7 @@ public class UpdateUtility {
 								"default");
 
 						if(reply == JOptionPane.YES_OPTION) {
-							UpdateUtility.update(lastRelease);
+							UpdateUtils.update(lastRelease);
 						} 
 
 						else if(reply == JOptionPane.CANCEL_OPTION) {
@@ -78,7 +78,7 @@ public class UpdateUtility {
 			//zip file which will be downloaded
 			File zipFile = new File(actualDir + "/" + asset.getString("name"));
 
-			UpdateUtility.showUpdateFrame();
+			UpdateUtils.showUpdateFrame();
 
 			info.setText("1/4 : " + Storage.tra("downloadingVersion") + " (" + Ressources.format(Integer.parseInt(asset.getString("size"))/1000000.0f) + " mo)...");
 			FileUtils.copyURLToFile(downloadUrl, zipFile);
@@ -95,7 +95,7 @@ public class UpdateUtility {
 			}
 
 			info.setText("2/4 : " + Storage.tra("extractFiles"));
-			UnzipUtility.unzip(zipFile, extractingDir);
+			UnzipUtils.unzip(zipFile, extractingDir);
 
 			zipFile.delete();
 

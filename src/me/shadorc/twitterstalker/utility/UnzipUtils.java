@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class UnzipUtility {
+public class UnzipUtils {
 
 	public static void unzip(File jarFile, File destDir) throws IOException {
 
