@@ -42,6 +42,7 @@ import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.UserMentionEntity;
 
+//FIXME: Display bug cometimes
 public class TweetPreview implements HyperlinkListener {
 
 	private HashMap <String, JPopupMenu> menus;

@@ -25,6 +25,7 @@ public class TwitterUser {
 		try {
 			this.user = Main.getTwitter().showUser(name);
 		} catch (TwitterException e) {
+			e.printStackTrace();
 			throw new TwitterException(Storage.tra(Text.INVALID_USER), new Exception(name));
 		}
 

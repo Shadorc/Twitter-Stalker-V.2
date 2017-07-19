@@ -217,6 +217,7 @@ public class ConnectionPanel extends JPanel implements ActionListener, KeyListen
 									field1.setErrorText(Storage.tra(Text.API_LIMIT) + Storage.tra("unlockIn") + te.getRateLimitStatus().getSecondsUntilReset() + "s.");
 								} else {
 									field1.setErrorText(te.getMessage());
+									te.printStackTrace();
 								}
 							}
 							break;
